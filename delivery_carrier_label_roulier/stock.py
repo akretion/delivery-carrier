@@ -135,6 +135,8 @@ class StockPicking(models.Model):
     def _get_parcel(self, package_id):
         pass
 
+# end of API
+
     # Core functions
     @api.multi
     def _roulier_generate_labels(self, package_ids=None):
@@ -207,8 +209,8 @@ class StockPicking(models.Model):
         if self._should_include_customs(package_id):
             payload['customs'] = self._get_customs(package_id)
 
-        payload['service'] = self._roulier_get_service(package_id)
-        payload['parcel'] = self._roulier_get_parcel(package_id)
+        payload['service'] = self._get_service(package_id)
+        payload['parcel'] = self._get_parcel(package_id)
 
         # sorte d'interceptor ici pour que chacun
         # puisse ajouter ses merdes à payload
