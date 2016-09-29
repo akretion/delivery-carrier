@@ -123,7 +123,17 @@ class StockPicking(models.Model):
     def _should_include_customs(self, package_id):
         pass
 
-    # end of API
+    @implemented_by_carrier
+    def _get_auth(self, account):
+        pass
+
+    @implemented_by_carrier
+    def _get_service(self, package_id):
+        pass
+
+    @implemented_by_carrier
+    def _get_parcel(self, package_id):
+        pass
 
     # Core functions
     @api.multi
@@ -184,15 +194,12 @@ class StockPicking(models.Model):
 
         # code commun à tous
         account = self._get_account()
-        shipping_date = self._get_shipping_date(package_id)
         # option = self._get_options(package_id)
-        weight = package_id.get_weight()
 
         sender = self._get_sender()
         receiver = self._get_receiver()
 
-        payload['infos']['contractNumber'] = account['login']
-        payload['infos']['password'] = account['password']
+        payload['auth'] = self._get_auth(account)
 
         payload['from_address'] = self._roulier_convert_address(sender)
         payload['to_address'] = self._roulier_convert_address(receiver)
@@ -200,13 +207,8 @@ class StockPicking(models.Model):
         if self._should_include_customs(package_id):
             payload['customs'] = self._get_customs(package_id)
 
-        payload['service'] = {
-            'productCode': self.carrier_code,
-            'shippingDate': shipping_date,
-        }
-        payload['parcel'] = {
-            'weight': weight,
-        }
+        payload['service'] = self._roulier_get_service(package_id)
+        payload['parcel'] = self._roulier_get_parcel(package_id)
 
         # sorte d'interceptor ici pour que chacun
         # puisse ajouter ses merdes à payload
@@ -282,6 +284,29 @@ class StockPicking(models.Model):
             'login': '',
             'password': '',
         }
+
+    def _roulier_get_auth(self, account):
+        auth = {
+            'contractNumber': account['login'],
+            'password': account['password'],
+        }
+        return auth
+
+    def _roulier_get_service(self, package_id):
+        shipping_date = self._get_shipping_date(package_id)
+
+        service = {
+            'productCode': self.carrier_code,
+            'shippingDate': shipping_date,
+        }
+        return service
+
+    def _roulier_get_parcel(self, package_id):
+        weight = package_id.get_weight()
+        parcel = {
+            'weight': weight,
+        }
+        return parcel
 
     def _roulier_get_sender(self):
         """Sender of the picking (for the label).
