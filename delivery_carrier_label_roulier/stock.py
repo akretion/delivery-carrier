@@ -96,10 +96,6 @@ class StockPicking(models.Model):
         pass
 
     @implemented_by_carrier
-    def _get_account(self):
-        pass
-
-    @implemented_by_carrier
     def _get_sender(self):
         pass
 
