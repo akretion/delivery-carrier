@@ -194,14 +194,10 @@ class StockPicking(models.Model):
         roulier_instance = roulier.get(self.carrier_type)
         payload = roulier_instance.api()
 
-        # code commun à tous
-        account = self._get_account()
-        # option = self._get_options(package_id)
-
         sender = self._get_sender()
         receiver = self._get_receiver()
 
-        payload['auth'] = self._get_auth(account)
+        payload['auth'] = self._get_auth()
 
         payload['from_address'] = self._roulier_convert_address(sender)
         payload['to_address'] = self._roulier_convert_address(receiver)
@@ -276,21 +272,15 @@ class StockPicking(models.Model):
     # if you want to implement your carrier behavior, don't override it,
     # but define your own method instead with your carrier prefix.
     # see documentation for more details about it
-    def _roulier_get_account(self):
+    def _roulier_get_auth(self):
         """Login/password of the carrier account.
 
         Returns:
             a dict with login and password keys
         """
-        return {
+        auth = {
             'login': '',
             'password': '',
-        }
-
-    def _roulier_get_auth(self, account):
-        auth = {
-            'contractNumber': account['login'],
-            'password': account['password'],
         }
         return auth
 
