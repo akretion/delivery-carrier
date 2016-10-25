@@ -9,12 +9,9 @@
 #          Sébastien BEAU
 ##############################################################################
 
-from openerp.tools.config import config
-from openerp import models, fields, api
-
+from openerp import models, api
 from base64 import b64encode
 from roulier import roulier
-import itertools
 from datetime import datetime
 
 

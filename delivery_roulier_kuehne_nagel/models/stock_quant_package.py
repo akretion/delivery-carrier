@@ -10,8 +10,6 @@
 ##############################################################################
 
 from openerp import models, fields, api
-import simplejson
-from collections import OrderedDict
 
 
 class StockQuantPackage(models.Model):

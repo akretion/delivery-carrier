@@ -9,10 +9,8 @@
 #          Sébastien BEAU
 ##############################################################################
 
-from openerp.tools.config import config
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
-import openerp.addons.decimal_precision as dp
 from openerp.exceptions import Warning as UserError
 
 from datetime import datetime, timedelta
@@ -37,12 +35,12 @@ class StockPicking(models.Model):
         'Delivery Type',
         default='r')
 
-
     @api.multi
     def kuehne_get_meta(self):
         self.ensure_one()
         parcels = self._get_packages_from_picking().kuehne_get_meta()
-        meta = '%s\n%s\n%s' % (self.kuehne_meta, parcels, self.kuehne_meta_footer)
+        meta = '%s\n%s\n%s' % (
+            self.kuehne_meta, parcels, self.kuehne_meta_footer)
         return meta
 
     def _kuehne_is_our(self):
@@ -60,7 +58,8 @@ class StockPicking(models.Model):
                 self.partner_id.city
                 )
         if not directional_code:
-            raise UserError(_('No directional code found for the picking %s !' % self.id))
+            raise UserError(
+                _('No directional code found for the picking %s !' % self.id))
         return {
             'office': directional_code.office_code,
             'round': directional_code.office_round,

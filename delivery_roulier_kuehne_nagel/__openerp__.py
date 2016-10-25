@@ -41,6 +41,7 @@ Contributors
         'views/stock_view.xml',
         'views/sale_view.xml',
         'views/directional_code_view.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
         #   'demo/res.partner.csv',

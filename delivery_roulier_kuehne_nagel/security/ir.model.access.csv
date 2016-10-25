@@ -1,2 +1,3 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_file_document_stock_group_manager","file_document_stock_group_manager","file_document.model_file_document","stock.group_stock_manager",1,1,1,1
+"access_kuehne_directional_code_manager","directional_code_stock_group_manager","delivery_roulier_kuehne_nagel.model_kuehne_directional_code","stock.group_stock_manager",1,1,1,1
+"access_kuehne_directional_code_user","directional_code_stock_group_user","delivery_roulier_kuehne_nagel.model_kuehne_directional_code","base.group_user",1,0,0,0

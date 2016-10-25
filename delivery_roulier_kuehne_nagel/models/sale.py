@@ -49,4 +49,3 @@ class SaleOrder(models.Model):
             if code and len(code) == 1:
                 res['value']['directional_code_id'] = code.id
         return res
-

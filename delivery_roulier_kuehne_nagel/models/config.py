@@ -39,23 +39,16 @@ class KuehneNagelConfigSettings(models.TransientModel):
 
     @api.onchange('warehouse_id')
     def onchange_warehouse_id(self):
-
         if not self.warehouse_id:
-            #what's the point of this ?
             return
         warehouse_id = self.warehouse_id
-        kuehne_siret = warehouse_id.kuehne_siret
-        kuehne_office_name = warehouse_id.kuehne_office_name
-        kuehne_office_code = warehouse_id.kuehne_office_code
-        kuehne_office_country_id = warehouse_id.kuehne_office_country_id
-        kuehne_goods_name = warehouse_id.kuehne_goods_name
-        kuehne_delivery_contract = warehouse_id.kuehne_delivery_contract
-        kuehne_service_system = warehouse_id.kuehne_service_system
-        kuehne_shipping_config = warehouse_id.kuehne_shipping_config
-        kuehne_vat_config = warehouse_id.kuehne_vat_config
-        kuehne_invoicing_contract = warehouse_id.kuehne_invoicing_contract
-
-    def button_send_image_to_printer(self, cr, uid, ids, context=None):
-        """ Implement your own method according to printing solution
-        """
-        return KuehneNagelConfig().get_image_data()
+        self.kuehne_siret = warehouse_id.kuehne_siret
+        self.kuehne_office_name = warehouse_id.kuehne_office_name
+        self.kuehne_office_code = warehouse_id.kuehne_office_code
+        self.kuehne_office_country_id = warehouse_id.kuehne_office_country_id
+        self.kuehne_goods_name = warehouse_id.kuehne_goods_name
+        self.kuehne_delivery_contract = warehouse_id.kuehne_delivery_contract
+        self.kuehne_service_system = warehouse_id.kuehne_service_system
+        self.kuehne_shipping_config = warehouse_id.kuehne_shipping_config
+        self.kuehne_vat_config = warehouse_id.kuehne_vat_config
+        self.kuehne_invoicing_contract = warehouse_id.kuehne_invoicing_contract

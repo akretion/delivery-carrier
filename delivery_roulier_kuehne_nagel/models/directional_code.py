@@ -69,7 +69,7 @@ class KuehneDirectionalCode(models.Model):
                 ['first_zip', '<=', partner.zip],
                 ['last_zip', '>=', partner.zip]]
         results = super(KuehneDirectionalCode, self).name_search(
-            name, args=args ,operator=operator, limit=limit)
+            name, args=args, operator=operator, limit=limit)
         return results
 
     @api.model
