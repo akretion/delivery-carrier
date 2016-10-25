@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+<record id="view_order_form" model="ir.ui.view">
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+        <field name="company_id" position="after">
+            <field name="directional_code_id"
+                context="{'company_id': company_id, 'partner_shipping_id': partner_shipping_id}"/>
+        </field>
+    </field>
+</record>
+
+    </data>
+</openerp>

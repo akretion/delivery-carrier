@@ -1,0 +1,52 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#  licence AGPL version 3 or later
+#  see licence in __openerp__.py or http://www.gnu.org/licenses/agpl-3.0.txt
+#  Copyright (C) 2016 Akretion (https://www.akretion.com).
+#  @author Raphael Reverdy <raphael.reverdy@akretion.com>
+#          David BEAL <david.beal@akretion.com>
+#          Sébastien BEAU
+##############################################################################
+
+from openerp import models, fields, api
+
+
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    directional_code_id = fields.Many2one(
+        comodel_name="kuehne.directional.code",
+        string="Directional code")
+
+    @api.multi
+    def action_button_confirm(self):
+        """
+        Set the route montage in case of assembled products
+        Send mail to the customer when confirm
+        """
+        self.ensure_one()
+        res = super(SaleOrder, self).action_button_confirm()
+        if not self.directional_code_id:
+            email_template = self.env.ref(
+                'delivery_roulier_kuehne_nagel.missing_directional_code_template')
+            email_template.send_mail(self.id)
+        return res
+
+    @api.multi
+    def onchange_delivery_id(
+            self, company_id, partner_id, delivery_id, fiscal_position):
+        res = super(SaleOrder, self).onchange_delivery_id(
+            company_id, partner_id, delivery_id, fiscal_position)
+        if delivery_id:
+            partner = self.env['res.partner'].browse(delivery_id)
+            directional_code = self.env['kuehne.directional.code']._search_directional_code(
+                self.company_id.country_id.id,
+                partner.country_id.id,
+                partner.zip,
+                partner.city
+            )
+            if directional_code and len(directional_code) == 1:
+                res['value']['directional_code_id'] = directional_code.id
+        return res
+
