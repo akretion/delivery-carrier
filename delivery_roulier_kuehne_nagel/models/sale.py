@@ -40,13 +40,13 @@ class SaleOrder(models.Model):
             company_id, partner_id, delivery_id, fiscal_position)
         if delivery_id:
             partner = self.env['res.partner'].browse(delivery_id)
-            directional_code = self.env['kuehne.directional.code']._search_directional_code(
+            code = self.env['kuehne.directional.code']._search_directional_code(
                 self.company_id.country_id.id,
                 partner.country_id.id,
                 partner.zip,
                 partner.city
             )
-            if directional_code and len(directional_code) == 1:
-                res['value']['directional_code_id'] = directional_code.id
+            if code and len(code) == 1:
+                res['value']['directional_code_id'] = code.id
         return res
 

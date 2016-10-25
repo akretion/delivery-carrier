@@ -101,7 +101,8 @@ class DepositSlip(models.Model):
             'datas': b64encode(edi_file.encode('utf-8')),
             'datas_fname': '%s.txt' % self.name,
             'type': 'binary',
-            'task_id': self.env.ref('delivery_roulier_kuehne_nagel.kuehne_nagel_export_deposit_task').id,
+            'task_id': self.env.ref(
+                'delivery_roulier_kuehne_nagel.kuehne_export_deposit_task').id,
             'file_type': 'export_external_location'
         }
         return self.env['ir.attachment.metadata'].create(vals)

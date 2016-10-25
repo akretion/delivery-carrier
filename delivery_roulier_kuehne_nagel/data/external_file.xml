@@ -2,29 +2,29 @@
 <openerp>
     <data noupdate="1">
 
-        <record id="kuehne_nagel_external_file_location" model="external.file.location">
+        <record id="kuehne_external_file_location" model="external.file.location">
             <field name="name">Kuehne Nagel</field>
             <field name="protocol">ftp</field>
             <field name="address">ftp.kuehne-nagel.com</field>
             <field name="filestore_rootpath">/pub</field>
         </record>
 
-        <record id="kuehne_nagel_import_pl_task" model="external.file.task">
+        <record id="kuehne_import_pl_task" model="external.file.task">
             <field name="name">Kuehne Nagel import Plan de livraison</field>
             <field name="method_type">import</field>
             <field name="filepath">/pub/outbound</field>
             <field name="filename">*.csv</field>
-            <field name="location_id" ref="kuehne_nagel_external_file_location"/>
+            <field name="location_id" ref="kuehne_external_file_location"/>
             <field name="move_path">/pub/outbound/archives</field>
             <field name="after_import">move</field>
             <field name="file_type">import_directional_code</field>
         </record>
 
-        <record id="kuehne_nagel_export_deposit_task" model="external.file.task">
+        <record id="kuehne_export_deposit_task" model="external.file.task">
             <field name="name">Kuehne Nagel export deposit slip</field>
             <field name="method_type">export</field>
             <field name="filepath">/pub/inbound</field>
-            <field name="location_id" ref="kuehne_nagel_external_file_location"/>
+            <field name="location_id" ref="kuehne_external_file_location"/>
         </record>
     </data>
 </openerp>

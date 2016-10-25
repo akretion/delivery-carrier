@@ -17,17 +17,25 @@ class KuehneNagelConfigSettings(models.TransientModel):
     _name = 'kuehne.nagel.config.settings'
     _inherit = 'res.config.settings'
 
-    warehouse_id = fields.Many2one('stock.warehouse', 'Warehouse', required=True)
+    warehouse_id = fields.Many2one(
+        'stock.warehouse', 'Warehouse', required=True)
     kuehne_office_name = fields.Char(related='warehouse_id.kuehne_office_name')
     kuehne_office_code = fields.Char(related='warehouse_id.kuehne_office_code')
-    kuehne_office_country_id = fields.Many2one(related='warehouse_id.kuehne_office_country_id', comodel_name="res.country")
+    kuehne_office_country_id = fields.Many2one(
+        related='warehouse_id.kuehne_office_country_id',
+        comodel_name="res.country")
     kuehne_goods_name = fields.Char(related='warehouse_id.kuehne_goods_name')
     kuehne_siret = fields.Char(related='warehouse_id.kuehne_siret')
-    kuehne_delivery_contract = fields.Selection(related='warehouse_id.kuehne_delivery_contract')
-    kuehne_service_system = fields.Selection(related='warehouse_id.kuehne_service_system')
-    kuehne_shipping_config = fields.Selection(related='warehouse_id.kuehne_shipping_config')
-    kuehne_vat_config = fields.Selection(related='warehouse_id.kuehne_vat_config')
-    kuehne_invoicing_contract = fields.Char(related='warehouse_id.kuehne_invoicing_contract')
+    kuehne_delivery_contract = fields.Selection(
+        related='warehouse_id.kuehne_delivery_contract')
+    kuehne_service_system = fields.Selection(
+        related='warehouse_id.kuehne_service_system')
+    kuehne_shipping_config = fields.Selection(
+        related='warehouse_id.kuehne_shipping_config')
+    kuehne_vat_config = fields.Selection(
+        related='warehouse_id.kuehne_vat_config')
+    kuehne_invoicing_contract = fields.Char(
+        related='warehouse_id.kuehne_invoicing_contract')
 
     @api.onchange('warehouse_id')
     def onchange_warehouse_id(self):

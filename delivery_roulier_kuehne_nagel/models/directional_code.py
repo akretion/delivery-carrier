@@ -58,10 +58,12 @@ class KuehneDirectionalCode(models.Model):
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=80):
         if self._context.get('company_id'):
-            company = self.env['res.company'].browse(self._context['company_id'])
+            company = self.env['res.company'].browse(
+                self._context['company_id'])
             args.append(['country_from_id', '=', company.country_id.id])
         if self._context.get('partner_shipping_id'):
-            partner = self.env['res.partner'].browse(self._context['partner_shipping_id'])
+            partner = self.env['res.partner'].browse(
+                self._context['partner_shipping_id'])
             args += [
                 ['country_to_id', '=', partner.country_id.id],
                 ['first_zip', '<=', partner.zip],
@@ -71,7 +73,8 @@ class KuehneDirectionalCode(models.Model):
         return results
 
     @api.model
-    def _search_directional_code(self, country_from, country_to, zip_code, city):
+    def _search_directional_code(
+            self, country_from, country_to, zip_code, city):
         directional_code = False
         directional_codes = self.env['kuehne.directional.code'].search([
             ('start_date', '<=', fields.Date.today()),
@@ -103,8 +106,10 @@ class KuehneDirectionalCode(models.Model):
             str_io, fieldnames=fields,
             encoding="ISO-8859-15", delimiter=';')
         for row in reader:
-            country_from = self.env['res.country'].search([('code', '=', row['country_from'].lower())])
-            country_to = self.env['res.country'].search([('code', '=', row['country_to'].lower())])
+            country_from = self.env['res.country'].search(
+                [('code', '=', row['country_from'].lower())])
+            country_to = self.env['res.country'].search(
+                [('code', '=', row['country_to'].lower())])
             directional_code = self.search([
                 ('office_from', '=', row['office_from']),
                 ('country_from_id', '=', country_from.id),
@@ -154,7 +159,8 @@ class IrAttachmentMetadata(models.Model):
     def _run(self):
         super(IrAttachmentMetadata, self)._run()
         if self.file_type == 'import_directional_code':
-            self.env['kuehne.directional.code'].import_directional_code(self.datas)
+            self.env['kuehne.directional.code'].import_directional_code(
+                self.datas)
 
 
 class Task(models.Model):
