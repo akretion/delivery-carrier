@@ -38,12 +38,12 @@ class DepositSlip(models.Model):
                 'lines': self._kuehne_create_edi_lines(),
                 'lineNumber': self._kuehne_get_line_number(),
             },
-            'from_address': {
+            'sender_info': {
                 "number": self.company_id.siren,
                 "siret": self.company_id.siret,
                 "name": self.company_id.name,
             },
-            'to_address': {
+            'recipient_info': {
                 "number": warehouse.kuehne_siret[:9],
                 "siret": warehouse.kuehne_siret,
                 "name": warehouse.kuehne_office_name,
