@@ -56,12 +56,17 @@ class StockPicking(models.Model):
     # useless method
 
     @api.multi
+    def _is_roulier(self):
+        self.ensure_one()
+        return self.carrier_type in roulier.get_carriers()
+
+    @api.multi
     def generate_labels(self, package_ids=None):
         """See base_delivery_carrier_label/stock.py."""
+        # entry point
         self.ensure_one()
         if self._is_roulier():
-            return self._roulier_generate_labels(
-                package_ids=package_ids)
+            return self._roulier_generate_labels()
         _super = super(StockPicking, self)
         return _super.generate_labels(package_ids=package_ids)
 
@@ -71,275 +76,16 @@ class StockPicking(models.Model):
         self.ensure_one()
 
         if self._is_roulier():
-            return self._roulier_generate_shipping_labels(
-                package_ids=package_ids)
+            raise UserError(_("Don't call me directly"))
         _super = super(StockPicking, self)
         return _super.generate_shipping_labels(package_ids=package_ids)
 
-    # end of base_label API implementation
-
-    # API
-    @implemented_by_carrier
-    def _before_call(self, package_id, request):
-        pass
-
-    @implemented_by_carrier
-    def _after_call(self, package_id, response):
-        pass
-
-    @implemented_by_carrier
-    def _is_our(self):
-        """Indicate if the current record is managed by roulier.
-
-        returns:
-            True or False
-        """
-        pass
-
-    @implemented_by_carrier
-    def _get_sender(self):
-        pass
-
-    @implemented_by_carrier
-    def _get_receiver(self):
-        pass
-
-    @implemented_by_carrier
-    def _get_shipping_date(self, package_id):
-        pass
-
-    @implemented_by_carrier
-    def _get_options(self, package_id):
-        pass
-
-    @implemented_by_carrier
-    def _get_customs(self, package_id):
-        pass
-
-    @implemented_by_carrier
-    def _should_include_customs(self, package_id):
-        pass
-
-    @implemented_by_carrier
-    def _get_auth(self, account):
-        pass
-
-    @implemented_by_carrier
-    def _get_service(self, package_id):
-        pass
-
-    @implemented_by_carrier
-    def _get_parcel(self, package_id):
-        pass
-
-    @implemented_by_carrier
-    def _convert_address(self, partner):
-        pass
-
-    @implemented_by_carrier
-    def _is_roulier(self):
-        pass
-
-    @implemented_by_carrier
-    def _error_handling(self, payload, response):
-        pass
-    # end of API
-
-    # Core functions
-
     @api.multi
-    def _roulier_generate_labels(self, package_ids=None):
-        # call generate_shipping_labels for each package
-        # collect answers from generate_shipping_labels
-        # persist it
-        self.ensure_one()
-
-        labels = self.generate_shipping_labels(package_ids)
-        for label in labels:
-            data = {
-                'name': label['name'],
-                'res_id': self.id,
-                'res_model': 'stock.picking',
-            }
-            if label.get('package_id'):
-                data['package_id'] = label['package_id']
-
-            if label.get('url'):
-                data['url'] = label['url']
-                data['type'] = 'url'
-            elif label.get('data'):
-                data['datas'] = label['data'].encode('base64')
-                data['type'] = 'binary'
-            self.env['shipping.label'].create(data)
-        return True
-
-    @api.multi
-    def _roulier_generate_shipping_labels(self, package_ids=None):
+    def _roulier_generate_labels(self):
         """Create as many labels as package_ids or in self."""
         self.ensure_one()
-        packages = []
-        if package_ids:
-            packages = package_ids
-        else:
-            packages = self._get_packages_from_picking()
+        packages = self._get_packages_from_picking()
         if not packages:
-            raise UserError(_('No package found for this picking'))
             # It's not our responsibility to create the packages
-        labels = [
-            self._call_roulier_api(package)
-            for package in packages
-        ]
-        return labels
-
-    def _call_roulier_api(self, package_id):
-        """Create a label for a given package_id."""
-        # There is low chance you need to override it.
-        # Don't forget to implement _a-carrier_before_call
-        # and _a-carrier_after_call
-        self.ensure_one()
-
-        roulier_instance = roulier.get(self.carrier_type)
-        payload = roulier_instance.api()
-
-        sender = self._get_sender()
-        receiver = self._get_receiver()
-
-        payload['auth'] = self._get_auth()
-
-        payload['from_address'] = self._convert_address(sender)
-        payload['to_address'] = self._convert_address(receiver)
-
-        if self._should_include_customs(package_id):
-            payload['customs'] = self._get_customs(package_id)
-
-        payload['service'] = self._get_service(package_id)
-        payload['parcel'] = self._get_parcel(package_id)
-
-        # sorte d'interceptor ici pour que chacun
-        # puisse ajouter ses merdes à payload
-        payload = self._before_call(package_id, payload)
-        # vrai appel a l'api
-        try:
-            ret = roulier_instance.get_label(payload)
-        except InvalidApiInput as e:
-            raise UserError(self._error_handling(payload, e.message))
-        except Exception as e:
-            raise UserError(e.message)
-
-        # minimum error handling
-        if ret.get('status', '') == 'error':
-            raise UserError(self._error_handling(payload, ret))
-        # give result to someone else
-        return self._after_call(package_id, ret)
-
-    # helpers
-    @api.model
-    def _roulier_convert_address(self, partner):
-        """Convert a partner to an address for roulier.
-
-        params:
-            partner: a res.partner
-        return:
-            dict
-        """
-        address = {}
-        extract_fields = [
-            'company', 'name', 'zip', 'city', 'phone', 'mobile',
-            'email', 'street2']
-        for elm in extract_fields:
-            if elm in partner:
-                # because a value can't be None in odoo's ORM
-                # you don't want to mix (bool) False and None
-                if partner._fields[elm].type != fields.Boolean.type:
-                    if partner[elm]:
-                        address[elm] = partner[elm]
-                    # else:
-                    # it's a None: nothing to do
-                else:  # it's a boolean: keep the value
-                    address[elm] = partner[elm]
-        if not address.get('company', False) and partner.parent_id.is_company:
-            address['company'] = partner.parent_id.name
-        # Roulier needs street1 not street
-        address['street1'] = partner.street
-        # Codet ISO 3166-1-alpha-2 (2 letters code)
-        address['country'] = partner.country_id.code
-        return address
-
-    @api.multi
-    def _roulier_is_roulier(self):
-        self.ensure_one()
-        return self.carrier_type in roulier.get_carriers()
-
-    # default implementations
-
-    # if you want to implement your carrier behavior, don't override it,
-    # but define your own method instead with your carrier prefix.
-    # see documentation for more details about it
-    def _roulier_get_auth(self):
-        """Login/password of the carrier account.
-
-        Returns:
-            a dict with login and password keys
-        """
-        auth = {
-            'login': '',
-            'password': '',
-        }
-        return auth
-
-    def _roulier_get_service(self, package_id):
-        shipping_date = self._get_shipping_date(package_id)
-
-        service = {
-            'product': self.carrier_code,
-            'shippingDate': shipping_date,
-        }
-        return service
-
-    def _roulier_get_parcel(self, package_id):
-        weight = package_id.get_weight()
-        parcel = {
-            'weight': weight,
-        }
-        return parcel
-
-    def _roulier_get_sender(self):
-        """Sender of the picking (for the label).
-
-        Return:
-            (res.partner)
-        """
-        self.ensure_one()
-        return self.company_id.partner_id
-
-    def _roulier_get_receiver(self):
-        """The guy who the shippment is for.
-
-        At home or at a distribution point, it's always
-        the same receiver address.
-
-        Return:
-            (res.partner)
-        """
-        self.ensure_one()
-        return self.partner_id
-
-    def _roulier_get_shipping_date(self, package_id):
-        tomorrow = datetime.now() + timedelta(1)
-        return tomorrow.strftime('%Y-%m-%d')
-
-    def _roulier_get_options(self, package_id):
-        return {}
-
-    def _roulier_get_customs(self, package_id):
-        return {}
-
-    def _roulier_should_include_customs(self, package_id):
-        sender = self._get_sender()
-        receiver = self._get_receiver()
-        return sender.country_id.code == receiver.country_id.code
-
-    @api.model
-    def _roulier_error_handling(self, payload, response):
-        return _(u'Sent data:\n%s\n\nException raised:\n%s\n' % (
-            payload, self._error_handling(payload, response)))
+            raise UserError(_('No package found for this picking'))
+        return packages._generate_labels(self)
