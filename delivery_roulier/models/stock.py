@@ -13,7 +13,6 @@ from openerp.exceptions import Warning as UserError
 _logger = logging.getLogger(__name__)
 try:
     from roulier import roulier
-    from roulier.exception import InvalidApiInput
 except ImportError:
     _logger.debug('Cannot `import roulier`.')
 
@@ -55,6 +54,34 @@ class StockPicking(models.Model):
     # def generate_default_label(self, package_ids=None):
     # useless method
 
+    @implemented_by_carrier
+    def _get_sender(self, picking):
+        pass
+
+    @implemented_by_carrier
+    def _get_receiver(self, picking):
+        pass
+
+    @implemented_by_carrier
+    def _get_shipping_date(self, picking):
+        pass
+
+    @implemented_by_carrier
+    def _get_options(self, picking):
+        pass
+
+    @implemented_by_carrier
+    def _get_auth(self, account):
+        pass
+
+    @implemented_by_carrier
+    def _get_service(self, picking):
+        pass
+
+    @implemented_by_carrier
+    def _convert_address(self, partner):
+        pass
+
     @api.multi
     def _is_roulier(self):
         self.ensure_one()
@@ -89,3 +116,83 @@ class StockPicking(models.Model):
             # It's not our responsibility to create the packages
             raise UserError(_('No package found for this picking'))
         return packages._generate_labels(self)
+
+    # default implementations
+    def _roulier_get_auth(self, package):
+        """Login/password of the carrier account.
+
+        Returns:
+            a dict with login and password keys
+        """
+        auth = {
+            'login': '',
+            'password': '',
+        }
+        return auth
+
+    def _roulier_get_service(self, package):
+        shipping_date = self._get_shipping_date(package)
+
+        service = {
+            'product': self.carrier_code,
+            'shippingDate': shipping_date,
+        }
+        return service
+
+    def _roulier_get_sender(self, package):
+        """Sender of the picking (for the label).
+
+        Return:
+            (res.partner)
+        """
+        return self.company_id.partner_id
+
+    def _roulier_get_receiver(self, package):
+        """The guy who the shippment is for.
+
+        At home or at a distribution point, it's always
+        the same receiver address.
+
+        Return:
+            (res.partner)
+        """
+        return self.partner_id
+
+    def _roulier_get_shipping_date(self, package):
+        tomorrow = datetime.now() + timedelta(1)
+        return tomorrow.strftime('%Y-%m-%d')
+
+    def _roulier_get_options(self, package):
+        return {}
+
+    @api.model
+    def _roulier_convert_address(self, partner):
+        """Convert a partner to an address for roulier.
+
+        params:
+            partner: a res.partner
+        return:
+            dict
+        """
+        address = {}
+        extract_fields = [
+            'company', 'name', 'zip', 'city', 'phone', 'mobile',
+            'email', 'street2']
+        for elm in extract_fields:
+            if elm in partner:
+                # because a value can't be None in odoo's ORM
+                # you don't want to mix (bool) False and None
+                if partner._fields[elm].type != fields.Boolean.type:
+                    if partner[elm]:
+                        address[elm] = partner[elm]
+                    # else:
+                    # it's a None: nothing to do
+                else:  # it's a boolean: keep the value
+                    address[elm] = partner[elm]
+        if not address.get('company', False) and partner.parent_id.is_company:
+            address['company'] = partner.parent_id.name
+        # Roulier needs street1 not street
+        address['street1'] = partner.street
+        # Codet ISO 3166-1-alpha-2 (2 letters code)
+        address['country'] = partner.country_id.code
+        return address
