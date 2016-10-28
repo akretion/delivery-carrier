@@ -62,6 +62,8 @@ class StockPicking(models.Model):
                 [op.product_id.list_price * op.product_qty
                     for op in package_id.get_operations()]
             )
+        options = self._laposte_get_options()
+        # import pdb; pdb.set_trace()
         request['parcel']['nonMachinable'] = package_id.laposte_non_machinable
         request['service']['totalAmount'] = '%.f' % (  # truncate to string
             calc_package_price(package_id) * 100  # totalAmount is in centimes
@@ -106,18 +108,18 @@ class StockPicking(models.Model):
 
         Like insurance, cash on delivery...
         It should be the same for all the packages of
-        the shippment.
+        the shipment.
         """
         # should be extracted from a company wide setting
         # and oversetted in a view form
         self.ensure_one()
-        option = {}
-        # TODO implement here
-        # if self.option_ids:
-        #    for opt in self.option_ids:
-        #        opt_key = str(opt.tmpl_option_id['code'].lower())
-        #        option[opt_key] = True
-        return option
+        # mapping_options = {'nm': ''}
+        options = {}
+        if self.option_ids:
+            for opt in self.option_ids:
+                opt_key = str(opt.tmpl_option_id['code'].lower())
+                options[opt_key] = True
+        return options
 
     @api.multi
     def _laposte_get_auth(self):

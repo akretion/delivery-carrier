@@ -15,7 +15,7 @@
         <field name="name">DUMMY</field>
         <field name="customer" eval="False"/>
         <field name="supplier" eval="True"/>
-        <field name="street">rue du colis</field>
+        <field name="street">parcel street</field>
         <field name="zip">99999</field>
         <field name="city">XXXXXX PFC</field>
     </record>
@@ -30,6 +30,28 @@
         <field name="partner_id" ref="delivery_roulier.partner_dummy"/>
         <field name="product_id" ref="delivery_roulier.product_product_dummy"/>
     </record>
+
+    <!-- DELIVERY CARRIER TEMPLATE OPTION -->
+    <record id="carrier_opt_tmpl_ACK" model="delivery.carrier.template.option">
+        <field name="name">Acknowledgment</field>
+        <field name="code">ACK</field>
+    </record>
+
+    <record id="carrier_opt_tmpl_FCR" model="delivery.carrier.template.option">
+        <field name="name">Free of charges and rights</field>
+        <field name="code">FCR</field>
+    </record>
+
+    <record id="carrier_opt_tmpl_COD" model="delivery.carrier.template.option">
+        <field name="name">Shipping Cash On Delivery</field>
+        <field name="code">COD</field>
+    </record>
+
+    <record id="carrier_opt_tmpl_INS" model="delivery.carrier.template.option">
+        <field name="name">Insurance</field>
+        <field name="code">INS</field>
+    </record>
+
 
 </data>
 </openerp>

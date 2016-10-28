@@ -4,8 +4,7 @@
 
 
     <!-- DELIVERY CARRIER TEMPLATE OPTION -->
-    <record id="delivery_carr_tmpl_to_dropoff"
-            model="delivery.carrier.template.option">
+    <record id="carrier_opt_tmpl_STDS" model="delivery.carrier.template.option">
         <field name="name">Send to Drop-off Site</field>
         <field name="code">STDS</field>
         <field name="description">Send to a drop-off site (delivery area through which the recipient will pick the parcel)</field>

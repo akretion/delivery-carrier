@@ -3,18 +3,6 @@
 <!-- TODO   <data noupdate="1">-->
 <data>
 
-    <!-- DELIVERY CARRIER TEMPLATE OPTION -->
-    <record id="delivery_carrier_template_AR"
-            model="delivery.carrier.template.option">
-        <field name="name">Accusé de Réception</field>
-        <field name="code">AR</field>
-    </record>
-
-    <record id="delivery_carrier_template_FTD"
-            model="delivery.carrier.template.option">
-        <field name="name">Franc de taxes et de droits</field>
-        <field name="code">FTD</field>
-    </record>
 
     <!-- DELIVERY CARRIER -->
     <record id="deliv_carr_laposte_BPR" model="delivery.carrier">
@@ -32,7 +20,7 @@
         <field name="mandatory" eval="True"/>
         <field name="by_default" eval="True"/>
         <field name="carrier_id" ref="deliv_carr_laposte_BPR"/>
-        <field name="tmpl_option_id" ref="delivery_dropoff_site.delivery_carr_tmpl_to_dropoff"/>
+        <field name="tmpl_option_id" ref="delivery_dropoff_site.carrier_opt_tmpl_STDS"/>
     </record>
 
     <record id="BPR_laposte_deliv_carr_tmpl_NM" model="delivery.carrier.option">
@@ -40,7 +28,7 @@
         <field name="mandatory" eval="False"/>
         <field name="by_default" eval="False"/>
         <field name="carrier_id" ref="deliv_carr_laposte_BPR"/>
-        <field name="tmpl_option_id" ref="delivery_roulier_laposte.delivery_carrier_template_NM"/>
+        <field name="tmpl_option_id" ref="delivery_roulier_laposte.carrier_opt_tmpl_NM"/>
     </record>
 
 
@@ -59,7 +47,7 @@
         <field name="mandatory" eval="True"/>
         <field name="by_default" eval="True"/>
         <field name="carrier_id" ref="deliv_carr_laposte_A2P"/>
-        <field name="tmpl_option_id" ref="delivery_dropoff_site.delivery_carr_tmpl_to_dropoff"/>
+        <field name="tmpl_option_id" ref="delivery_dropoff_site.carrier_opt_tmpl_STDS"/>
     </record>
 
     <record id="A2P_laposte_deliv_carr_tmpl_NM" model="delivery.carrier.option">
@@ -67,7 +55,7 @@
         <field name="mandatory" eval="False"/>
         <field name="by_default" eval="False"/>
         <field name="carrier_id" ref="deliv_carr_laposte_A2P"/>
-        <field name="tmpl_option_id" ref="delivery_roulier_laposte.delivery_carrier_template_NM"/>
+        <field name="tmpl_option_id" ref="delivery_roulier_laposte.carrier_opt_tmpl_NM"/>
     </record>
 
 
@@ -86,7 +74,7 @@
         <field name="mandatory" eval="True"/>
         <field name="by_default" eval="True"/>
         <field name="carrier_id" ref="deliv_carr_laposte_CMT"/>
-        <field name="tmpl_option_id" ref="delivery_dropoff_site.delivery_carr_tmpl_to_dropoff"/>
+        <field name="tmpl_option_id" ref="delivery_dropoff_site.carrier_opt_tmpl_STDS"/>
     </record>
 
     <record id="CMT_laposte_deliv_carr_tmpl_NM" model="delivery.carrier.option">
@@ -94,7 +82,7 @@
         <field name="mandatory" eval="False"/>
         <field name="by_default" eval="False"/>
         <field name="carrier_id" ref="deliv_carr_laposte_CMT"/>
-        <field name="tmpl_option_id" ref="delivery_roulier_laposte.delivery_carrier_template_NM"/>
+        <field name="tmpl_option_id" ref="delivery_roulier_laposte.carrier_opt_tmpl_NM"/>
     </record>
 
 </data>

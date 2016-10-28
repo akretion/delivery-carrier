@@ -39,7 +39,7 @@
         <field name="by_default" eval="True"/>
         <field name="carrier_id" ref="delivery_carrier_dropoff"/>
         <field name="tmpl_option_id"
-               ref="delivery_dropoff_site.delivery_carr_tmpl_to_dropoff"/>
+               ref="delivery_dropoff_site.carrier_opt_tmpl_STDS"/>
     </record>
 
 

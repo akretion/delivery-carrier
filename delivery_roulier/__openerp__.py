@@ -21,6 +21,7 @@
         'data/delivery.xml',
     ],
     'demo': [
+        'demo/product.xml',
     ],
     'external_dependencies': {
         'python': [
