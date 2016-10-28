@@ -8,7 +8,7 @@ class TestDummy(TransactionCase):
     """Test dumy functions."""
 
     # some helpers
-    def _create_order(self, customer, carrier=None):
+    def _create_sale(self, customer, carrier=None):
         vals = {
             'partner_id': customer.id,
         }
@@ -16,12 +16,12 @@ class TestDummy(TransactionCase):
             vals['carrier_id'] = carrier
         return self.env['sale.order'].create(vals)
 
-    def _create_order_line(self, order, products):
+    def _create_sale_line(self, sale, products):
         ol = []
         for product in products:
             ol.append(self.env['sale.order.line'].create({
                 'product_id': product.id,
-                'order_id': order.id,
+                'order_id': sale.id,
             }))
         return ol
 
@@ -34,25 +34,6 @@ class TestDummy(TransactionCase):
         vals.update(values)
         return self.env['stock.pack.operation'].create(vals)
 
-    def _get_products(self, weights):
-        """A recordset of products without any specific uom.
-
-        It means : no uom or kg or unit
-        Params:
-            weights: recordset will be size of weights and each
-                product will get a size according of weights[i]
-        """
-        kg_id = self.env.ref('product.product_uom_kgm').id
-        unit_id = self.env.ref('product.product_uom_unit').id
-
-        products = self.env['product.product'].search(
-            [['uom_id', 'in', (False, kg_id, unit_id)]],
-            limit=len(weights))
-        for idx, product in enumerate(products):
-            # by default there is no weight on products
-            product.weight = weights[idx]
-        return products
-
     def _generate_picking(self, products, is_dummy=True):
         """Create a picking from products."""
         dummy_carrier = self.env.ref(
@@ -62,10 +43,10 @@ class TestDummy(TransactionCase):
             carrier = dummy_carrier
 
         customer = self.env['res.partner'].search([], limit=3)[2]
-        order = self._create_order(customer, carrier)
-        self._create_order_line(order, products)
-        order.action_button_confirm()
-        picking = order.picking_ids
+        sale = self._create_sale(customer, carrier)
+        self._create_sale_line(sale, products)
+        sale.action_button_confirm()
+        picking = sale.picking_ids
         picking.do_transfer()
         return picking
 
@@ -77,9 +58,16 @@ class TestDummy(TransactionCase):
         """It should return true when handled."""
         # we need to have weigths on product
         # because there is some get_weight on the list
-        products = self._get_products([1])
-        dummy_picking = self._generate_picking(products)
-        other_picking = self._generate_picking(products, False)
+
+        dummy_picking = self._generate_picking(self.products)
+        other_picking = self._generate_picking(self.products, False)
+
+        # ensure we get the specific function
+        # in python 2.x we can't have the decorated function
+        # but get only the decorator
+        # (in python 3.x there is inspect.unwrap())
+        #
+        # Not a real good method, but it's ok to test the returned result
 
         # _is_roulier which returns true on roulier implementations
         # and false on the others
@@ -95,8 +83,7 @@ class TestDummy(TransactionCase):
 
     def test_generate_shipping_labels_no_package(self):
         """It should fail because it there is no package."""
-        products = self._get_products([1, 2, 3])
-        picking = self._generate_picking(products)
+        picking = self._generate_picking(self.products)
 
         try:
             labels = picking.generate_labels()
@@ -110,12 +97,11 @@ class TestDummy(TransactionCase):
 
     def test_generate_shipping_labels_one_package_explicit(self):
         """It should create 1 label if there is 1 packages."""
-        products = self._get_products([1, 2, 3])
-        picking = self._generate_picking(products)
+        picking = self._generate_picking(self.products)
         package = self.env['stock.quant.package'].create({})
 
         operations = []
-        for idx, product in enumerate(products):
+        for idx, product in enumerate(self.products):
             operations.append(self._create_operation(picking, {
                 'product_qty': 1,
                 'product_id': product.id,
@@ -128,8 +114,7 @@ class TestDummy(TransactionCase):
 
     def test_generate_shipping_labels_all_packages(self):
         """It should create many label as packages."""
-        products = self._get_products([1, 2, 3])
-        picking = self._generate_picking(products)
+        picking = self._generate_picking(self.products)
 
         packages = [
             self.env['stock.quant.package'].create({}),
@@ -137,7 +122,7 @@ class TestDummy(TransactionCase):
         ]
 
         operations = []
-        for idx, product in enumerate(products):
+        for idx, product in enumerate(self.products):
             operations.append(self._create_operation(picking, {
                 'product_qty': 1,
                 'product_id': product.id,
@@ -151,8 +136,7 @@ class TestDummy(TransactionCase):
 
     def test_generate_shipping_labels_some_packages(self):
         """It should use self instead of package_ids."""
-        products = self._get_products([1, 2, 3])
-        picking = self._generate_picking(products)
+        picking = self._generate_picking(self.products)
 
         packages = [
             self.env['stock.quant.package'].create({}),
@@ -160,7 +144,7 @@ class TestDummy(TransactionCase):
         ]
 
         operations = []
-        for idx, product in enumerate(products):
+        for idx, product in enumerate(self.products):
             operations.append(self._create_operation(picking, {
                 'product_qty': 1,
                 'product_id': product.id,
@@ -170,5 +154,12 @@ class TestDummy(TransactionCase):
 
         # dummy create one label per package
         package_ids = [packages[0]]
+
         labels = picking.generate_labels(package_ids)
         self.assertNotEqual(len(labels), len(package_ids))  # =1
+
+    def setUp(self):
+        super(TestDummy, self).setUp()
+        self.products = self.env.ref('delivery_roulier.product_dummy_small')
+        self.products |= self.env.ref('delivery_roulier.product_dummy_normal')
+        self.products |= self.env.ref('delivery_roulier.product_dummy_big')
