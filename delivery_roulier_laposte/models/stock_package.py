@@ -29,7 +29,7 @@ class StockQuantPackage(models.Model):
         # is the same. Should be store after first call
         request['parcel'].update(picking._laposte_get_options(self))
         if request['parcel'].get('COD'):
-            request['parcel']['CODAmount'] = self._get_cash_on_delivery(
+            request['parcel']['codAmount'] = self._get_cash_on_delivery(
                 picking)
         request['service']['totalAmount'] = '%.f' % (  # truncate to string
             calc_package_price() * 100  # totalAmount is in centimes
@@ -82,7 +82,7 @@ class StockQuantPackage(models.Model):
     @api.model
     def _laposte_error_handling(self, payload, response):
         payload['auth']['password'] = '****'
-        ret_mess = u'Données transmises:\n%s\n\nExceptions levées%s\n%s'
+        ret_mess = ''
         if response.get('api_call_exception'):
             # InvalidInputException
             # on met des clés plus explicites vis à vis des objets odoo
@@ -92,7 +92,7 @@ class StockQuantPackage(models.Model):
             message = u'Données transmises:\n%s\n\nExceptions levées%s\n%s' % (
                 payload, response, suffix)
             return message
-        elif response.get('message'):
+        elif response.get('messages'):
             # Webservice error
             # on contextualise les réponses ws aux objets Odoo
             map_responses = {
@@ -109,16 +109,27 @@ class StockQuantPackage(models.Model):
                     u"La seconde ligne d'adresse de l'expéditeur est "
                     u"vide ou invalide.",
             }
-            message = response.get('message')
-            param_message = {'ws_exception': message,
-                             'sent_data': payload,
-                             'resolution': ''}
-            if message and message.get('id') in map_responses.keys():
-                param_message['resolution'] = map_responses[
-                    message['id']]
-            ret_mess = _(u"Incident\n-----------\nRéponse de Laposte:\n"
-                         u"%(ws_exception)s\n\nDonnées transmises:"
-                         u"\n%(sent_data)s\n\n"
-                         u"Résolution\n-------------\n%(resolution)s"
-                         % param_message)
+            parts = []
+            request = response['response'].request.body
+            request = '%s<password>****%s' % (
+                request[:request.index('<password>')],
+                request[request.index('</password>'):])
+            for message in response.get('messages'):
+                parts.append(self.format_one_exception(message, map_responses))
+            ret_mess = _(u"Incident\n-----------\n%s\n"
+                         u"Données transmises\n:%s") % (
+                '\n'.join(parts), request)
         return ret_mess
+
+    @api.model
+    def format_one_exception(self, message, map_responses):
+        param_message = {
+            'ws_exception':
+                '%s\n' % message['message'],
+            'resolution': ''}
+        if message and message.get('id') in map_responses.keys():
+            param_message['resolution'] = _(u"Résolution\n-------------\n%s" %
+                                            map_responses[message['id']])
+        return _(u"Réponse de Laposte:\n"
+                 u"%(ws_exception)s\n%(resolution)s"
+                 % param_message)

@@ -51,7 +51,7 @@ class StockPicking(models.Model):
         return {
             'NM': 'nonMachinable',
             'FCR': 'ftd',
-            'COD': 'COD',
+            'COD': 'cod',
             'INS': 'insuranceValue',
         }
 
