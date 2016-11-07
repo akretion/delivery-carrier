@@ -109,6 +109,13 @@
         <field name="carrier_id" ref="delivery_carrier_DOS"/>
         <field name="tmpl_option_id" ref="delivery_roulier.carrier_opt_tmpl_INS"/>
     </record>
+    <record id="DOS_laposte_carrier_opt_tmpl_ACK" model="delivery.carrier.option">
+        <field name="readonly_flag" eval="True"/>
+        <field name="mandatory" eval="False"/>
+        <field name="by_default" eval="False"/>
+        <field name="carrier_id" ref="delivery_carrier_DOS"/>
+        <field name="tmpl_option_id" ref="delivery_roulier.carrier_opt_tmpl_ACK"/>
+    </record>
 
     <record id="delivery_carrier_CORE" model="delivery.carrier">
         <field name="name">Colissimo Retour France</field>

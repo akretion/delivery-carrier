@@ -111,22 +111,24 @@ class StockQuantPackage(models.Model):
             }
             parts = []
             request = response['response'].request.body
-            request = '%s<password>****%s' % (
-                request[:request.index('<password>')],
-                request[request.index('</password>'):])
+            if self._uid > 1:
+                request = '%s<password>****%s' % (
+                    request[:request.index('<password>')],
+                    request[request.index('</password>'):])
             for message in response.get('messages'):
                 parts.append(self.format_one_exception(message, map_responses))
             ret_mess = _(u"Incident\n-----------\n%s\n"
-                         u"Données transmises\n:%s") % (
-                '\n'.join(parts), request)
+                         u"Données transmises:\n"
+                         u"-----------------------------\n%s") % (
+                u'\n'.join(parts), request.decode('utf-8'))
         return ret_mess
 
     @api.model
     def format_one_exception(self, message, map_responses):
         param_message = {
             'ws_exception':
-                '%s\n' % message['message'],
-            'resolution': ''}
+                u'%s\n' % message['message'],
+            'resolution': u''}
         if message and message.get('id') in map_responses.keys():
             param_message['resolution'] = _(u"Résolution\n-------------\n%s" %
                                             map_responses[message['id']])
