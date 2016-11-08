@@ -76,7 +76,7 @@ class KuehneDirectionalCode(models.Model):
     def _search_directional_code(
             self, country_from, country_to, zip_code, city):
         directional_code = False
-        directional_codes = self.env['kuehne.directional.code'].search([
+        directional_codes = self.search([
             ('start_date', '<=', fields.Date.today()),
             ('country_from_id', '=', country_from),
             ('country_to_id', '=', country_to),
