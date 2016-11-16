@@ -28,7 +28,7 @@ class StockWarehouse(models.Model):
         string="Service system", default='3')
     kuehne_shipping_config = fields.Selection(
         [('p', 'Paid shipping cost'),
-         ('c', 'Own shipping cost'),
+         ('c', 'Due shipping cost'),
          ('f', 'Service')],
         string="Shipping")
     kuehne_vat_config = fields.Selection(

@@ -29,7 +29,7 @@ class DepositSlip(models.Model):
                 'date': date,
                 'hour': hour,
                 'depositNumber': self.name,
-                'deliveryContract': warehouse.kuehne_delivery_contract,
+                'deliveryContract': warehouse.kuehne_delivery_contract and warehouse.kuehne_delivery_contract.upper() or '',
                 'shippingConfig': warehouse.kuehne_shipping_config.upper(),
                 'vatConfig': warehouse.kuehne_vat_config.upper(),
                 'invoicingContract': warehouse.kuehne_invoicing_contract,

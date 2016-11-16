@@ -36,9 +36,15 @@ class StockQuantPackage(models.Model):
             picking.company_id.country_id.code.upper(),
             picking.company_id.zip,
             picking.company_id.city)
+        map_delivery_contract = {
+            'gsp': 'F',
+            'gfx': 'D',
+        }
+        label_delivery_contract = map_delivery_contract.get(warehouse.kuehne_delivery_contract, 'C')
         request.update({
             'service': {
-                'shippingDate': picking.date_done,
+                'shippingDate': fields.Date.from_string(picking.date_done).strftime('%y%m%d'),
+                'labelShippingDate': fields.Date.from_string(picking.date_done).strftime('%y/%m/%d'),
                 'goodsName': warehouse.kuehne_goods_name,
                 'epalQuantity': 0,
                 'shippingOffice': directional_code['office'],
@@ -47,7 +53,8 @@ class StockQuantPackage(models.Model):
                 'mhuQuantity': len(picking._get_packages_from_picking()),
                 'weight': picking.weight,
                 'volume': picking.volume,
-                'deliveryContract': warehouse.kuehne_delivery_contract,
+                'deliveryContract': warehouse.kuehne_delivery_contract and warehouse.kuehne_delivery_contract.upper() or '',
+                'labelDeliveryContract': label_delivery_contract,
                 'exportHub': directional_code['export_hub'],
                 'orderName': picking.sale_id.name,
                 'shippingConfig': warehouse.kuehne_shipping_config.upper(),
@@ -55,7 +62,7 @@ class StockQuantPackage(models.Model):
                 'invoicingContract': warehouse.kuehne_invoicing_contract,
                 'deliveryType': picking.kuehne_delivery_type.upper(),
                 'serviceSystem': warehouse.kuehne_service_system,
-                'note': picking.note,
+                'note': picking.note and picking.note or '',
                 'kuehneOfficeName': office_name
             }
         })
@@ -79,40 +86,11 @@ class StockQuantPackage(models.Model):
         picking.kuehne_meta = response['line']
         picking.kuehne_meta_footer = response['footer']
         return {
-            "data": response['epl'],
+            "data": response['zpl'],
             "tracking_id": "",
             "name": self.name,
         }
 
-    @api.model
-    def _kuehne_map_options(self):
-        """ Customize this mapping with your own carrier as this example:
-            return {
-                'FCR': 'fcr',
-                'COD': 'cod',
-                'INS': 'ins',
-            }
-        """
-        return {}
-
-    @api.multi
-    def _kuehne_get_options(self):
-        """Define options for the shippment.
-
-        Like insurance, cash on delivery...
-        It should be the same for all the packages of
-        the shippment.
-        """
-        # should be extracted from a company wide setting
-        # and oversetted in a view form
-        self.ensure_one()
-        option = {}
-        # TODO implement here
-        # if self.option_ids:
-        #    for opt in self.option_ids:
-        #        opt_key = str(opt.tmpl_option_id['code'].lower())
-        #        option[opt_key] = True
-        return option
 
     @api.model
     def _kuehne_error_handling(self, payload, response):
