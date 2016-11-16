@@ -1,0 +1,390 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* delivery_roulier_kuehne_nagel
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-09 12:11+0000\n"
+"PO-Revision-Date: 2016-11-09 12:11+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:email.template,body_html:delivery_roulier_kuehne_nagel.missing_directional_code_template
+msgid "\n"
+"The sale order ${object.name} has no directional code for Kuehne Nagel delivery\n"
+"Please select one before starting the shipping.\n"
+"        "
+msgstr "\n"
+"La commande ${object.name} n'a pas de code directionnel pour la livraison Kuehne & Nagel\n"
+"Veuillez le sélectionner avant de commencer l'expédition.\n"
+"        "
+
+#. module: delivery_roulier_kuehne_nagel
+#: view:kuehne.nagel.config.settings:delivery_roulier_kuehne_nagel.view_kuehne_config_settings
+msgid "Apply"
+msgstr "Valider"
+
+#. module: delivery_roulier_kuehne_nagel
+#: selection:stock.picking,kuehne_delivery_type:0
+msgid "Appointment"
+msgstr "Rendez-vous"
+
+#. module: delivery_roulier_kuehne_nagel
+#: view:kuehne.nagel.config.settings:delivery_roulier_kuehne_nagel.view_kuehne_config_settings
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.model,name:delivery_roulier_kuehne_nagel.model_delivery_carrier
+msgid "Carrier"
+msgstr "Transporteur"
+
+#. module: delivery_roulier_kuehne_nagel
+#: selection:stock.warehouse,kuehne_service_system:0
+msgid "Chartering"
+msgstr "Affrètement"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,city_to:0
+msgid "City To"
+msgstr "Ville destination"
+
+#. module: delivery_roulier_kuehne_nagel
+#: help:kuehne.directional.code,start_date:0
+msgid "Code valid from this date"
+msgstr "Code valide à partir de"
+
+#. module: delivery_roulier_kuehne_nagel
+#: view:kuehne.nagel.config.settings:delivery_roulier_kuehne_nagel.view_kuehne_config_settings
+msgid "Compte"
+msgstr "Compte"
+
+#. module: delivery_roulier_kuehne_nagel
+#: view:kuehne.nagel.config.settings:delivery_roulier_kuehne_nagel.view_kuehne_config_settings
+msgid "Configure Kuehne Nagel EDI"
+msgstr "Configurer l'EDI Kuehne & Nagel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,country_from_id:0
+msgid "Country From"
+msgstr "Pays d'origine"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,country_to_id:0
+msgid "Country To"
+msgstr "Pays de destinatino"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,create_uid:0
+#: field:kuehne.nagel.config.settings,create_uid:0
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,create_date:0
+#: field:kuehne.nagel.config.settings,create_date:0
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:stock.picking,kuehne_delivery_type:0
+msgid "Delivery Type"
+msgstr "Type de livraison"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.nagel.config.settings,kuehne_delivery_contract:0
+#: field:stock.warehouse,kuehne_delivery_contract:0
+msgid "Delivery contract"
+msgstr "Contrat de transport"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.model,name:delivery_roulier_kuehne_nagel.model_deposit_slip
+msgid "Deposit Slip"
+msgstr "Bon de transport"
+
+#. module: delivery_roulier_kuehne_nagel
+#: selection:stock.picking,kuehne_delivery_type:0
+msgid "Direct Delivery"
+msgstr "Livraison directe"
+
+#. module: delivery_roulier_kuehne_nagel
+#: view:kuehne.directional.code:delivery_roulier_kuehne_nagel.view_directional_code_tree
+msgid "Directional Code"
+msgstr "Code directionnel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:sale.order,directional_code_id:0
+msgid "Directional code"
+msgstr "Code directionnel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,display_name:0
+#: field:kuehne.nagel.config.settings,display_name:0
+msgid "Display Name"
+msgstr "Nom"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.model,name:delivery_roulier_kuehne_nagel.model_ir_attachment_metadata
+msgid "Email Thread"
+msgstr "Discussion par courriel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,export_hub:0
+msgid "Export hub"
+msgstr "Hub d'export"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.model,name:delivery_roulier_kuehne_nagel.model_external_file_task
+msgid "External file task"
+msgstr "Tache"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,first_zip:0
+msgid "First Zip"
+msgstr "Code postal inférieur"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,first_city_code:0
+msgid "First city code"
+msgstr "Code commune inférieur"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,id:0
+#: field:kuehne.nagel.config.settings,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.nagel.config.settings,kuehne_invoicing_contract:0
+#: field:stock.warehouse,kuehne_invoicing_contract:0
+msgid "Invoicing contract number"
+msgstr "Numéro de contrat de facturation"
+
+#. module: delivery_roulier_kuehne_nagel
+#: selection:stock.warehouse,kuehne_delivery_contract:0
+msgid "KN EuroLink First"
+msgstr "KN EuroLink First"
+
+#. module: delivery_roulier_kuehne_nagel
+#: selection:stock.warehouse,kuehne_delivery_contract:0
+msgid "KN EuroLink Fix"
+msgstr "KN EuroLink Fix"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.ui.menu,name:delivery_roulier_kuehne_nagel.menu_kuehne_config
+msgid "Kuehne + Nagel"
+msgstr "Kuehne + Nagel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: view:kuehne.nagel.config.settings:delivery_roulier_kuehne_nagel.view_kuehne_config_settings
+msgid "Kuehne Nagel"
+msgstr "Kuehne Nagel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.nagel.config.settings,kuehne_goods_name:0
+#: field:stock.warehouse,kuehne_goods_name:0
+msgid "Kuehne Nagel Goods Name"
+msgstr "Nom marchandises Kuehne Nagel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.nagel.config.settings,kuehne_office_code:0
+#: field:stock.warehouse,kuehne_office_code:0
+msgid "Kuehne Nagel Office Code"
+msgstr "Code agence Kuehne Nagel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.nagel.config.settings,kuehne_office_country_id:0
+#: field:stock.warehouse,kuehne_office_country_id:0
+msgid "Kuehne Nagel Office Country"
+msgstr "Pays de l'agence Kuehne Nagel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.nagel.config.settings,kuehne_office_name:0
+#: field:stock.warehouse,kuehne_office_name:0
+msgid "Kuehne Nagel Office Name"
+msgstr "Nom de l'agence Kuehne Nagel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.nagel.config.settings,kuehne_siret:0
+#: field:stock.warehouse,kuehne_siret:0
+msgid "Kuehne Siret"
+msgstr "Kuehne Siret"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,__last_update:0
+#: field:kuehne.nagel.config.settings,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,write_uid:0
+#: field:kuehne.nagel.config.settings,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,write_date:0
+#: field:kuehne.nagel.config.settings,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,last_zip:0
+msgid "Last Zip"
+msgstr "Code postal supérieur"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,last_city_code:0
+msgid "Last city code"
+msgstr "Code commune supérieur"
+
+#. module: delivery_roulier_kuehne_nagel
+#: help:stock.picking,kuehne_meta:0
+#: help:stock.picking,kuehne_meta_footer:0
+#: help:stock.quant.package,kuehne_meta:0
+msgid "Needed for deposit slip"
+msgstr "Necessaire pour bon de transport"
+
+#. module: delivery_roulier_kuehne_nagel
+#: code:addons/delivery_roulier_kuehne_nagel/models/stock.py:57
+#, python-format
+msgid "No directional code found for the picking %s !"
+msgstr "Aucun code directionnel trouvé pour l'expédition %s !"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,office_code:0
+msgid "Office code"
+msgstr "Code agence"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,office_round:0
+msgid "Office round"
+msgstr "Code tournée"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.actions.client,name:delivery_roulier_kuehne_nagel.action_kuehne_first
+msgid "Open Carrier Menu"
+msgstr "Ouvrir le menu transporteur"
+
+#. module: delivery_roulier_kuehne_nagel
+#: selection:stock.warehouse,kuehne_shipping_config:0
+msgid "Own shipping cost"
+msgstr "Port dû"
+
+#. module: delivery_roulier_kuehne_nagel
+#: selection:stock.warehouse,kuehne_shipping_config:0
+msgid "Paid shipping cost"
+msgstr "Port payé"
+
+#. module: delivery_roulier_kuehne_nagel
+#: selection:stock.warehouse,kuehne_service_system:0
+msgid "Parcel service"
+msgstr "Messagerie"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.model,name:delivery_roulier_kuehne_nagel.model_stock_quant_package
+msgid "Physical Packages"
+msgstr "Colis physiques"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.model,name:delivery_roulier_kuehne_nagel.model_stock_picking
+msgid "Picking List"
+msgstr "Opération de manutention"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.model,name:delivery_roulier_kuehne_nagel.model_sale_order
+msgid "Sales Order"
+msgstr "Commande de ventes"
+
+#. module: delivery_roulier_kuehne_nagel
+#: view:kuehne.nagel.config.settings:delivery_roulier_kuehne_nagel.view_kuehne_config_settings
+msgid "Select Warehouse"
+msgstr "Sélectionner l'entrepôt"
+
+#. module: delivery_roulier_kuehne_nagel
+#: selection:stock.warehouse,kuehne_shipping_config:0
+msgid "Service"
+msgstr "Service"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.nagel.config.settings,kuehne_service_system:0
+#: field:stock.warehouse,kuehne_service_system:0
+msgid "Service system"
+msgstr "Régime de prestation de livraison"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.nagel.config.settings,kuehne_shipping_config:0
+#: field:stock.warehouse,kuehne_shipping_config:0
+msgid "Shipping"
+msgstr "Facturation Frais de port"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,start_date:0
+msgid "Start date"
+msgstr "Date de début"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.directional.code,office_from:0
+msgid "Start office"
+msgstr "Agence d'origine"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.nagel.config.settings,kuehne_vat_config:0
+#: field:stock.warehouse,kuehne_vat_config:0
+msgid "VAT"
+msgstr "TVA"
+
+#. module: delivery_roulier_kuehne_nagel
+#: selection:stock.warehouse,kuehne_vat_config:0
+msgid "VAT exempt"
+msgstr "TVA exempté"
+
+#. module: delivery_roulier_kuehne_nagel
+#: selection:stock.warehouse,kuehne_vat_config:0
+msgid "VAT payable"
+msgstr "TVA taxable"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.model,name:delivery_roulier_kuehne_nagel.model_stock_warehouse
+#: field:kuehne.nagel.config.settings,warehouse_id:0
+msgid "Warehouse"
+msgstr "Entrepôt"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:email.template,subject:delivery_roulier_kuehne_nagel.missing_directional_code_template
+msgid "[Order ${object.name}] Missing directional code"
+msgstr "[Commande ${object.name}] Code directionnel manquant"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.actions.act_window,name:delivery_roulier_kuehne_nagel.action_kuehne_config
+msgid "kuehne configuration"
+msgstr "Configuration Kuehne Nagel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:stock.picking,kuehne_meta:0
+#: field:stock.quant.package,kuehne_meta:0
+msgid "meta"
+msgstr "meta"
+
+#. module: delivery_roulier_kuehne_nagel
+#: field:stock.picking,kuehne_meta_footer:0
+msgid "meta footer"
+msgstr "meta footer"
+
+#. module: delivery_roulier_kuehne_nagel
+#: view:kuehne.nagel.config.settings:delivery_roulier_kuehne_nagel.view_kuehne_config_settings
+msgid "or"
+msgstr "ou"
+
+#. module: delivery_roulier_kuehne_nagel
+#: view:stock.picking:delivery_roulier_kuehne_nagel.view_picking_withcarrier_out_form
+msgid "{'readonly': [('state','=','done')]}"
+msgstr "{'readonly': [('state','=','done')]}"
+
