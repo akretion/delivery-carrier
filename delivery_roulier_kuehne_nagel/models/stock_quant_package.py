@@ -41,10 +41,14 @@ class StockQuantPackage(models.Model):
             'gfx': 'D',
         }
         label_delivery_contract = map_delivery_contract.get(warehouse.kuehne_delivery_contract, 'C')
+        if picking.date_done:
+            shipping_date = fields.Date.from_string(picking.date_done)
+        else:
+            shipping_date = fields.Date.from_string(fields.Date.today())
         request.update({
             'service': {
-                'shippingDate': fields.Date.from_string(picking.date_done).strftime('%y%m%d'),
-                'labelShippingDate': fields.Date.from_string(picking.date_done).strftime('%y/%m/%d'),
+                'shippingDate': shipping_date.strftime('%y%m%d'),
+                'labelShippingDate': shipping_date.strftime('%y/%m/%d'),
                 'goodsName': warehouse.kuehne_goods_name,
                 'epalQuantity': 0,
                 'shippingOffice': directional_code['office'],
