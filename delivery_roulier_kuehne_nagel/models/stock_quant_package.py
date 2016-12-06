@@ -48,7 +48,7 @@ class StockQuantPackage(models.Model):
         request.update({
             'service': {
                 'shippingDate': shipping_date.strftime('%y%m%d'),
-                'labelShippingDate': shipping_date.strftime('%y/%m/%d'),
+                'labelShippingDate': shipping_date.strftime('%d/%m/%y'),
                 'goodsName': warehouse.kuehne_goods_name,
                 'epalQuantity': 0,
                 'shippingOffice': directional_code['office'],
@@ -71,7 +71,7 @@ class StockQuantPackage(models.Model):
             }
         })
         request['to_address']['contact'] = picking.partner_id.name
-        request['from_address']['companyName'] = sender_name
+        request['from_address']['company'] = sender_name
         package_ids = picking._get_packages_from_picking().ids
         package_ids.sort()
         count = 1
