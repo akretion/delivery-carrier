@@ -74,14 +74,7 @@ class StockQuantPackage(models.Model):
         ret_mess = ''
         #if keychain service values is with empty data or error messagage response si string
         import pdb; pdb.set_trace()
-        rep={}
-        if type(response) == type(dict()):
-
-            rep = response
-        else:
-            rep = json.loads(response)
-
-        if rep.has_key('Input error '):
+        if response.has_key('Input error '):
             # InvalidInputException
             # on met des clés plus explicites vis à vis des objets odoo
             suffix = (
@@ -91,7 +84,7 @@ class StockQuantPackage(models.Model):
             message = u'Données transmises:\n%s\n\nExceptions levées %s\n%s' % (
                 payload, response, suffix)
             return message
-        elif rep.has_key('message'):
+        elif response.has_key('message'):
             message = u'Données transmises:\n%s\n\nExceptions levées %s\ncat ' % (
                 payload, response)
             return message
