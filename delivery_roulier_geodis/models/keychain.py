@@ -32,4 +32,3 @@ class AccountProduct(models.Model):
         # return 'shippingId' in data[service]
         # return 'customerId' in data[service]
         return True
-
