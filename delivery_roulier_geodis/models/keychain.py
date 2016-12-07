@@ -28,8 +28,8 @@ class AccountProduct(models.Model):
 
     def _roulier_geodis_validate_data(self, data):
         # on aurait pu utiliser Cerberus ici
-        #return 'agencyId' in data[service]
-        #return 'shippingId' in data[service]
-        #return 'customerId' in data[service]
+        # return 'agencyId' in data[service]
+        # return 'shippingId' in data[service]
+        # return 'customerId' in data[service]
         return True
 

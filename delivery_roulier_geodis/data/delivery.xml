@@ -28,7 +28,7 @@
     <record id="delivery_carrier" model="delivery.carrier">
         <field name="name">Geodis</field>
         <field name="default_code">GEO</field>
-        <field name="code">GEO</field>
+        <field name="code">MES</field>
         <field name="delivery_type">fixed</field>
         <field name="product_type">service</field>
         <field name="carrier_type">geodis</field>

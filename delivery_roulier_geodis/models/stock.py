@@ -5,7 +5,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
-from openerp import models, fields, api
+from openerp import models, api
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from datetime import datetime, timedelta
@@ -33,12 +33,11 @@ class StockPicking(models.Model):
             # don't send in the past
             shipping_date = tomorrow
 
-        return shipping_date.strftime('%Y-%m-%d')
+        return shipping_date.strftime('%Y%m%d')
 
     @api.multi
     def _geodis_get_options(self, package):
         """Define options for the shippment.
-
         Like insurance, cash on delivery...
         It should be the same for all the packages of
         the shipment.
@@ -47,7 +46,6 @@ class StockPicking(models.Model):
         # and oversetted in a view form
         self.ensure_one()
         options = self._roulier_get_options(package)
-        import pdb; pdb.set_trace()
         return options
 
     @api.multi
@@ -61,7 +59,7 @@ class StockPicking(models.Model):
             * inject it via ENVIRONMENT variable
         """
         self.ensure_one()
-
+        # import pdb; pdb.set_trace()
         account = self._geodis_get_account()
         return {
             'login': account.login,
@@ -69,7 +67,8 @@ class StockPicking(models.Model):
         }
 
     def _geodis_get_account(self):
+
         accounts = self.env['keychain.account'].search(
-            [['namespace', '=', 'roulier_geodis']])
-        ##TODO demander de creer un compte dans Settings >keychain add
+                                        [['namespace', '=', 'roulier_geodis']])
+        # TODO demander de creer un compte dans Settings >keychain add
         return accounts[0]
