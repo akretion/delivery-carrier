@@ -15,13 +15,18 @@
             <xpath expr="//page[@string='Additional Info']//field[@name='carrier_code']"
                    position="after">
                     <field name="display_insurance" invisible="1"/>
-                    <field name="laposte_insur_recomm"
+                    <field name="laposte_recommande"
                            attrs="{
-                        'readonly': [('state','=','done')],
+                        'invisible': ['|',
+                                      ('display_insurance', '=', False),
+                                      ('carrier_type', '!=', 'laposte')]}"/>
+                    <field name="laposte_insurance"
+                           attrs="{
                         'invisible': ['|',
                                       ('display_insurance', '=', False),
                                       ('carrier_type', '!=', 'laposte')]}"/>
             </xpath>
+                        <!-- 'readonly': [('state','=','done')], -->
         </field>
     </record>
 

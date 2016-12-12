@@ -6,6 +6,7 @@
 
 import logging
 from openerp import models, fields, api
+from openerp.exceptions import Warning as UserError
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from datetime import datetime, timedelta
@@ -17,16 +18,33 @@ _logger = logging.getLogger(__name__)
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    laposte_insur_recomm = fields.Selection(
+    laposte_insurance = fields.Selection(
         selection=[
             ('15000', 'Assurance 150 €'), ('30000', 'Assurance 300 €'),
             ('45000', 'Assurance 450 €'), ('60000', 'Assurance 600 €'),
             ('75000', 'Assurance 750 €'), ('90000', 'Assurance 900 €'),
             ('105000', 'Assurance 1050 €'), ('120000', 'Assurance 1200 €'),
             ('135000', 'Assurance 1350 €'), ('150000', 'Assurance 1500 €'),
+        ], string=u"Assurance",
+        help=u"Paramètre incompatible avec le paramètre Recommandé")
+    laposte_recommande = fields.Selection(
+        selection=[
             ('R1', 'Recommendation R1'), ('R2', 'Recommendation R2'),
             ('R3', 'Recommendation R3'),
-        ], string=u"Assurance/recommandé")
+        ], string=u"Recommandé",
+        help=u"Paramètre incompatible avec le paramètre Assurance")
+
+    @api.constrains('laposte_recommande', 'laposte_insurance')
+    def _laposte_check_insurance(self):
+        for rec in self:
+            if rec.laposte_recommande and rec.laposte_insurance:
+                raise(u"Les paramètres 'recommandé' et 'assurance' "
+                      u"sont incompatibles.")
+            if rec.laposte_recommande and \
+                    rec.partner_id.country_id != self.env.ref('base.fr'):
+                message = (u"Le paramètre 'recommandé' est restreint "
+                           u"aux destinations France")
+                raise UserError(message)
 
     def _laposte_get_shipping_date(self, package_id):
         """Estimate shipping date."""
@@ -68,33 +86,14 @@ class StockPicking(models.Model):
         self.ensure_one()
         options = self._roulier_get_options(package)
         if 'insuranceValue' in options:
-            if self.laposte_insur_recomm[:1] == 'R':
-                options['recommendationLevel'] = self.laposte_insur_recomm
+            if self.laposte_recommande:
+                options['recommendationLevel'] = self.laposte_recommande
                 del options['insuranceValue']
             else:
-                options['insuranceValue'] = int(self.laposte_insur_recomm)
+                options['insuranceValue'] = int(self.laposte_insurance)
         if 'cod' in options:
             options['codAmount'] = 0
         return options
-
-    @api.multi
-    def _laposte_get_auth(self, package):
-        """Fetch a laposte login/password.
-
-        Currently it's global for the company.
-        TODO:
-            * allow multiple accounts
-            * store the password securely
-            * inject it via ENVIRONMENT variable
-        """
-        self.ensure_one()
-        accounts = self.env['keychain.account'].search(
-            [['namespace', '=', 'roulier_laposte']])
-        account = accounts[0]
-        return {
-            'login': account.login,
-            'password': account.get_password()
-        }
 
     # helpers
     @api.model

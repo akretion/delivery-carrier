@@ -9,12 +9,13 @@ from openerp import models, fields
 
 _logger = logging.getLogger(__name__)
 
+LAPOSTE_KEYCHAIN_NAMESPACE = 'roulier_laposte'
 
 class AccountProduct(models.Model):
     _inherit = 'keychain.account'
 
     namespace = fields.Selection(
-        selection_add=[('roulier_laposte', 'Laposte')])
+        selection_add=[(LAPOSTE_KEYCHAIN_NAMESPACE, 'Laposte')])
 
     def _roulier_laposte_init_data(self):
         return {

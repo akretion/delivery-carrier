@@ -28,6 +28,11 @@
         'demo/stock.picking.csv',
         'demo/stock.move.csv',
     ],
+    'external_dependencies': {
+        'python': [
+            'roulier',
+        ]
+    },
     'installable': True,
     'license': 'AGPL-3',
 }

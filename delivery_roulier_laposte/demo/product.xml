@@ -4,7 +4,7 @@
 
         <!-- product.product -->
         <record id="product_colissimo_big" model="product.product">
-            <field name="name">colissimo 3.7 kg</field>
+            <field name="name">A heavy product 3.7 kg</field>
             <field name="type">product</field>
             <field name="uom_id">1</field>
             <field name="qty_available">1000</field>
@@ -12,7 +12,7 @@
             <field name="weight_net">3.2</field>
         </record>
         <record id="product_colissimo_small" model="product.product">
-            <field name="name">colissimo 1.3 kg</field>
+            <field name="name">A light product 1.3 kg</field>
             <field name="type">product</field>
             <field name="uom_id">1</field>
             <field name="qty_available">1000</field>
@@ -23,7 +23,7 @@
 
         <!-- Resource: stock.inventory -->
         <record id="stock_inventory_coliposte" model="stock.inventory">
-            <field name="name">ColiPoste Inventory</field>
+            <field name="name">Laposte Demo Inventory</field>
         </record>
 
 
