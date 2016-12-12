@@ -14,8 +14,7 @@
     'depends': [
         'delivery_roulier',
         'base_phone',
-     #   'delivery_carrier_deposit',
-    ],
+                ],
     'website': 'http://www.akretion.com/',
     'data': [
         'data/delivery.xml',

@@ -6,7 +6,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
-from openerp import models, fields
+from openerp import models, api, fields
 
 _logger = logging.getLogger(__name__)
 
@@ -18,13 +18,20 @@ class AccountProduct(models.Model):
         selection_add=[('roulier_geodis', 'Geodis')])
 
     def _roulier_geodis_init_data(self):
-        return {
-                'agencyId': '',
+        return {'agencyId': '',
                 'customerId': '',
                 'is_test': True,
                 'labelFormat': 'ZPL',
                 'product': '',
+                'model_id':''
                 }
+
+    @api.model
+    def _reference_models(self):
+        res = super(AccountProduct, self)._reference_models()
+        res += [('delivery.carrier', 'Transporteur'),
+                ('res_partner', 'Customer')]
+        return res
 
     def _roulier_geodis_validate_data(self, data):
         # on aurait pu utiliser Cerberus ici
@@ -32,3 +39,10 @@ class AccountProduct(models.Model):
         # return 'shippingId' in data[service]
         # return 'customerId' in data[service]
         return True
+
+class DeliveryCarrier(models.Model):
+    _name = 'delivery.carrier'
+    _inherit = [
+        "abstract.account",
+        "delivery.carrier",
+    ]

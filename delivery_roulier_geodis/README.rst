@@ -10,18 +10,18 @@ Company:
 Some informations have to be filled on two locations :
 
 * company form (Settings > Companies > Companies):
-complete address of the company, included phone
+
+    complete address of the company, included phone
 
 * configuration form (Settings > Configuration > Carriers > Geodis) :
+
 
 
 
 Technical references
 --------------------
 
-`Geodis documentation`_
-
-.. _documentation: https://www.geodis.fr
+'Geodis documentation: www.geodis.fr'
 
 Contributors
 ------------
