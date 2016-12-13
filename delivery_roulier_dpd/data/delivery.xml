@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<!--    <data noupdate="1">-->
+<data>
+
+    <!-- PARTNER -->
+    <record id="partner_dpd" model="res.partner">
+        <field name="name">Dpd</field>
+        <field name="is_company" eval="True"/>
+        <field name="customer" eval="False"/>
+        <field name="supplier" eval="True"/>
+        <field name="street">rue du GEOCOLIs</field>
+        <field name="zip">99999</field>
+        <field name="city">XXXXXX PFC</field>
+    </record>
+
+    <!--&lt;!&ndash; PRODUCT  &ndash;&gt;-->
+    <!--<record id="product_product_dpd" model="product.product">-->
+        <!--<field name="default_code">SHIP_GEO</field>-->
+        <!--<field name="standard_price">0.0</field>-->
+        <!--<field name="cost_method">standard</field>-->
+        <!--<field name="type">service</field>-->
+        <!--<field name="name">Coûts de livraison -Dpd</field>-->
+        <!--<field name="categ_id">1</field>-->
+    <!--</record>-->
+
+    <!-- DELIVERY CARRIER -->
+    <record id="delivery_carrier" model="delivery.carrier">
+        <field name="name">Dpd</field>
+        <field name="default_code">DPD</field>
+        <field name="code">MES</field>
+        <field name="delivery_type">fixed</field>
+        <field name="product_type">service</field>
+        <field name="carrier_type">dpd</field>
+        <field name="use_detailed_pricelist" eval="1"/>
+        <field name="deposit_slip" eval="True"/>
+        <field name="partner_id" ref="delivery_roulier_dpd.partner_dpd"/>
+    </record>
+
+</data>
+</openerp>
