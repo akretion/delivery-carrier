@@ -7,14 +7,14 @@
 {
     'name': 'Delivery Carrier Geodis (fr)',
     'version': '9.0.1.0.0',
-    'author': 'Akretion',
+    'author': 'Akretion, Odoo Community Association (OCA)',
     'summary': 'Generate Label for Geodis logistic',
     'maintainer': 'Akretion, Odoo Community Association (OCA)',
     'category': 'Warehouse',
     'depends': [
         'delivery_roulier',
-        'base_phone',
-                ],
+        'base_phone', ],
+
     'website': 'http://www.akretion.com/',
     'data': [
         'data/delivery.xml',
