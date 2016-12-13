@@ -30,10 +30,9 @@ class StockQuantPackage(models.Model):
         request['service']['customerId'] = service['customerId']
         request['service']['agencyId'] = service['agencyId']
         # TODO passer contexte multi compagny ou multi compte à la sequence"
-        sequence = self.env['ir.sequence'].next_by_code("geodis.nrecep.number")
-        # this is prefixe by year_ so split it for use in shp: info
-        shp = sequence.split('_')
-        request['service']['shippingId'] = str(shp[1])
+        shp = self._get_colis_id()
+        _logger.warning('shp: %s', (shp))
+        request['service']['shippingId'] = shp
         # _logger.warning("request : %s", (request) )
         # _logger.warning("request %s", (request))
         return request
@@ -49,25 +48,6 @@ class StockQuantPackage(models.Model):
             custom_response['type'] = 'url'
         self.parcel_tracking = response['barcode']
         return custom_response
-
-    # @api.multi
-    # def _geodis_get_account(self):
-    #     accounts = self.env['keychain.account'].search(
-    #         [['namespace', '=', 'roulier_geodis']])
-    #     # TODO demander de creer un compte dans Settings >keychain add
-    #     return accounts[0]
-
-    @api.multi
-    def _geodis_get_customs(self, picking):
-        """ see _roulier_get_customs() docstring
-        """
-        customs = self._roulier_get_customs(picking)
-        return customs
-
-    @api.multi
-    def _geodis_should_include_customs(self, picking):
-
-        return False
 
     @api.model
     def _geodis_error_handling(self, payload, response):
@@ -106,3 +86,11 @@ class StockQuantPackage(models.Model):
         return _(u"Réponse de Geodis:\n"
                  u"%(ws_exception)s\n%(resolution)s"
                  % param_message)
+
+    @api.multi
+    def _get_colis_id(self):
+        sequence = self.env['ir.sequence'].next_by_code("geodis.nrecep.number")
+        # this is prefixe by year_ so split it for use in shp: info
+        list = sequence.split('_')
+        # start by many zero so stringyfy before return to keep 8digits
+        return str(list[1])

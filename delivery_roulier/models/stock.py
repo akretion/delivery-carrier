@@ -176,7 +176,7 @@ class StockPicking(models.Model):
         Depending on your case, you may store it on the picking or
         compute it from your business rules."""
 
-        accounts = self.env['keychain.account'].retrieve(
+        accounts = self.env['keychain.account'].search(
             [['namespace', '=', 'roulier_%s' % self.carrier_type]])
         return accounts[0]
 
