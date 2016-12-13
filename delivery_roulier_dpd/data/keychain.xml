@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<!--<data noupdate="1">-->
+<data>
+    <record id="keychain_la_poste" model="keychain.account">
+        <field name="name">La Poste default</field>
+        <field name="namespace">roulier_laposte</field>
+        <field name="technical_name">laposte_default_account</field>
+    </record>
+</data>
+</openerp>

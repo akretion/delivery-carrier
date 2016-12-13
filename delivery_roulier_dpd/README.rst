@@ -21,7 +21,7 @@ Some informations have to be filled on two locations :
 Technical references
 --------------------
 
-'Geodis documentation: www.dpd.com'
+'Dpd documentation: www.dpd.com'
 
 Contributors
 ------------

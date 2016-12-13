@@ -14,16 +14,6 @@
         <field name="city">XXXXXX PFC</field>
     </record>
 
-    <!--&lt;!&ndash; PRODUCT  &ndash;&gt;-->
-    <!--<record id="product_product_dpd" model="product.product">-->
-        <!--<field name="default_code">SHIP_GEO</field>-->
-        <!--<field name="standard_price">0.0</field>-->
-        <!--<field name="cost_method">standard</field>-->
-        <!--<field name="type">service</field>-->
-        <!--<field name="name">Coûts de livraison -Dpd</field>-->
-        <!--<field name="categ_id">1</field>-->
-    <!--</record>-->
-
     <!-- DELIVERY CARRIER -->
     <record id="delivery_carrier" model="delivery.carrier">
         <field name="name">Dpd</field>
