@@ -23,15 +23,7 @@ class AccountProduct(models.Model):
                 'is_test': True,
                 'labelFormat': 'ZPL',
                 'product': '',
-                'model_id':''
                 }
-
-    @api.model
-    def _reference_models(self):
-        res = super(AccountProduct, self)._reference_models()
-        res += [('delivery.carrier', 'Transporteur'),
-                ('res_partner', 'Customer')]
-        return res
 
     def _roulier_geodis_validate_data(self, data):
         # on aurait pu utiliser Cerberus ici
@@ -39,10 +31,3 @@ class AccountProduct(models.Model):
         # return 'shippingId' in data[service]
         # return 'customerId' in data[service]
         return True
-
-class DeliveryCarrier(models.Model):
-    _name = 'delivery.carrier'
-    _inherit = [
-        "abstract.account",
-        "delivery.carrier",
-    ]

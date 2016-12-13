@@ -7,7 +7,6 @@
 
 from openerp import _, api, models
 import logging
-import json
 
 _logger = logging.getLogger(__name__)
 
@@ -24,20 +23,19 @@ class StockQuantPackage(models.Model):
         # TODO _get_options is called fo each package by the result
         # is the same. Should be store after first call
         # chercher key chain
-        account = self._geodis_get_account()
-        import pdb; pdb.set_trace()
-        _logger.info(type(account))
-        service = json.loads(account.data)
-        # import pdb
-        # pdb.set_trace()
+
+        # import pdb; pdb.set_trace()
+        account = picking._get_account(self)
+        service = account.get_data()
         request['service']['customerId'] = service['customerId']
         request['service']['agencyId'] = service['agencyId']
+        # TODO passer contexte multi compagny ou multi compte à la sequence"
         sequence = self.env['ir.sequence'].next_by_code("geodis.nrecep.number")
-
         # this is prefixe by year_ so split it for use in shp: info
         shp = sequence.split('_')
         request['service']['shippingId'] = str(shp[1])
         # _logger.warning("request : %s", (request) )
+        # _logger.warning("request %s", (request))
         return request
 
     def _geodis_after_call(self, picking, response):
@@ -52,12 +50,12 @@ class StockQuantPackage(models.Model):
         self.parcel_tracking = response['barcode']
         return custom_response
 
-    @api.multi
-    def _geodis_get_account(self):
-        accounts = self.env['keychain.account'].search(
-            [['namespace', '=', 'roulier_geodis']])
-        # TODO demander de creer un compte dans Settings >keychain add
-        return accounts[0]
+    # @api.multi
+    # def _geodis_get_account(self):
+    #     accounts = self.env['keychain.account'].search(
+    #         [['namespace', '=', 'roulier_geodis']])
+    #     # TODO demander de creer un compte dans Settings >keychain add
+    #     return accounts[0]
 
     @api.multi
     def _geodis_get_customs(self, picking):
@@ -74,7 +72,6 @@ class StockQuantPackage(models.Model):
     @api.model
     def _geodis_error_handling(self, payload, response):
         payload['auth']['password'] = '****'
-        # import pdb; pdb.set_trace()
         if 'Input error ' in response:
             # InvalidInputException
             # on met des clés plus explicites vis à vis des objets odoo
@@ -88,6 +85,13 @@ class StockQuantPackage(models.Model):
         elif 'message' in response:
             message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
                       u'cat ' % (payload, response)
+            return message
+        elif response['status'] == 'error':
+            message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
+                      u'cat ' % (payload, response)
+            return message
+        else:
+            message = "Error Unknown"
             return message
 
     @api.model

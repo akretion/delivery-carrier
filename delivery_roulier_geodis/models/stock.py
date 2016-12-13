@@ -16,37 +16,24 @@ _logger = logging.getLogger(__name__)
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
-    #
-    # def _geodis_get_shipping_date(self, package_id):
-    #     """Estimate shipping date."""
-    #     self.ensure_one()
-    #
-    #     shipping_date = self.min_date
-    #     if self.date_done:
-    #         shipping_date = self.date_done
-    #
-    #     shipping_date = datetime.strptime(
-    #         shipping_date, DEFAULT_SERVER_DATETIME_FORMAT)
-    #
-    #     tomorrow = datetime.now() + timedelta(1)
-    #     if shipping_date < tomorrow:
-    #         # don't send in the past
-    #         shipping_date = tomorrow
-    #
-    #     return shipping_date.strftime('%Y%m%d')
-    #
-    # @api.multi
-    # def _geodis_get_options(self, package):
-    #     """Define options for the shippment.
-    #     Like insurance, cash on delivery...
-    #     It should be the same for all the packages of
-    #     the shipment.
-    #     """
-    #     # should be extracted from a company wide setting
-    #     # and oversetted in a view form
-    #     self.ensure_one()
-    #     options = self._roulier_get_options(package)
-    #     return options
+
+    def _geodis_get_shipping_date(self, package_id):
+        """Estimate shipping date."""
+        self.ensure_one()
+
+        shipping_date = self.min_date
+        if self.date_done:
+            shipping_date = self.date_done
+
+        shipping_date = datetime.strptime(
+            shipping_date, DEFAULT_SERVER_DATETIME_FORMAT)
+
+        tomorrow = datetime.now() + timedelta(1)
+        if shipping_date < tomorrow:
+            # don't send in the past
+            shipping_date = tomorrow
+
+        return shipping_date.strftime('%Y%m%d')
 
     @api.multi
     def _geodis_get_auth(self, package):
@@ -59,16 +46,8 @@ class StockPicking(models.Model):
             * inject it via ENVIRONMENT variable
         """
         self.ensure_one()
-        # import pdb; pdb.set_trace()
-        account = self._geodis_get_account()
+        account = self._get_account(package)
         return {
             'login': account.login,
             'password': account.get_password()
         }
-
-    def _geodis_get_account(self):
-
-        accounts = self.env['keychain.account'].search(
-                                        [['namespace', '=', 'roulier_geodis']])
-        # TODO demander de creer un compte dans Settings >keychain add
-        return accounts[0]
