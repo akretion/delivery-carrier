@@ -17,8 +17,9 @@ class AccountProduct(models.Model):
 
     def _roulier_dpd_init_data(self):
         return {
-            "codeAgence": "",
-            'is_test': True,
+            'customerCountry': '250',
+            'customerId':'',
+            'agencyId':'',
             'labelFormat': 'ZPL',
             }
     def _roulier_dpd_validate_data(self, data):

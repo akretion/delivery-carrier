@@ -15,26 +15,16 @@ class StockQuantPackage(models.Model):
     _inherit = 'stock.quant.package'
 
     def _dpd_before_call(self, picking, request):
-        # def calc_package_price():
-        #     return sum(
-        #         [op.product_id.list_price * op.product_qty
-        #             for op in self.get_operations()]
-        #     )
-        # TODO _get_options is called fo each package by the result
-        # is the same. Should be store after first call
-        # chercher key chain
-
         # import pdb; pdb.set_trace()
         account = picking._get_account(self)
         service = account.get_data()
+        # request['service']['customerId'] = service['customerId']
+        request['service']['customerCountry'] = service['customerCountry']
         request['service']['customerId'] = service['customerId']
         request['service']['agencyId'] = service['agencyId']
-        # TODO passer contexte multi compagny ou multi compte à la sequence"
-        shp = self._get_colis_id()
-        _logger.warning('shp: %s', (shp))
-        request['service']['shippingId'] = shp
-        # _logger.warning("request : %s", (request) )
-        # _logger.warning("request %s", (request))
+        request['service']['labelFormat'] = service['labelFormat']
+
+        _logger.warning("request %s", (request))
         return request
 
     def _dpd_after_call(self, picking, response):
@@ -52,6 +42,13 @@ class StockQuantPackage(models.Model):
     @api.model
     def _dpd_error_handling(self, payload, response):
         payload['auth']['password'] = '****'
+
+        def _getmessage(payload, response):
+            import pdb; pdb.set_trace()
+            message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
+                       % (payload, response)
+            return message
+
         if 'Input error ' in response:
             # InvalidInputException
             # on met des clés plus explicites vis à vis des objets odoo
@@ -63,12 +60,10 @@ class StockQuantPackage(models.Model):
                       u'\n%s' % (payload, response, suffix)
             return message
         elif 'message' in response:
-            message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
-                      u'cat ' % (payload, response)
+            message = _getmessage(payload, response)
             return message
         elif response['status'] == 'error':
-            message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
-                      u'cat ' % (payload, response)
+            message = _getmessage(payload, response)
             return message
         else:
             message = "Error Unknown"
@@ -86,11 +81,3 @@ class StockQuantPackage(models.Model):
         return _(u"Réponse de Dpd:\n"
                  u"%(ws_exception)s\n%(resolution)s"
                  % param_message)
-
-    @api.multi
-    def _get_colis_id(self):
-        sequence = self.env['ir.sequence'].next_by_code("dpd.nrecep.number")
-        # this is prefixe by year_ so split it for use in shp: info
-        list = sequence.split('_')
-        # start by many zero so stringyfy before return to keep 8digits
-        return str(list[1])
