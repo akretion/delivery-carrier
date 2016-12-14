@@ -5,7 +5,7 @@
 #          Sébastien BEAU
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import _, api, models
+from openerp import api, models
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -23,7 +23,6 @@ class StockQuantPackage(models.Model):
         request['service']['agencyId'] = service['agencyId']
         # TODO passer contexte multi compagny ou multi compte à la sequence"
         shp = self._get_colis_id()
-        _logger.warning('shp: %s', (shp))
         request['service']['shippingId'] = shp
 
         return request
@@ -64,19 +63,6 @@ class StockQuantPackage(models.Model):
         else:
             message = "Error Unknown"
             return message
-
-    @api.model
-    def format_one_exception(self, message, map_responses):
-        param_message = {
-            'ws_exception':
-                u'%s\n' % message['message'],
-            'resolution': u''}
-        if message and message.get('id') in map_responses.keys():
-            param_message['resolution'] = _(u"Résolution\n-------------\n%s" %
-                                            map_responses[message['id']])
-        return _(u"Réponse de Geodis:\n"
-                 u"%(ws_exception)s\n%(resolution)s"
-                 % param_message)
 
     @api.multi
     def _get_colis_id(self):
