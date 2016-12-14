@@ -214,12 +214,12 @@
 
     <record id="delivery_carrier_COLI" model="delivery.carrier">
         <field name="name">Colissimo Expert International</field>
-        <field name="type">laposte</field>
+        <field name="carrier_type">laposte</field>
         <field name="code">COLI</field>
+        <field name="default_code">COLI</field>
         <field name="use_detailed_pricelist" eval="1"/>
         <field name="deposit_slip" eval="True"/>
         <field name="partner_id" ref="delivery_roulier_laposte.partner_la_poste"/>
-        <field name="product_id" ref="delivery_roulier_laposte.product_product_la_poste"/>
     </record>
     <record id="COLI_laposte_carrier_opt_tmpl_NM"
             model="delivery.carrier.option">
