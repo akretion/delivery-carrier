@@ -10,7 +10,6 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from datetime import datetime, timedelta
 
-
 _logger = logging.getLogger(__name__)
 
 
@@ -20,7 +19,6 @@ class StockPicking(models.Model):
     def _geodis_get_shipping_date(self, package_id):
         """Estimate shipping date."""
         self.ensure_one()
-
         shipping_date = self.min_date
         if self.date_done:
             shipping_date = self.date_done
@@ -37,14 +35,7 @@ class StockPicking(models.Model):
 
     @api.multi
     def _geodis_get_auth(self, package):
-        """Fetch a laposte login/password.
 
-        Currently it's global for the company.
-        TODO:
-            * allow multiple accounts
-            * store the password securely
-            * inject it via ENVIRONMENT variable
-        """
         self.ensure_one()
         account = self._get_account(package)
         return {

@@ -4,14 +4,18 @@ Delivery Carrier Geodis
 
 Description
 -----------
+use delivery_roulier to ask for label
+
+Known Issues:
+~~~~~~~~~~~~~
+
+Do not send the total package number information always 1/1
+work in France
 
 Company:
-~~~~~~~~~~
+~~~~~~~~~
 Some informations have to be filled on two locations :
 
-* company form (Settings > Companies > Companies):
-
-    complete address of the company, included phone
 
 * configuration form (Settings > Configuration > Carriers > Geodis) :
 

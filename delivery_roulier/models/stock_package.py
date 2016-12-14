@@ -140,6 +140,7 @@ class StockQuantPackage(models.Model):
         payload = self._before_call(picking, payload)
         try:
             # api call
+            import pdb; pdb.set_trace()
             ret = roulier_instance.get_label(payload)
         except InvalidApiInput as e:
             raise UserError(self._error_handling(payload, e.message))

@@ -15,16 +15,8 @@ class StockQuantPackage(models.Model):
     _inherit = 'stock.quant.package'
 
     def _geodis_before_call(self, picking, request):
-        # def calc_package_price():
-        #     return sum(
-        #         [op.product_id.list_price * op.product_qty
-        #             for op in self.get_operations()]
-        #     )
         # TODO _get_options is called fo each package by the result
         # is the same. Should be store after first call
-        # chercher key chain
-
-        # import pdb; pdb.set_trace()
         account = picking._get_account(self)
         service = account.get_data()
         request['service']['customerId'] = service['customerId']
@@ -33,12 +25,11 @@ class StockQuantPackage(models.Model):
         shp = self._get_colis_id()
         _logger.warning('shp: %s', (shp))
         request['service']['shippingId'] = shp
-        # _logger.warning("request : %s", (request) )
-        # _logger.warning("request %s", (request))
+
         return request
 
     def _geodis_after_call(self, picking, response):
-        # import pdb; pdb.set_trace()
+
         custom_response = {
             'name': response['barcode'],
             'data': response.get('label'),

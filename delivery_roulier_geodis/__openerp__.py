@@ -18,16 +18,10 @@
     'website': 'http://www.akretion.com/',
     'data': [
         'data/delivery.xml',
-        'views/stock_view.xml',
+        'data/keychain.xml',
         'data/sequence_geodis.xml',
     ],
-    'demo': [
-        # 'demo/res.partner.csv',
-        # 'demo/company.xml',
-        # 'demo/product.xml',
-        # 'demo/stock.picking.csv',
-        # 'demo/stock.move.csv',
-    ],
+    'demo': [],
     'installable': True,
     'license': 'AGPL-3',
 }
