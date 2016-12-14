@@ -21,6 +21,7 @@ class StockQuantPackage(models.Model):
         service = account.get_data()
         request['service']['customerId'] = service['customerId']
         request['service']['agencyId'] = service['agencyId']
+        request['service']['labelFormat'] = service['labelFormat']
         # TODO passer contexte multi compagny ou multi compte à la sequence"
         shp = self._get_colis_id()
         request['service']['shippingId'] = shp
@@ -42,6 +43,12 @@ class StockQuantPackage(models.Model):
     @api.model
     def _geodis_error_handling(self, payload, response):
         payload['auth']['password'] = '****'
+
+        def _getmessage(self, payload, response):
+            message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
+                       % (payload, response)
+            return message
+
         if 'Input error ' in response:
             # InvalidInputException
             # on met des clés plus explicites vis à vis des objets odoo
@@ -53,12 +60,10 @@ class StockQuantPackage(models.Model):
                       u'\n%s' % (payload, response, suffix)
             return message
         elif 'message' in response:
-            message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
-                      u'cat ' % (payload, response)
+            message = _getmessage(payload, response)
             return message
         elif response['status'] == 'error':
-            message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
-                      u'cat ' % (payload, response)
+            message = _getmessage(payload, response)
             return message
         else:
             message = "Error Unknown"
