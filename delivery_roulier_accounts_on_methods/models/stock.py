@@ -4,7 +4,7 @@
 
 import logging
 
-from openerp import models, api
+from openerp import models
 from openerp.exceptions import Warning as UserError
 
 _logger = logging.getLogger(__name__)
@@ -18,9 +18,14 @@ class StockPicking(models.Model):
 
         We return an account based on the delivery method's technical name"""
         self.ensure_one()
+        keychain = self.env['keychain.account']
+        if self.env.user.has_group('stock.group_stock_user'):
+            retrieve = keychain.suspend_security().retrieve
+        else:
+            retrieve = keychain.retrieve
 
         technical_name = self.carrier_id.keychain_account.technical_name
-        accounts = self.env['keychain.account'].retrieve(
+        accounts = retrieve(
             [
                 ['namespace', '=', 'roulier_%s' % self.carrier_type],
                 ['technical_name', '=', technical_name]
