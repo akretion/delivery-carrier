@@ -11,6 +11,7 @@ _logger = logging.getLogger(__name__)
 
 LAPOSTE_KEYCHAIN_NAMESPACE = 'roulier_laposte'
 
+
 class AccountProduct(models.Model):
     _inherit = 'keychain.account'
 
