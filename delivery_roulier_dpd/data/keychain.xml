@@ -2,10 +2,10 @@
 <openerp>
 <!--<data noupdate="1">-->
 <data>
-    <record id="keychain_la_poste" model="keychain.account">
-        <field name="name">La Poste default</field>
-        <field name="namespace">roulier_laposte</field>
-        <field name="technical_name">laposte_default_account</field>
+    <record id="keychain_dpd" model="keychain.account">
+        <field name="name">Dpd first</field>
+        <field name="namespace">roulier_dpd</field>
+        <field name="technical_name">dpd_default_account</field>
     </record>
 </data>
 </openerp>

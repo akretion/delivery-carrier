@@ -9,7 +9,7 @@
         <field name="is_company" eval="True"/>
         <field name="customer" eval="False"/>
         <field name="supplier" eval="True"/>
-        <field name="street">rue du GEOCOLIs</field>
+        <field name="street">rue du DPDCOLIs</field>
         <field name="zip">99999</field>
         <field name="city">XXXXXX PFC</field>
     </record>
@@ -18,7 +18,7 @@
     <record id="delivery_carrier" model="delivery.carrier">
         <field name="name">Dpd</field>
         <field name="default_code">DPD</field>
-        <field name="code">MES</field>
+        <field name="code">DPD</field>
         <field name="delivery_type">fixed</field>
         <field name="product_type">service</field>
         <field name="carrier_type">dpd</field>

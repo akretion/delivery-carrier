@@ -6,18 +6,20 @@
 
 from openerp import models, fields
 
-LAPOSTE_KEYCHAIN_NAMESPACE = 'roulier_dpd'
+DPD_KEYCHAIN_NAMESPACE = 'roulier_dpd'
 
 
 class AccountProduct(models.Model):
     _inherit = 'keychain.account'
 
     namespace = fields.Selection(
-        selection_add=[(LAPOSTE_KEYCHAIN_NAMESPACE, 'Dpd')])
+        selection_add=[(DPD_KEYCHAIN_NAMESPACE, 'Dpd')])
 
-    def _roulier_laposte_init_data(self):
+    def _roulier_dpd_init_data(self):
         return {
             "codeAgence": "",
             'is_test': True,
             'labelFormat': 'ZPL',
             }
+    def _roulier_dpd_validate_data(self, data):
+        return True
