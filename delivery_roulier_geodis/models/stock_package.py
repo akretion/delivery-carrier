@@ -44,7 +44,7 @@ class StockQuantPackage(models.Model):
     def _geodis_error_handling(self, payload, response):
         payload['auth']['password'] = '****'
 
-        def _getmessage(self, payload, response):
+        def _getmessage(payload, response):
             message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
                        % (payload, response)
             return message
