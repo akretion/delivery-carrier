@@ -6,7 +6,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
-from openerp import models, api, fields
+from openerp import models, fields
 
 _logger = logging.getLogger(__name__)
 
@@ -26,5 +26,4 @@ class AccountProduct(models.Model):
                 }
 
     def _roulier_geodis_validate_data(self, data):
-
         return True
