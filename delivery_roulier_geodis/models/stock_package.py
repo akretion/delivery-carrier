@@ -29,9 +29,8 @@ class StockQuantPackage(models.Model):
         return request
 
     def _geodis_after_call(self, picking, response):
-        import pdb; pdb.set_trace()
         custom_response = {
-            'name': response['cab'],
+            'name': response['barcode'],
             'data': response.get('label'),
         }
         self.parcel_tracking = response['barcode']
