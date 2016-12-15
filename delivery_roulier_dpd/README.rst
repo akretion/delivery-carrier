@@ -7,9 +7,7 @@ Description
 
 Company:
 ~~~~~~~~~~
-Some informations have to be filled on two locations :
 
-* company form (Settings > Companies > Companies):
 
     complete address of the company, included phone
 
