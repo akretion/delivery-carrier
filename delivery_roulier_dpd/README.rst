@@ -4,17 +4,12 @@ Delivery Carrier Dpd
 
 Description
 -----------
+use delivery_roulier to ask for label
 
-Company:
-~~~~~~~~~~
+Known Issues:
+~~~~~~~~~~~~~
 
-
-    complete address of the company, included phone
-
-* configuration form (Settings > Configuration > Carriers > Dpd) :
-
-
-
+Do not send the total package number information always 1/1
 
 Technical references
 --------------------
