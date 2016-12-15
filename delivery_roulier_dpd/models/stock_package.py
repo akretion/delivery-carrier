@@ -25,6 +25,7 @@ class StockQuantPackage(models.Model):
         request['service']['labelFormat'] = service['labelFormat']
 
         _logger.warning("request %s", (request))
+        import pdb; pdb.set_trace()
         return request
 
     def _dpd_after_call(self, picking, response):

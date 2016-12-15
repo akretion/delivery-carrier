@@ -1,4 +1,4 @@
-# coding: utf-8
+    # coding: utf-8
 #  @author Raphael Reverdy <raphael.reverdy@akretion.com>
 #          David BEAL <david.beal@akretion.com>
 #          Sébastien BEAU
@@ -20,7 +20,6 @@ class StockPicking(models.Model):
     def _dpd_get_shipping_date(self, package_id):
         """Estimate shipping date."""
         self.ensure_one()
-
         shipping_date = self.min_date
         if self.date_done:
             shipping_date = self.date_done
@@ -32,8 +31,7 @@ class StockPicking(models.Model):
         if shipping_date < tomorrow:
             # don't send in the past
             shipping_date = tomorrow
-
-        return shipping_date.strftime('%Y/%M/%d')
+        return shipping_date.strftime('%Y/%m/%d')
 
     @api.multi
     def _dpd_get_auth(self, package):
