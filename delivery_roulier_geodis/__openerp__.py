@@ -5,34 +5,23 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Delivery Carrier La Poste (fr)',
+    'name': 'Delivery Carrier Geodis (fr)',
     'version': '9.0.1.0.0',
-    'author': 'Akretion',
-    'summary': 'Generate Label for La Poste Colissimo',
+    'author': 'Akretion, Odoo Community Association (OCA)',
+    'summary': 'Generate Label for Geodis logistic',
     'maintainer': 'Akretion, Odoo Community Association (OCA)',
     'category': 'Warehouse',
     'depends': [
         'delivery_roulier',
-        'base_phone',
-        # 'delivery_carrier_deposit',
-    ],
+        'base_phone', ],
+
     'website': 'http://www.akretion.com/',
     'data': [
         'data/delivery.xml',
-        'views/stock_view.xml',
+        'data/keychain.xml',
+        'data/sequence_geodis.xml',
     ],
-    'demo': [
-        'demo/res.partner.csv',
-        'demo/company.xml',
-        'demo/product.xml',
-        'demo/stock.picking.csv',
-        'demo/stock.move.csv',
-    ],
-    'external_dependencies': {
-        'python': [
-            'roulier',
-        ]
-    },
+    'demo': [],
     'installable': True,
     'license': 'AGPL-3',
 }

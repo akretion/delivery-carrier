@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="keychain_geodis" model="keychain.account">
+        <field name="name">Geodis logistique</field>
+        <field name="namespace">roulier_geodis</field>
+        <field name="technical_name">geodis_logistique</field>
+    </record>
+</data>
+</openerp>

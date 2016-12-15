@@ -38,6 +38,8 @@ install:
   - pip install unidecode
   - pip install pycountry
   - pip install suds-jurko==0.6
+  - pip install phonenumbers
+  - pip install roulier==0.0.2-rc3
 
 script:
   - travis_run_tests

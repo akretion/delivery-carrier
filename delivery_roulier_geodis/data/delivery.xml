@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <!-- PARTNER -->
+    <record id="partner_geodis" model="res.partner">
+        <field name="name">Geodis</field>
+        <field name="is_company" eval="True"/>
+        <field name="customer" eval="False"/>
+        <field name="supplier" eval="True"/>
+        <field name="street">rue du GEOCOLIs</field>
+        <field name="zip">99999</field>
+        <field name="city">XXXXXX PFC</field>
+    </record>
+
+  <!-- DELIVERY CARRIER -->
+    <record id="delivery_carrier" model="delivery.carrier">
+        <field name="name">Geodis</field>
+        <field name="default_code">GEO</field>
+        <field name="code">MES</field>
+        <field name="delivery_type">fixed</field>
+        <field name="product_type">service</field>
+        <field name="carrier_type">geodis</field>
+        <field name="use_detailed_pricelist" eval="1"/>
+        <field name="deposit_slip" eval="True"/>
+        <field name="partner_id" ref="delivery_roulier_geodis.partner_geodis"/>
+    </record>
+
+</data>
+</openerp>
