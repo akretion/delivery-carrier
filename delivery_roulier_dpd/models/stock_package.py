@@ -1,7 +1,7 @@
 # coding: utf-8
 #  @author Raphael Reverdy <raphael.reverdy@akretion.com>
 #          David BEAL <david.beal@akretion.com>
-#           EBII MonsieurB <monsieurb@saaslys.com>
+#          EBII MonsieurB <monsieurb@saaslys.com>
 #          Sébastien BEAU
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -15,29 +15,21 @@ class StockQuantPackage(models.Model):
     _inherit = 'stock.quant.package'
 
     def _dpd_before_call(self, picking, request):
-        # import pdb; pdb.set_trace()
         account = picking._get_account(self)
         service = account.get_data()
-        # request['service']['customerId'] = service['customerId']
         request['service']['customerCountry'] = service['customerCountry']
         request['service']['customerId'] = service['customerId']
         request['service']['agencyId'] = service['agencyId']
         request['service']['labelFormat'] = service['labelFormat']
 
-        _logger.warning("request %s", (request))
         import pdb; pdb.set_trace()
         return request
 
     def _dpd_after_call(self, picking, response):
-        # import pdb; pdb.set_trace()
         custom_response = {
             'name': response['barcode'],
             'data': response.get('label'),
         }
-        if response.get('url'):
-            custom_response['url'] = response['url']
-            custom_response['type'] = 'url'
-        self.parcel_tracking = response['barcode']
         return custom_response
 
     @api.model
