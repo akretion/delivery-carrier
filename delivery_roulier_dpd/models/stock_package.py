@@ -18,18 +18,17 @@ class StockQuantPackage(models.Model):
         # import pdb; pdb.set_trace()
         account = picking._get_account(self)
         service = account.get_data()
-        # request['service']['customerId'] = service['customerId']
         request['service']['customerCountry'] = service['customerCountry']
         request['service']['customerId'] = service['customerId']
         request['service']['agencyId'] = service['agencyId']
         request['service']['labelFormat'] = service['labelFormat']
-
+        request['service']['product'] = picking.carrier_code
         _logger.warning("request %s", (request))
         import pdb; pdb.set_trace()
         return request
 
     def _dpd_after_call(self, picking, response):
-        # import pdb; pdb.set_trace()
+        import pdb; pdb.set_trace()
         custom_response = {
             'name': response['barcode'],
             'data': response.get('label'),
