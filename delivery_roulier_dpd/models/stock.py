@@ -1,4 +1,4 @@
-    # coding: utf-8
+# coding: utf-8
 #  @author Raphael Reverdy <raphael.reverdy@akretion.com>
 #          David BEAL <david.beal@akretion.com>
 #          Sébastien BEAU

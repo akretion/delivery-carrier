@@ -25,8 +25,8 @@ class StockQuantPackage(models.Model):
         request['service']['product'] = picking.carrier_code
 
         if picking.carrier_code == "DPD_Relais":
-            request['service']['dropOffLocation'] = self._dpd_dropoff_site(picking)
-        _logger.warning("request %s", (request))
+            request['service']['dropOffLocation'] \
+                = self._dpd_dropoff_site(picking)
 
         return request
 
@@ -42,7 +42,6 @@ class StockQuantPackage(models.Model):
         payload['auth']['password'] = '****'
 
         def _getmessage(payload, response):
-            import pdb; pdb.set_trace()
             message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
                        % (payload, response)
             return message
@@ -81,5 +80,5 @@ class StockQuantPackage(models.Model):
                  % param_message)
 
     @api.multi
-    def _dpd_dropoff_site(picking):
+    def _dpd_dropoff_site(self, picking):
         return 'P22895'
