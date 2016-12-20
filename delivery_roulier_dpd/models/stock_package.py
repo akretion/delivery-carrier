@@ -17,17 +17,20 @@ class StockQuantPackage(models.Model):
     def _dpd_before_call(self, picking, request):
         account = picking._get_account(self)
         service = account.get_data()
+
         request['service']['customerCountry'] = service['customerCountry']
         request['service']['customerId'] = service['customerId']
         request['service']['agencyId'] = service['agencyId']
         request['service']['labelFormat'] = service['labelFormat']
         request['service']['product'] = picking.carrier_code
+
+        if picking.carrier_code == "DPD_Relais":
+            request['service']['dropOffLocation'] = self._dpd_dropoff_site(picking)
         _logger.warning("request %s", (request))
 
         return request
 
     def _dpd_after_call(self, picking, response):
-        # import pdb; pdb.set_trace()
         custom_response = {
             'name': response['barcode'],
             'data': response.get('label'),
@@ -76,3 +79,7 @@ class StockQuantPackage(models.Model):
         return _(u"Réponse de Dpd:\n"
                  u"%(ws_exception)s\n%(resolution)s"
                  % param_message)
+
+    @api.multi
+    def _dpd_dropoff_site(picking):
+        return 'P22895'
