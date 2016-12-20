@@ -35,14 +35,7 @@ class StockPicking(models.Model):
 
     @api.multi
     def _dpd_get_auth(self, package):
-        """Fetch a laposte login/password.
 
-        Currently it's global for the company.
-        TODO:
-            * allow multiple accounts
-            * store the password securely
-            * inject it via ENVIRONMENT variable
-        """
         self.ensure_one()
         account = self._get_account(package)
         return {
