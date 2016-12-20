@@ -66,19 +66,6 @@ class StockQuantPackage(models.Model):
             message = "Error Unknown"
             return message
 
-    @api.model
-    def format_one_exception(self, message, map_responses):
-        param_message = {
-            'ws_exception':
-                u'%s\n' % message['message'],
-            'resolution': u''}
-        if message and message.get('id') in map_responses.keys():
-            param_message['resolution'] = _(u"Résolution\n-------------\n%s" %
-                                            map_responses[message['id']])
-        return _(u"Réponse de Dpd:\n"
-                 u"%(ws_exception)s\n%(resolution)s"
-                 % param_message)
-
     @api.multi
     def _dpd_dropoff_site(self, picking):
         return 'P22895'

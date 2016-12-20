@@ -35,7 +35,6 @@ class StockPicking(models.Model):
 
     @api.multi
     def _dpd_get_auth(self, package):
-
         self.ensure_one()
         account = self._get_account(package)
         return {
