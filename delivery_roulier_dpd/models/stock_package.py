@@ -5,7 +5,7 @@
 #          Sébastien BEAU
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import _, api, models
+from openerp import api, models
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -22,7 +22,10 @@ class StockQuantPackage(models.Model):
         request['service']['agencyId'] = service['agencyId']
         request['service']['labelFormat'] = service['labelFormat']
         request['service']['product'] = picking.carrier_code
-        _logger.warning("request %s", (request))
+
+        if picking.carrier_code == "DPD_Relais":
+            request['service']['dropOffLocation'] = \
+                self._dpd_dropoff_site(picking)
 
         return request
 
@@ -39,7 +42,6 @@ class StockQuantPackage(models.Model):
         payload['auth']['password'] = '****'
 
         def _getmessage(payload, response):
-            import pdb; pdb.set_trace()
             message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
                        % (payload, response)
             return message
@@ -64,15 +66,6 @@ class StockQuantPackage(models.Model):
             message = "Error Unknown"
             return message
 
-    @api.model
-    def format_one_exception(self, message, map_responses):
-        param_message = {
-            'ws_exception':
-                u'%s\n' % message['message'],
-            'resolution': u''}
-        if message and message.get('id') in map_responses.keys():
-            param_message['resolution'] = _(u"Résolution\n-------------\n%s" %
-                                            map_responses[message['id']])
-        return _(u"Réponse de Dpd:\n"
-                 u"%(ws_exception)s\n%(resolution)s"
-                 % param_message)
+    @api.multi
+    def _dpd_dropoff_site(self, picking):
+        return 'P22895'

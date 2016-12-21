@@ -51,17 +51,5 @@
         <field name="partner_id" ref="delivery_roulier_dpd.partner_dpd"/>
     </record>
 
-    <!--mode retour not available-->
-         <!--<record id="delivery_carrier_dpd_Retour" model="delivery.carrier">-->
-        <!--<field name="name">DPD Retour</field>-->
-        <!--<field name="name">DPD Retour max 20kg</field>-->
-        <!--<field name="default_code">DPD_Retour</field>-->
-        <!--<field name="code">DPD_Retour</field>-->
-        <!--<field name="carrier_type">dpd</field>-->
-        <!--<field name="use_detailed_pricelist" eval="1"/>-->
-        <!--<field name="deposit_slip" eval="True"/>-->
-        <!--<field name="partner_id" ref="delivery_roulier_dpd.partner_dpd"/>-->
-    <!--</record>-->
-
 </data>
 </openerp>

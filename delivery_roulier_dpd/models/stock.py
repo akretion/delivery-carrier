@@ -1,4 +1,4 @@
-    # coding: utf-8
+# coding: utf-8
 #  @author Raphael Reverdy <raphael.reverdy@akretion.com>
 #          David BEAL <david.beal@akretion.com>
 #          Sébastien BEAU
@@ -35,7 +35,6 @@ class StockPicking(models.Model):
 
     @api.multi
     def _dpd_get_auth(self, package):
-
         self.ensure_one()
         account = self._get_account(package)
         return {
