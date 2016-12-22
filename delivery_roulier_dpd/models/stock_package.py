@@ -41,8 +41,9 @@ class StockQuantPackage(models.Model):
         payload['auth']['password'] = '****'
 
         def _getmessage(payload, response):
-            message = u'Données transmises:\n%s\n\nExceptions levées %s\n' \
-                       % (payload, response)
+            message = u'Données transmises:\n' \
+                      u'%s\n\nExceptions levées %s' \
+                      u'\n' % (payload, response)
             return message
 
         if 'Input error ' in response:

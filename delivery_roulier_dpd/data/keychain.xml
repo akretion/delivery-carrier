@@ -2,7 +2,7 @@
 <openerp>
 <data noupdate="1">
     <record id="keychain_dpd" model="keychain.account">
-        <field name="name">Dpd first</field>
+        <field name="name">Dpd default</field>
         <field name="namespace">roulier_dpd</field>
         <field name="technical_name">dpd_default_account</field>
     </record>
