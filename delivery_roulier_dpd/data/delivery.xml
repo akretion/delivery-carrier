@@ -18,7 +18,6 @@
 
         <!-- DELIVERY CARRIER -->
     <record id="delivery_carrier_dpd_classic" model="delivery.carrier">
-        <field name="name">DPD Classic</field>
         <field name="name">DPD Classic max 30kg</field>
         <field name="default_code">DPD</field>
         <field name="code">DPD_Classic</field>
@@ -29,7 +28,6 @@
     </record>
 
      <record id="delivery_carrier_dpd_Relais" model="delivery.carrier">
-        <field name="name">DPD Relais</field>
         <field name="name">DPD Relais max 20kg</field>
         <field name="default_code">DPD_Relais</field>
         <field name="code">DPD_Relais</field>
@@ -41,7 +39,6 @@
 
 
      <record id="delivery_carrier_dpd_Predict" model="delivery.carrier">
-        <field name="name">DPD Predict</field>
         <field name="name">DPD Predict max 20kg</field>
         <field name="default_code">DPD_Predict</field>
         <field name="code">DPD_Predict</field>
