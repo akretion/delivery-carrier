@@ -54,7 +54,7 @@ class StockQuantPackage(models.Model):
         }
         if response.get('cn23'):
             custom_response['annex'] = {'cn23': response['cn23']}
-        self.parcel_tracking = response['parcelNumber']
+        picking.carrier_tracking_ref = response['parcelNumber']
         return custom_response
 
     @api.model

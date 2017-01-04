@@ -23,17 +23,24 @@ class StockQuantPackage(models.Model):
         request['service']['labelFormat'] = service['labelFormat']
         request['service']['product'] = picking.carrier_code
 
+        request['service']['reference1'] = picking.name
+        request['service']['reference2'] = picking.origin
+
         if picking.carrier_code == "DPD_Relais":
             request['service']['dropOffLocation'] = \
                 self._dpd_dropoff_site(picking)
         return request
 
     def _dpd_after_call(self, picking, response):
-        # import pdb; pdb.set_trace()
         custom_response = {
             'name': response['barcode'],
             'data': response.get('label'),
+            'annex': {
+                'parcelNumber': response.get('parcelnumber', ''),
+                'attachment': response.get('attachment'),
+            },
         }
+        picking.carrier_tracking_ref = response.get('barcode')
         return custom_response
 
     @api.model

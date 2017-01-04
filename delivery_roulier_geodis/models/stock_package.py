@@ -33,7 +33,7 @@ class StockQuantPackage(models.Model):
             'name': response['barcode'],
             'data': response.get('label'),
         }
-        self.parcel_tracking = response['barcode']
+        picking.carrier_tracking_ref = response['barcode']
         return custom_response
 
     @api.model
