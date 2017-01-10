@@ -25,6 +25,7 @@ class StockQuantPackage(models.Model):
         # TODO passer contexte multi compagny ou multi compte à la sequence"
         shp = self._get_colis_id()
         request['service']['shippingId'] = shp
+        request['service']['is_test'] = service['isTest']
 
         return request
 

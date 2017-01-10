@@ -21,6 +21,7 @@ class AccountProduct(models.Model):
         return {'agencyId': '',
                 'customerId': '',
                 'labelFormat': 'ZPL',
+                'isTest': True,
                 }
 
     def _roulier_geodis_validate_data(self, data):
