@@ -57,9 +57,10 @@ class DepositSlip(models.Model):
         @returns int
         """
         self.ensure_one()
-        lines = 14
+        lines = 13
         for picking in self.picking_ids:
-            lines += 17
+            lines += len(picking.kuehne_meta.split('\n'))
+            lines += len(picking.kuehne_meta_footer.split('\n'))
             lines += len(picking._get_packages_from_picking())
         return lines
 
