@@ -53,7 +53,7 @@ class StockQuantPackage(models.Model):
                 'epalQuantity': 0,
                 'shippingOffice': directional_code['office'],
                 'shippingRound': directional_code['round'],
-                'shippingName': picking.name,
+                'shippingName': picking.name.replace('/', '-'),
                 'mhuQuantity': len(picking._get_packages_from_picking()),
                 'weight': picking.weight,
                 'volume': picking.volume,
@@ -87,11 +87,12 @@ class StockQuantPackage(models.Model):
 
     def _kuehne_after_call(self, picking, response):
         self.kuehne_meta = response['parcel']
+        self.parcel_tracking = response['parcelNumber']
         picking.kuehne_meta = response['line']
         picking.kuehne_meta_footer = response['footer']
+        picking.carrier_tracking_ref = response['trackingNumber']
         return {
             "data": response['zpl'],
-            "tracking_id": "",
             "name": self.name,
         }
 
