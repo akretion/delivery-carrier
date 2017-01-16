@@ -10,6 +10,8 @@
 ##############################################################################
 
 from openerp import models, fields, api
+from openerp.exceptions import Warning as UserError
+from openerp.tools.translate import _
 
 
 class StockQuantPackage(models.Model):
@@ -19,6 +21,16 @@ class StockQuantPackage(models.Model):
         "meta",
         help="Needed for deposit slip",
     )
+
+    @api.model
+    def _get_tracking_url(self, picking):
+        res = super(StockQuantPackage, self)._get_tracking_url(picking)
+        if picking.carrier_id.type == 'kuehne':
+            if not picking.carrier_tracking_ref:
+                raise UserError(_('No tracking reference for the delivery %s' % picking.name))
+            res = "https://espace-services.kuehne-nagel-road.fr/redirect.aspx?IdExpediteur=%s&RefExpediteur=%s" % (
+                picking.picking_type_id.warehouse_id.kuehne_invoicing_contract, picking.carrier_tracking_ref)
+        return res
 
     @api.multi
     def kuehne_get_meta(self):
