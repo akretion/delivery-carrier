@@ -388,3 +388,8 @@ msgstr "ou"
 msgid "{'readonly': [('state','=','done')]}"
 msgstr "{'readonly': [('state','=','done')]}"
 
+#. module: delivery_roulier_kuehne_nagel
+#: field:kuehne.nagel.config.settings,kuehne_label_logo:0
+#: field:stock.warehouse,kuehne_label_logo:0
+msgid "Logo for Kuehne Shipping Label"
+msgstr "Logo pour étiquette de livraison Kuehne & Nagel"

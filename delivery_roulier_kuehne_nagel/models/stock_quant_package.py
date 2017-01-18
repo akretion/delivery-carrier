@@ -79,7 +79,8 @@ class StockQuantPackage(models.Model):
                 'deliveryType': picking.kuehne_delivery_type.upper(),
                 'serviceSystem': warehouse.kuehne_service_system,
                 'note': picking.note and picking.note or '',
-                'kuehneOfficeName': office_name
+                'kuehneOfficeName': office_name,
+                'labelLogo': warehouse.kuehne_label_logo,
             }
         })
         request['to_address']['contact'] = picking.partner_id.name

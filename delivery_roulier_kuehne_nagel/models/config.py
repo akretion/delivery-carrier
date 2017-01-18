@@ -36,6 +36,7 @@ class KuehneNagelConfigSettings(models.TransientModel):
         related='warehouse_id.kuehne_vat_config')
     kuehne_invoicing_contract = fields.Char(
         related='warehouse_id.kuehne_invoicing_contract')
+    kuehne_label_logo = fields.Text(related='warehouse_id.kuehne_label_logo')
 
     @api.onchange('warehouse_id')
     def onchange_warehouse_id(self):
@@ -52,3 +53,4 @@ class KuehneNagelConfigSettings(models.TransientModel):
         self.kuehne_shipping_config = warehouse_id.kuehne_shipping_config
         self.kuehne_vat_config = warehouse_id.kuehne_vat_config
         self.kuehne_invoicing_contract = warehouse_id.kuehne_invoicing_contract
+        self.kuehne_label_logo = warehouse_id.kuehne_label_logo
