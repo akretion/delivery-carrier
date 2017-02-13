@@ -91,14 +91,21 @@ class StockQuantPackage(models.Model):
         # dest is attached territory (like Groenland, Canaries)
         # dest is is Outre-mer
         #
+        # If origin is not France metropole, this implementation may be wrong.
         # see https://boutique.laposte.fr/_ui/doc/formalites_douane.pdf
-        # Return true when not in metropole.
-        international_products = (
-            'COM', 'CDS',  # outre mer
-            'COLI', 'CORI',  # colissimo international
-            'BOM', 'BDP', 'BOS', 'CMT',  # So Colissimo international
-        )
-        return picking.carrier_code.upper() in international_products
+        sender_is_intrastat = picking._get_sender(self).country_id.intrastat
+        receiver_is_intrastat = (
+            picking._get_receiver(self).country_id.intrastat)
+        if sender_is_intrastat:
+            if receiver_is_intrastat:
+                return False  # national or within UE
+            else:
+                return True  # internationnal shipping
+        else:
+            _logger.warning(
+                'Customs may be not needed for picking %s'
+                % picking.id)
+            return True
 
     @api.model
     def _laposte_error_handling(self, payload, response):
