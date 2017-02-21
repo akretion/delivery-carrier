@@ -66,6 +66,9 @@ class KuehneDirectionalCode(models.Model):
                 self._context['partner_shipping_id'])
             args += [
                 ['country_to_id', '=', partner.country_id.id],
+                '|',
+                ['city_to', '=', partner.city],
+                '&',
                 ['first_zip', '<=', partner.zip],
                 ['last_zip', '>=', partner.zip]]
         results = super(KuehneDirectionalCode, self).name_search(
@@ -91,6 +94,19 @@ class KuehneDirectionalCode(models.Model):
                     conv_city = city.lower().replace("'", '')
                     if code.city_to.lower() == conv_city:
                         directional_code = code
+        else:
+            first_zip_state = '%s000' % zip_code[:2]
+            last_zip_state = '%s999' % zip_code[:2]
+            directional_codes = self.search([
+                ('start_date', '<=', fields.Date.today()),
+                ('country_from_id', '=', country_from),
+                ('country_to_id', '=', country_to),
+                ('first_zip', '>=', first_zip_state),
+                ('last_zip', '<=', last_zip_state),
+                ('city_to', '=', city)
+            ])
+            if len(directional_codes) == 1:
+                directional_code = directional_codes
         return directional_code
 
     @api.model
