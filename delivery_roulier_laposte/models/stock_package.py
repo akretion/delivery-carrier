@@ -108,60 +108,68 @@ class StockQuantPackage(models.Model):
             return True
 
     @api.model
-    def _laposte_error_handling(self, payload, response):
+    def _laposte_invalid_api_input_handling(self, payload, exception):
         payload['auth']['password'] = '****'
-        ret_mess = ''
-        if response.get('api_call_exception'):
-            # InvalidInputException
-            # on met des clés plus explicites vis à vis des objets odoo
-            suffix = (
-                u"\nSignification des clés dans le contexte Odoo:\n"
-                u"- 'to_address' : adresse du destinataire (votre client)\n"
-                u"- 'from_address' : adresse de l'expéditeur (vous)")
-            message = u'Données transmises:\n%s\n\nExceptions levées%s\n%s' % (
-                payload, response, suffix)
-            return message
-        elif response.get('messages'):
-            # Webservice error
-            # on contextualise les réponses ws aux objets Odoo
-            map_responses = {
-                30204:
-                    u"La 2eme ligne d'adresse du client partenaire "
-                    u"est vide ou invalide",
-                30221:
-                    u"Le telephone du client ne doit comporter que des "
-                    u"chiffres ou le symbole +: convertissez tous vos N° de "
-                    u"telephone au format standard a partir du menu suivant:\n"
-                    u"Configuration > Technique > Telephonie > Reformate "
-                    u"les numeros de telephone ",
-                30100:
-                    u"La seconde ligne d'adresse de l'expéditeur est "
-                    u"vide ou invalide.",
-            }
-            parts = []
-            request = response['response'].request.body
-            if self._uid > 1:
-                request = '%s<password>****%s' % (
-                    request[:request.index('<password>')],
-                    request[request.index('</password>'):])
-            for message in response.get('messages'):
-                parts.append(self.format_one_exception(message, map_responses))
+        response = exception.message
+        # on met des clés plus explicites vis à vis des objets odoo
+        suffix = (
+            u"\nSignification des clés dans le contexte Odoo:\n"
+            u"- 'to_address' : adresse du destinataire (votre client)\n"
+            u"- 'from_address' : adresse de l'expéditeur (vous)")
+        message = u'Données transmises:\n%s\n\nExceptions levées%s\n%s' % (
+            payload, response, suffix)
+        return message
 
-            ret_mess = _(u"Incident\n-----------\n%s\n"
-                         u"Données transmises:\n"
-                         u"-----------------------------\n%s\n\nWS: %s") % (
-                u'\n'.join(parts), request.decode('utf-8'), LAPOSTE_WS)
+    def _laposte_carrier_error_handling(self, payload, exception):
+        response = exception.response
+        request = response.request.body
+
+        if self._uid > 1:
+            # rm pwd from dict and xml
+            payload['auth']['password'] = '****'
+            request = '%s<password>****%s' % (
+                request[:request.index('<password>')],
+                request[request.index('</password>'):]
+            )
+
+        # Webservice error
+        # on contextualise les réponses ws aux objets Odoo
+        map_responses = {
+            30204:
+                u"La 2eme ligne d'adresse du client partenaire "
+                u"est vide ou invalide",
+            30221:
+                u"Le telephone du client ne doit comporter que des "
+                u"chiffres ou le symbole +: convertissez tous vos N° de "
+                u"telephone au format standard a partir du menu suivant:\n"
+                u"Configuration > Technique > Telephonie > Reformate "
+                u"les numeros de telephone ",
+            30100:
+                u"La seconde ligne d'adresse de l'expéditeur est "
+                u"vide ou invalide.",
+        }
+
+        def format_one_exception(message, map_responses):
+            param_message = {
+                'ws_exception':
+                    u'%s\n' % message['message'],
+                'resolution': u''}
+            if message and message.get('id') in map_responses.keys():
+                param_message['resolution'] = _(
+                    u"Résolution\n-------------\n%s" %
+                    map_responses[message['id']]
+                )
+            return _(u"Réponse de Laposte:\n"
+                     u"%(ws_exception)s\n%(resolution)s"
+                     % param_message)
+
+        parts = []
+        for messages in exception:
+            for message in messages:
+                parts.append(format_one_exception(message, map_responses))
+
+        ret_mess = _(u"Incident\n-----------\n%s\n"
+                     u"Données transmises:\n"
+                     u"-----------------------------\n%s\n\nWS: %s") % (
+            u'\n'.join(parts), request.decode('utf-8'), LAPOSTE_WS)
         return ret_mess
-
-    @api.model
-    def format_one_exception(self, message, map_responses):
-        param_message = {
-            'ws_exception':
-                u'%s\n' % message['message'],
-            'resolution': u''}
-        if message and message.get('id') in map_responses.keys():
-            param_message['resolution'] = _(u"Résolution\n-------------\n%s" %
-                                            map_responses[message['id']])
-        return _(u"Réponse de Laposte:\n"
-                 u"%(ws_exception)s\n%(resolution)s"
-                 % param_message)
