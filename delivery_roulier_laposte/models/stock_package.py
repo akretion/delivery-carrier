@@ -46,32 +46,6 @@ class StockQuantPackage(models.Model):
         request['service']['returnTypeChoice'] = 3  # do not return to sender
         return request
 
-    def _laposte_after_call(self, picking, response):
-        # CN23 is included in the pdf url
-        custom_response = {
-            'name': response['parcelNumber'],
-            'data': response.get('label'),
-        }
-        if response.get('cn23'):
-            custom_response['annex'] = {'cn23': response['cn23']}
-        self.parcel_tracking = response['parcelNumber']
-        return custom_response
-
-    @api.model
-    def _laposte_prepare_label(self, picking, label):
-        data = super(StockQuantPackage, self)._roulier_prepare_label(
-            picking, label)
-        if label.get('annex') and label['annex'].get('cn23'):
-            cn23 = {
-                'name': 'cn23_%s.pdf' % label['name'],
-                'res_id': picking.id,
-                'res_model': 'stock.picking',
-                'datas': label['annex']['cn23'].encode('base64'),
-                'type': 'binary'
-            }
-            self.env['ir.attachment'].create(cn23)
-        return data
-
     @api.multi
     def _laposte_get_customs(self, picking):
         """ see _roulier_get_customs() docstring

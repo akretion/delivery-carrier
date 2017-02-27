@@ -31,15 +31,6 @@ class StockQuantPackage(models.Model):
             request['service']['notifications'] = 'No'
         return request
 
-    def _dpd_after_call(self, picking, response):
-        # import pdb; pdb.set_trace()
-        custom_response = {
-            'name': response['barcode'],
-            'data': response.get('label'),
-        }
-        self.parcel_tracking = response['barcode']
-        return custom_response
-
     @api.multi
     def _dpd_dropoff_site(self, picking):
         return ''  # like P22895 TODO implement this
@@ -53,4 +44,9 @@ class StockQuantPackage(models.Model):
         if self._uid > 1:
             # rm pwd from dict and xml
             payload['auth']['password'] = '****'
+<<<<<<< HEAD
         return self._roulier_carrier_error_handling(payload, exception)
+=======
+
+        return self._roulier_carrier_error_handling(payload, exception)
+>>>>>>> Refactore error handling
