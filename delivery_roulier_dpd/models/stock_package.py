@@ -44,9 +44,4 @@ class StockQuantPackage(models.Model):
         if self._uid > 1:
             # rm pwd from dict and xml
             payload['auth']['password'] = '****'
-<<<<<<< HEAD
         return self._roulier_carrier_error_handling(payload, exception)
-=======
-
-        return self._roulier_carrier_error_handling(payload, exception)
->>>>>>> Refactore error handling
