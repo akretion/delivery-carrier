@@ -67,7 +67,7 @@ class KuehneDirectionalCode(models.Model):
             args += [
                 ['country_to_id', '=', partner.country_id.id],
                 '|',
-                ['city_to', '=', partner.city],
+                ['city_to', '=', partner.city.upper()],
                 '&',
                 ['first_zip', '<=', partner.zip],
                 ['last_zip', '>=', partner.zip]]
@@ -91,8 +91,8 @@ class KuehneDirectionalCode(models.Model):
                 directional_code = directional_codes
             else:
                 for code in directional_codes:
-                    conv_city = city.lower().replace("'", '')
-                    if code.city_to.lower() == conv_city:
+                    conv_city = city.upper().replace("'", '')
+                    if code.city_to == conv_city:
                         directional_code = code
         else:
             first_zip_state = '%s000' % zip_code[:2]
@@ -103,7 +103,7 @@ class KuehneDirectionalCode(models.Model):
                 ('country_to_id', '=', country_to),
                 ('first_zip', '>=', first_zip_state),
                 ('last_zip', '<=', last_zip_state),
-                ('city_to', '=', city)
+                ('city_to', '=', city.upper())
             ])
             if len(directional_codes) == 1:
                 directional_code = directional_codes
