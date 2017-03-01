@@ -147,3 +147,9 @@ class StockQuantPackage(models.Model):
                      u"-----------------------------\n%s\n\nWS: %s") % (
             u'\n'.join(parts), request.decode('utf-8'), LAPOSTE_WS)
         return ret_mess
+
+    def _laposte_get_tracking_link(self):
+        return (
+            "https://www.colissimo.fr/"
+            "portail_colissimo/suivreResultat.do?"
+            "parcelnumber=%s" % self.parcel_tracking)
