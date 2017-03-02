@@ -91,7 +91,7 @@ class KuehneDirectionalCode(models.Model):
                 directional_code = directional_codes
             else:
                 for code in directional_codes:
-                    conv_city = city.upper().replace("'", '')
+                    conv_city = city.upper().replace("'", ' ')
                     if code.city_to == conv_city:
                         directional_code = code
         else:
@@ -103,7 +103,7 @@ class KuehneDirectionalCode(models.Model):
                 ('country_to_id', '=', country_to),
                 ('first_zip', '>=', first_zip_state),
                 ('last_zip', '<=', last_zip_state),
-                ('city_to', '=', city.upper())
+                ('city_to', '=', city.upper().replace("'", ' '))
             ])
             if len(directional_codes) == 1:
                 directional_code = directional_codes
