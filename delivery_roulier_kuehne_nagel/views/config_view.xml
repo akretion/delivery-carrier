@@ -40,6 +40,7 @@
         <field name="kuehne_shipping_config" class="oe_inline"/>
         <field name="kuehne_vat_config" class="oe_inline"/>
         <field name="kuehne_invoicing_contract" class="oe_inline"/>
+        <field name="kuehne_tracking_url" class="oe_inline"/>
         <field name="kuehne_label_logo" class="oe_inline"/>
             <!--<button name="button_send_image_to_printer" type="object"-->
         <!--        string="Envoyer les images a l'imprimante"-->

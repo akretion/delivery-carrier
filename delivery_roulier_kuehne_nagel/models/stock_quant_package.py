@@ -27,9 +27,13 @@ class StockQuantPackage(models.Model):
         res = super(StockQuantPackage, self)._get_tracking_url(picking)
         if picking.carrier_id.type == 'kuehne':
             if not picking.carrier_tracking_ref:
-                raise UserError(_('No tracking reference for the delivery %s' % picking.name))
-            res = "https://espace-services.kuehne-nagel-road.fr/redirect.aspx?IdExpediteur=%s&RefExpediteur=%s" % (
-                picking.picking_type_id.warehouse_id.kuehne_invoicing_contract, picking.carrier_tracking_ref)
+                raise UserError(_(
+                    'No tracking reference for the delivery %s' % picking.name
+                ))
+            warehouse = picking.picking_type_id.warehouse_id
+            res = warehouse.kuehne_tracking_url % (
+                warehouse.kuehne_invoicing_contract,
+                picking.carrier_tracking_ref)
         return res
 
     @api.multi
@@ -48,11 +52,12 @@ class StockQuantPackage(models.Model):
             picking.company_id.country_id.code.upper(),
             picking.company_id.zip,
             picking.company_id.city)
+        contract = warehouse.kuehne_delivery_contract
         map_delivery_contract = {
             'gsp': 'F',
             'gfx': 'D',
         }
-        label_delivery_contract = map_delivery_contract.get(warehouse.kuehne_delivery_contract, 'C')
+        label_delivery_contract = map_delivery_contract.get(contract, 'C')
         if picking.date_done:
             shipping_date = fields.Date.from_string(picking.date_done)
         else:
@@ -69,7 +74,7 @@ class StockQuantPackage(models.Model):
                 'mhuQuantity': len(picking._get_packages_from_picking()),
                 'weight': picking.weight,
                 'volume': picking.volume,
-                'deliveryContract': warehouse.kuehne_delivery_contract and warehouse.kuehne_delivery_contract.upper() or '',
+                'deliveryContract': contract and contract.upper() or '',
                 'labelDeliveryContract': label_delivery_contract,
                 'exportHub': directional_code['export_hub'],
                 'orderName': picking.sale_id.name,
@@ -108,7 +113,6 @@ class StockQuantPackage(models.Model):
             "data": response['zpl'],
             "name": self.name,
         }
-
 
     @api.model
     def _kuehne_error_handling(self, payload, response):

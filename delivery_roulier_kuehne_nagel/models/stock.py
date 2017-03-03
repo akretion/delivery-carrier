@@ -10,10 +10,7 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.exceptions import Warning as UserError
-
-from datetime import datetime, timedelta
 
 
 class StockPicking(models.Model):
@@ -43,10 +40,11 @@ class StockPicking(models.Model):
 
     def _kuehne_get_directional_code(self):
         directional_code = False
+        directional_code_obj = self.env['kuehne.directional.code']
         if self.sale_id and self.sale_id.directional_code_id:
             directional_code = self.sale_id.directional_code_id
         else:
-            directional_code = self.env['kuehne.directional.code']._search_directional_code(
+            directional_code = directional_code_obj._search_directional_code(
                 self.company_id.country_id.id,
                 self.partner_id.country_id.id,
                 self.partner_id.zip,

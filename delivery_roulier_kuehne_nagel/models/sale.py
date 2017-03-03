@@ -27,9 +27,9 @@ class SaleOrder(models.Model):
         """
         self.ensure_one()
         res = super(SaleOrder, self).action_button_confirm()
+        tmp = 'delivery_roulier_kuehne_nagel.missing_directional_code_template'
         if not self.directional_code_id:
-            email_template = self.env.ref(
-                'delivery_roulier_kuehne_nagel.missing_directional_code_template')
+            email_template = self.env.ref(tmp)
             email_template.send_mail(self.id)
         return res
 
@@ -38,9 +38,10 @@ class SaleOrder(models.Model):
             self, company_id, partner_id, delivery_id, fiscal_position):
         res = super(SaleOrder, self).onchange_delivery_id(
             company_id, partner_id, delivery_id, fiscal_position)
+        directional_code_obj = self.env['kuehne.directional.code']
         if delivery_id:
             partner = self.env['res.partner'].browse(delivery_id)
-            code = self.env['kuehne.directional.code']._search_directional_code(
+            code = directional_code_obj._search_directional_code(
                 self.company_id.country_id.id,
                 partner.country_id.id,
                 partner.zip,

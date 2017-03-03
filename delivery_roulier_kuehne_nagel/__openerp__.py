@@ -44,10 +44,13 @@ Contributors
         'security/ir.model.access.csv',
     ],
     'demo': [
-        #   'demo/res.partner.csv',
-        #   'demo/company.xml',
-        #   'demo/product.xml',
     ],
+    'external_dependencies': {
+        'python': [
+            'roulier',
+            'unicodecsv',
+        ],
+    },
     'tests': [],
     'installable': True,
     'auto_install': False,

@@ -24,12 +24,13 @@ class DepositSlip(models.Model):
         date = now.date().strftime('%y%m%d')
         hour = now.time().strftime('%H%M')
         warehouse = self.picking_type_id.warehouse_id
+        contract = warehouse.kuehne_delivery_contract
         data = {
             'service': {
                 'date': date,
                 'hour': hour,
                 'depositNumber': self.name,
-                'deliveryContract': warehouse.kuehne_delivery_contract and warehouse.kuehne_delivery_contract.upper() or '',
+                'deliveryContract': contract and contract.upper() or '',
                 'shippingConfig': warehouse.kuehne_shipping_config.upper(),
                 'vatConfig': warehouse.kuehne_vat_config.upper(),
                 'invoicingContract': warehouse.kuehne_invoicing_contract,
