@@ -104,13 +104,13 @@ class StockQuantPackage(models.Model):
         return request
 
     def _kuehne_after_call(self, picking, response):
-        self.kuehne_meta = response['parcel']
-        self.parcel_tracking = response['parcelNumber']
-        picking.kuehne_meta = response['line']
-        picking.kuehne_meta_footer = response['footer']
-        picking.carrier_tracking_ref = response['trackingNumber']
+        self.kuehne_meta = response['deposit']['parcel']
+        self.parcel_tracking = response['tracking']['parcel']
+        picking.kuehne_meta = response['deposit']['line']
+        picking.kuehne_meta_footer = response['deposit']['footer']
+        picking.carrier_tracking_ref = response['tracking']['number']
         return {
-            "data": response['zpl'],
+            "data": response['label']['data'],
             "name": self.name,
         }
 
