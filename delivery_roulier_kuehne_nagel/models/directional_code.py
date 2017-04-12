@@ -56,6 +56,12 @@ class KuehneDirectionalCode(models.Model):
         return res
 
     @api.model
+    def convert_city_name(self, city):
+        return city.upper().replace("'", ' ').replace(' CEDEX', ''
+            ).replace('SAINT ', 'ST ').replace(u'É', 'E').replace(u'È', 'E'
+            ).replace(u'À', 'A')
+
+    @api.model
     def name_search(self, name, args=None, operator='ilike', limit=80):
         if self._context.get('company_id'):
             company = self.env['res.company'].browse(
@@ -64,10 +70,11 @@ class KuehneDirectionalCode(models.Model):
         if self._context.get('partner_shipping_id'):
             partner = self.env['res.partner'].browse(
                 self._context['partner_shipping_id'])
+            city = self.convert_city_name(partner.city)
             args += [
                 ['country_to_id', '=', partner.country_id.id],
                 '|',
-                ['city_to', '=', partner.city.upper()],
+                ['city_to', '=', city],
                 '&',
                 ['first_zip', '<=', partner.zip],
                 ['last_zip', '>=', partner.zip]]
@@ -91,19 +98,20 @@ class KuehneDirectionalCode(models.Model):
                 directional_code = directional_codes
             else:
                 for code in directional_codes:
-                    conv_city = city.upper().replace("'", ' ')
+                    conv_city = self.convert_city_name(partner.city)
                     if code.city_to == conv_city:
                         directional_code = code
         else:
             first_zip_state = '%s000' % zip_code[:2]
             last_zip_state = '%s999' % zip_code[:2]
+            city = self.convert_city_name(partner.city)
             directional_codes = self.search([
                 ('start_date', '<=', fields.Date.today()),
                 ('country_from_id', '=', country_from),
                 ('country_to_id', '=', country_to),
                 ('first_zip', '>=', first_zip_state),
                 ('last_zip', '<=', last_zip_state),
-                ('city_to', '=', city.upper().replace("'", ' '))
+                ('city_to', '=', city),
             ])
             if len(directional_codes) == 1:
                 directional_code = directional_codes
