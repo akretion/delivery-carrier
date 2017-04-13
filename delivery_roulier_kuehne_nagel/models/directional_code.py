@@ -98,13 +98,13 @@ class KuehneDirectionalCode(models.Model):
                 directional_code = directional_codes
             else:
                 for code in directional_codes:
-                    conv_city = self.convert_city_name(partner.city)
+                    conv_city = self.convert_city_name(city)
                     if code.city_to == conv_city:
                         directional_code = code
         else:
             first_zip_state = '%s000' % zip_code[:2]
             last_zip_state = '%s999' % zip_code[:2]
-            city = self.convert_city_name(partner.city)
+            city = self.convert_city_name(city)
             directional_codes = self.search([
                 ('start_date', '<=', fields.Date.today()),
                 ('country_from_id', '=', country_from),
