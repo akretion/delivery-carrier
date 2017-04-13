@@ -57,9 +57,9 @@ class KuehneDirectionalCode(models.Model):
 
     @api.model
     def convert_city_name(self, city):
-        return city.upper().replace("'", ' ').replace(' CEDEX', ''
-            ).replace('SAINT ', 'ST ').replace(u'É', 'E').replace(u'È', 'E'
-            ).replace(u'À', 'A')
+        return city.upper().replace("'", ' ').replace('-', ' '
+            ).replace(' CEDEX', '').replace('SAINT ', 'ST ').replace(u'É', 'E'
+            ).replace(u'È', 'E').replace(u'À', 'A').replace(u'’', ' ')
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=80):
