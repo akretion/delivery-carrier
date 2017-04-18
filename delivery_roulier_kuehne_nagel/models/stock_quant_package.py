@@ -70,7 +70,7 @@ class StockQuantPackage(models.Model):
                 'epalQuantity': 0,
                 'shippingOffice': directional_code['office'],
                 'shippingRound': directional_code['round'],
-                'shippingName': picking.name.replace('/', '-'),
+                'shippingName': picking.name.replace('/', ''),
                 'mhuQuantity': len(picking._get_packages_from_picking()),
                 'weight': picking.weight,
                 'volume': picking.volume,
