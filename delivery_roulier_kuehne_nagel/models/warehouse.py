@@ -36,3 +36,4 @@ class StockWarehouse(models.Model):
     kuehne_invoicing_contract = fields.Char(string="Invoicing contract number")
     kuehne_label_logo = fields.Text(string="Logo for Kuehne Shipping Label")
     kuehne_tracking_url = fields.Char(string="Kuehne Tracking Url")
+    kuehne_sender_id = fields.Char(string="Kuehne Sender ID")

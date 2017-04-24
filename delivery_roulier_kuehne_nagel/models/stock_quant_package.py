@@ -32,7 +32,7 @@ class StockQuantPackage(models.Model):
                 ))
             warehouse = picking.picking_type_id.warehouse_id
             res = warehouse.kuehne_tracking_url % (
-                warehouse.kuehne_invoicing_contract,
+                warehouse.kuehne_sender_id,
                 picking.carrier_tracking_ref)
         return res
 

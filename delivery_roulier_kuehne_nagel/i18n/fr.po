@@ -393,3 +393,17 @@ msgstr "{'readonly': [('state','=','done')]}"
 #: field:stock.warehouse,kuehne_label_logo:0
 msgid "Logo for Kuehne Shipping Label"
 msgstr "Logo pour étiquette de livraison Kuehne & Nagel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.model.fields,field_description:delivery_roulier_kuehne_nagel.field_kuehne_nagel_config_settings_kuehne_sender_id
+#: model:ir.model.fields,field_description:delivery_roulier_kuehne_nagel.field_stock_warehouse_kuehne_sender_id
+#: field:kuehne.nagel.config.settings,kuehne_sender_id:0
+#: field:stock.warehouse,kuehne_sender_id:0
+msgid "Kuehne Sender ID"
+msgstr "ID expéditeur Kuehne & Nagel"
+
+#. module: delivery_roulier_kuehne_nagel
+#: model:ir.model.fields,field_description:delivery_roulier_kuehne_nagel.field_kuehne_nagel_config_settings_kuehne_tracking_url
+#: field:kuehne.nagel.config.settings,kuehne_tracking_url:0
+msgid "Kuehne Tracking Url"
+msgstr "Url de suivi Kuehne & Nagel"
