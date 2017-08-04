@@ -41,6 +41,8 @@ class SaleOrder(models.Model):
         directional_code_obj = self.env['kuehne.directional.code']
         if delivery_id:
             partner = self.env['res.partner'].browse(delivery_id)
+            if not partner.zip:
+                return res
             code = directional_code_obj._search_directional_code(
                 self.company_id.country_id.id,
                 partner.country_id.id,
