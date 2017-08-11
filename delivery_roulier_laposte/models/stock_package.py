@@ -28,6 +28,10 @@ CUSTOMS_MAP = {
 class StockQuantPackage(models.Model):
     _inherit = 'stock.quant.package'
 
+    # you customize the format overriding _get_label_format()
+    # required to know what is the format after call
+    label_format = None
+
     def _laposte_before_call(self, picking, request):
         def calc_package_price():
             return sum(
@@ -45,12 +49,19 @@ class StockQuantPackage(models.Model):
         )
         request['service']['transportationAmount'] = 10  # how to set this ?
         request['service']['returnTypeChoice'] = 3  # do not return to sender
+        self.label_format, request['service']['labelFormat'] = \
+            self._get_label_format()
         return request
+
+    def _get_label_format(self):
+        # format must be in ZPL|DPL|PDF
+        format = 'ZPL'
+        return (format, format)
 
     def _laposte_after_call(self, picking, response):
         # CN23 is included in the pdf url
         custom_response = {
-            'name': response['parcelNumber'],
+            'name': '%s.%s' % (response['parcelNumber'], self.label_format),
             'data': response.get('label'),
         }
         if response.get('cn23'):
