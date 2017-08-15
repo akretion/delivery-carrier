@@ -132,6 +132,5 @@ class StockPicking(models.Model):
             address['firstName'] = partner.firstname
         # because only mobile is required
         # and phone key is used laposte roulier template
-        if address.get('mobile'):
-            address['phone'] = address.get('mobile')
+        address['phone'] = address.get('mobile', '')
         return address
