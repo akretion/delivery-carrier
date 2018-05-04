@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="laposte_roulier_backend_view_form" model="ir.ui.view">
+        <field name="model">keychain.backend.roulier</field>
+        <field name="inherit_id" ref="roulier_backend_view_form" />
+        <field name="arch" type="xml">
+            <group name="config" position="after">
+                <group name="Laposte" string="Laposte" attrs="{'invisible': [('namespace', '!=', 'roulier_laposte')]}">
+                    <field name="login" attrs="{'required': [('namespace', '=', 'roulier_laposte')]}"/>
+                    <field name="password" attrs="{'required': [('namespace', '=', 'roulier_laposte')]}"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>

@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 LAPOSTE_KEYCHAIN_NAMESPACE = 'roulier_laposte'
 
 
-class AccountProduct(models.Model):
+class KeychainAccount(models.Model):
     _inherit = 'keychain.account'
 
     namespace = fields.Selection(
@@ -23,3 +23,11 @@ class AccountProduct(models.Model):
 
     def _roulier_laposte_validate_data(self, data):
         return True
+
+
+class KeychainBackend(models.Model):
+    _inherit = 'keychain.backend.roulier'
+    _backend_name = 'roulier_laposte'
+
+    namespace = fields.Selection(
+        selection_add=[(LAPOSTE_KEYCHAIN_NAMESPACE, 'Laposte')])

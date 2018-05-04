@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="roulier_backend_view_tree" model="ir.ui.view">
+        <field name="model">keychain.backend.roulier</field>
+        <field name="arch" type="xml">
+            <tree string="Carrier Accounts">
+                <field name="name"/>
+                <field name="namespace" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="roulier_backend_view_form" model="ir.ui.view">
+        <field name="model">keychain.backend.roulier</field>
+        <field name="arch" type="xml">
+            <form string="Carrier Account">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group name="config">
+                        <field name="namespace"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="roulier_backend_view_search" model="ir.ui.view">
+        <field name="model">keychain.backend.roulier</field>
+        <field name="arch" type="xml">
+            <search string="Carrier account">
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_open_roulier_backend_view">
+        <field name="name">Carrier Accounts</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">keychain.backend.roulier</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="roulier_backend_view_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="act_open_roulier_backend_view_form">
+        <field name="act_window_id" ref="act_open_roulier_backend_view"/>
+        <field name="sequence" eval="20"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="roulier_backend_view_form"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="act_open_roulier_backend_view_tree">
+        <field name="act_window_id" ref="act_open_roulier_backend_view"/>
+        <field name="sequence" eval="10"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="roulier_backend_view_tree"/>
+    </record>
+
+
+    <menuitem id="menu_roulier_backend"
+              parent="delivery.menu_delivery"
+              sequence="10"
+              action="act_open_roulier_backend_view"/>
+
+</odoo>

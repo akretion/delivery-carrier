@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     'name': 'Delivery Carrier Roulier',
-    'version': '10.0.1.0.0',
+    'version': '10.0.1.0.1',
     'author': 'Akretion,Odoo Community Association (OCA)',
     'summary': 'Integration of multiple carriers',
     'maintainer': 'Akretion, Odoo Community Association (OCA)',
@@ -21,6 +21,7 @@
     'website': 'http://www.akretion.com/',
     'data': [
         'views/stock_quant_package.xml',
+        'views/keychain_backend.xml',
     ],
     'external_dependencies': {
         'python': [
