@@ -36,7 +36,7 @@ class KuehneDirectionalCode(models.Model):
         comodel_name='res.country',
         string='Country To'
     )
-    city_to = fields.Char('City To')
+    city_to = fields.Char('City To', index=True)
     first_zip = fields.Char('First Zip')
     last_zip = fields.Char('Last Zip')
     first_city_code = fields.Char()
