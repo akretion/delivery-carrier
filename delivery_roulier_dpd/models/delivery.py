@@ -13,5 +13,6 @@ class DeliveryCarrier(models.Model):
     def _get_carrier_type_selection(self):
         """Add Dpd carrier type."""
         res = super(DeliveryCarrier, self)._get_carrier_type_selection()
-        res.append(('dpd', 'Dpd'),)
+        res.append(('dpd', 'Dpd Legacy'),)
+        res.append(('dpd_fr', 'Dpd'),)
         return res

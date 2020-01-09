@@ -18,11 +18,11 @@ except ImportError:
 DPD_KEYCHAIN_NAMESPACE = 'roulier_dpd'
 
 
-class AccountProduct(models.Model):
+class AccountProductLegacy(models.Model):
     _inherit = 'keychain.account'
 
     namespace = fields.Selection(
-        selection_add=[(DPD_KEYCHAIN_NAMESPACE, 'Dpd')])
+        selection_add=[(DPD_KEYCHAIN_NAMESPACE, 'Dpd Legacy')])
 
     def _dpd_schema(self):
         return {
@@ -59,5 +59,67 @@ class AccountProduct(models.Model):
         ret = v.validate(data, self._dpd_schema())
         if not ret:
             _logger.info('DPD data not valid')
+            raise UserError(v.errors)
+        return ret
+
+class AccountProductDpdFR(models.Model):
+    _inherit = 'keychain.account'
+
+    namespace = fields.Selection(
+        selection_add=[('roulier_dpd_fr', 'Dpd Fr')])
+
+    def _dpd_fr_schema(self):
+        return {
+            'customerCountry': {
+                'type': 'string', 'default': 'FR',
+                'regex': '\\w{2}',
+                'required': True,
+            },
+            'customerId': {
+                'type': 'string',
+                'regex': '\\w{8}',
+                'default': '12345678',
+                'required': True,
+            },
+            'customerAddressId': {
+                'type': 'string',
+                'regex': '\\w{8}',
+                'default': '12345678',
+                'required': True,
+            },
+            "senderId":  {
+                'type': 'string',
+                'regex': '\\w{8}',
+                'default': '12345678',
+                'required': True,
+            },
+            "senderAddressId":  {
+                'type': 'string',
+                'regex': '\\w{8}',
+                'default': '12345678',
+                'required': True,
+            },
+            "senderZipCode":  {
+                'type': 'string',
+                'default': '123456',
+                'required': True,
+            },
+            'agencyId': {
+                'type': 'string',
+                'regex': '\\w{4}',
+                'default': '1234',
+                'required': True,
+            },
+            
+        }
+
+    def _roulier_dpd_fr_init_data(self):
+        return Validator().normalized({}, self._dpd_fr_schema())
+
+    def _roulier_dpd_fr_validate_data(self, data):
+        v = Validator()
+        ret = v.validate(data, self._dpd_fr_schema())
+        if not ret:
+            _logger.info('DPD FR data not valid')
             raise UserError(v.errors)
         return ret
