@@ -4,14 +4,14 @@
 
 <record id="missing_directional_code_template" model="email.template">
     <field eval="0" name="auto_delete"/>
-    <field name="email_from"></field>
-    <field name="subject">[Order ${object.name}] Missing directional code</field>
+    <field name="email_from">admin@example.com</field>
+    <field name="subject">[Order ${object.name}] Missing directionnal code</field>
     <field eval="[(6,0,[])]" name="attachment_ids"/>
     <field eval="0" name="user_signature"/>
     <field name="model_id" ref="sale.model_sale_order"/>
     <field name="email_to"></field>
     <field name="lang">${object.partner_id.lang}</field>
-    <field name="name">Missing direcitonal code</field>
+    <field name="name">Missing directionnal code</field>
     <field name="model">sale.order</field>
     <field name="body_html"><![CDATA[
 The sale order ${object.name} has no directional code for Kuehne Nagel delivery
