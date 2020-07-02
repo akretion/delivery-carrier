@@ -6,22 +6,20 @@ from odoo import models, fields, api
 
 
 class CarrierAccount(models.Model):
-    _name = 'carrier.account'
-    _description = 'Base account datas'
+    _name = "carrier.account"
+    _description = "Base account datas"
 
     @api.model
     def _selection_file_format(self):
         """ To inherit to add label file types"""
-        return [('PDF', 'PDF'),
-                ('ZPL', 'ZPL'),
-                ('XML', 'XML')]
+        return [("PDF", "PDF"), ("ZPL", "ZPL"), ("XML", "XML")]
 
     name = fields.Char(required=True)
-    account = fields.Char(string='Account Number', required=True)
-    password = fields.Char(string='Account Password', required=True)
+    account = fields.Char(string="Account Number", required=True)
+    password = fields.Char(string="Account Password", required=True)
     company_id = fields.Many2one(comodel_name="res.company", string="Company")
     file_format = fields.Selection(
-        selection='_selection_file_format',
-        string='File Format',
-        help="Default format of the carrier's label you want to print"
+        selection="_selection_file_format",
+        string="File Format",
+        help="Default format of the carrier's label you want to print",
     )

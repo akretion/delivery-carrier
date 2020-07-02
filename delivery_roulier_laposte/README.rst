@@ -59,6 +59,7 @@ Contributors
 * Benoit GUILLOT <benoit.guillot@akretion.com>
 * Sébastien BEAU <sebastien.beau@akretion.com>
 * Raphaël REVERDY <raphael.reverdy@akretion.com>
+* Tony GALMICHE <tony.galmiche@infosaone.com>
 
 Funders
 -------

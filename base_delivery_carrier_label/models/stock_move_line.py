@@ -10,11 +10,10 @@ _logger = logging.getLogger(__name__)
 
 
 class StockMoveLine(models.Model):
-    _inherit = 'stock.move.line'
+    _inherit = "stock.move.line"
 
     weight = fields.Float(
-        digits=dp.get_precision('Stock Weight'),
-        help="Weight of the pack_operation"
+        digits=dp.get_precision("Stock Weight"), help="Weight of the pack_operation"
     )
 
     @api.multi
@@ -27,8 +26,8 @@ class StockMoveLine(models.Model):
             the sum of the weight of [self]
         """
         total_weight = 0
-        kg = self.env.ref('uom.product_uom_kgm').id
-        units = self.env.ref('uom.product_uom_unit').id
+        kg = self.env.ref("uom.product_uom_kgm").id
+        units = self.env.ref("uom.product_uom_unit").id
         allowed = (False, kg, units)
         cant_calc_total = False
         for operation in self:
@@ -37,11 +36,11 @@ class StockMoveLine(models.Model):
             # if not defined we assume it's in kg
             if product.uom_id.id not in allowed:
                 _logger.warning(
-                    'Type conversion not implemented for product %s' %
-                    product.id)
+                    "Type conversion not implemented for product %s" % product.id
+                )
                 cant_calc_total = True
 
-            operation.weight = (product.weight * operation.product_qty)
+            operation.weight = product.weight * operation.product_qty
 
             total_weight += operation.weight
 

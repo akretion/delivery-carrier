@@ -8,14 +8,13 @@ from odoo import fields
 class ManifestWizardCase(TransactionCase):
     def setUp(self):
         super(ManifestWizardCase, self).setUp()
-        self.free_delivery = self.env.ref('delivery.free_delivery_carrier')
+        self.free_delivery = self.env.ref("delivery.free_delivery_carrier")
 
     def test_wizard(self):
         """Create manifest wizard.
         """
-        wizard = self.env['manifest.wizard'].create({
-            'carrier_id': self.free_delivery.id,
-            'from_date': fields.Date.today()
-        })
+        wizard = self.env["manifest.wizard"].create(
+            {"carrier_id": self.free_delivery.id, "from_date": fields.Date.today()}
+        )
         with self.assertRaises(NotImplementedError):
             wizard.get_manifest_file()
