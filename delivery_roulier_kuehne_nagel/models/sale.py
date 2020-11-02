@@ -28,7 +28,7 @@ class SaleOrder(models.Model):
         self.ensure_one()
         res = super(SaleOrder, self).action_button_confirm()
         tmp = 'delivery_roulier_kuehne_nagel.missing_directional_code_template'
-        if not self.directional_code_id:
+        if not self.directional_code_id and self.carrier_id.type == 'kuehne':
             email_template = self.env.ref(tmp)
             email_template.send_mail(self.id)
         return res
