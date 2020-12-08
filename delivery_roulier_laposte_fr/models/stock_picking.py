@@ -46,7 +46,6 @@ class StockPicking(models.Model):
         "field with a dedicated view",
     )
 
-    @api.multi
     @api.depends("option_ids")
     def _compute_check_options(self):
         insurance_opt = self.env.ref(
@@ -101,7 +100,6 @@ class StockPicking(models.Model):
             "INS": "insuranceValue",
         }
 
-    @api.multi
     def _laposte_fr_get_options(self, package):
         """Define options for the shippment.
 

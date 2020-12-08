@@ -46,14 +46,12 @@ class StockQuantPackage(models.Model):
             vals["codAmount"] = self._get_cash_on_delivery(picking)
         return vals
 
-    @api.multi
     def _laposte_fr_get_customs(self, picking):
         """see _roulier_get_customs() docstring"""
         customs = self._roulier_get_customs(picking)
         customs["category"] = CUSTOMS_MAP.get(picking.customs_category)
         return customs
 
-    @api.multi
     def _laposte_fr_should_include_customs(self, picking):
         """Choose if customs infos should be included in the WS call.
 
