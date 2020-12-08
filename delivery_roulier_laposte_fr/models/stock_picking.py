@@ -82,7 +82,7 @@ class StockPicking(models.Model):
         if self.date_done:
             shipping_date = self.date_done
         else:
-            shipping_date = self.min_date
+            shipping_date = self.scheduled_date
 
         tomorrow = datetime.now() + timedelta(1)
         if shipping_date < tomorrow:
