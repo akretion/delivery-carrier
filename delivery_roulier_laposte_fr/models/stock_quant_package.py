@@ -22,18 +22,13 @@ CUSTOMS_MAP = {
 class StockQuantPackage(models.Model):
     _inherit = "stock.quant.package"
 
-    def _laposte_fr_before_call(self, picking, payload):
-        if self._should_include_customs(picking):
-            payload["customs"] = self._get_customs(picking)
-        return payload
-
     def _laposte_fr_get_parcel(self, picking):
         vals = self._roulier_get_parcel(picking)
 
         def calc_package_price():
             return sum(
                 [
-                    op.product_id.list_price * op.product_qty
+                    op.product_id.lst_price * op.qty_done or op.product_qty
                     for op in self.get_operations()
                 ]
             )
@@ -44,6 +39,9 @@ class StockQuantPackage(models.Model):
         vals.update(picking._laposte_fr_get_options(self))
         if vals.get("COD"):
             vals["codAmount"] = self._get_cash_on_delivery(picking)
+
+        if self._should_include_customs(picking):
+            vals['customs'] = self._get_customs(picking)
         return vals
 
     def _laposte_fr_get_customs(self, picking):
