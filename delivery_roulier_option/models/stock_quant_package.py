@@ -74,8 +74,8 @@ class StockQuantPackage(models.Model):
                     % (product.display_name, product.categ_id.display_name)
                 )
 
-            article["quantity"] = "%.f" % operation.product_qty
-            article["weight"] = operation.get_weight() / operation.product_qty
+            article["quantity"] = "%.f" % operation.qty_done or operation.product_qty
+            article["weight"] = operation.get_weight() / operation.qty_done or operation.product_qty
             article["originCountry"] = product.origin_country_id.code
             article["description"] = hs.description
             article["hs"] = hs.hs_code
