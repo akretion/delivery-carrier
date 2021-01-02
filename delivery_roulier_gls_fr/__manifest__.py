@@ -3,7 +3,7 @@
 
 {
     "name": "Delivery Carrier GLS (fr)",
-    "version": "12.0.0.1.0",
+    "version": "14.0.1.0.0",
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintener": "Akretion",
     "category": "Warehouse",
