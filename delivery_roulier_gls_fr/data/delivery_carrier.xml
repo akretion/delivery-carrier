@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
 
     <!-- PRODUCT  -->
@@ -11,7 +11,7 @@
         <field name="cost_method">standard</field>
         <field name="type">service</field>
         <field name="name">Coûts de livraison - GLS</field>
-        <field name="categ_id" ref="prod_categ_carrier"/>
+        <field name="categ_id" ref="prod_categ_carrier" />
     </record>
 
     <!-- DELIVERY CARRIER -->
