@@ -10,11 +10,11 @@ class CarrierAccount(models.Model):
     def complete_gls_settings(self):
         domain = (
             self.env.ref(
-                "delivery_roulier_gls_fr."
-                "delivery_carrier_gls_agency_id").id,
+                "delivery_roulier_gls_fr." "delivery_carrier_gls_agency_id"
+            ).id,
             self.env.ref(
-                "delivery_roulier_gls_fr."
-                "delivery_carrier_gls_customer_id").id,
+                "delivery_roulier_gls_fr." "delivery_carrier_gls_customer_id"
+            ).id,
         )
         return {
             "name": "GLS settings",
