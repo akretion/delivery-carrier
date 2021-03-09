@@ -4,9 +4,7 @@
 import logging
 from datetime import date
 
-from roulier.exception import CarrierError
-
-from odoo import _, api, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -58,7 +56,7 @@ class StockPicking(models.Model):
 
     def _gls_fr_glsbox_get_service(self, account, package=None):
         self.ensure_one()
-        packages = self._get_packages_from_picking()
+        packages = self.package_ids
         gls_keys = ["carrier_gls_agency_id", "carrier_gls_customer_id"]
         config = {
             x.key: x.value
