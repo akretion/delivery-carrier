@@ -1,6 +1,3 @@
-# © 2016 Raphael REVERDY <raphael.reverdy@akretion.com>
-#        David BEAL <david.beal@akretion.com>
-#        Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
@@ -12,16 +9,18 @@
     "category": "Warehouse",
     "depends": [
         "delivery_roulier",
+        "delivery_carrier_agency",
         "delivery_carrier_deposit",
         "delivery_roulier_option",
         "l10n_fr_siret",
-        "base_phone",
     ],
     "website": "https://github.com/OCA/delivery-carrier",
     "data": [
+        "data/product.xml",
         "data/delivery.xml",
-        "data/keychain.xml",
         "data/sequence_geodis.xml",
+        "views/carrier_account_views.xml",
+        "views/delivery_carrier_agency_views.xml",
     ],
     "demo": [],
     "installable": True,
