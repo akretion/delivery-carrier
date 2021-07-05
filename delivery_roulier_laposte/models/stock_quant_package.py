@@ -28,11 +28,13 @@ class StockQuantPackage(models.Model):
     _inherit = 'stock.quant.package'
 
     def _laposte_before_call(self, picking, request):
-        def calc_package_price():
-            return sum(
-                [op.product_id.list_price * op.product_qty
-                    for op in self.get_operations()]
-            )
+        def calc_delivery_price():
+            prices = []
+            for op in self.get_operations():
+                for sale_line in op.picking_id.sale_id.order_line:
+                    if sale_line.is_delivery:
+                        prices.append(sale_line.price_total)
+            return sum(prices)
         # TODO _get_options is called fo each package by the result
         # is the same. Should be store after first call
         request['parcels'][0].update(picking._laposte_get_options(self))
@@ -40,7 +42,7 @@ class StockQuantPackage(models.Model):
             request['parcels'][0]['codAmount'] = self._get_cash_on_delivery(
                 picking)
         request['service']['totalAmount'] = '%.f' % (  # truncate to string
-            calc_package_price() * 100  # totalAmount is in centimes
+            calc_delivery_price() * 100  # totalAmount is in centimes
         )
         request['service']['returnTypeChoice'] = 3  # do not return to sender
         return request
