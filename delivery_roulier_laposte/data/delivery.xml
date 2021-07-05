@@ -226,5 +226,83 @@
         <!-- Pas de niveau de recommandation possible: seulement assurance -->
     </record>
 
+    <record id="delivery_carrier_A2P" model="delivery.carrier">
+        <field name="name">Colissimo Point Retrait - Relais Pickup France</field>
+        <field name="default_code">A2P</field>
+        <field name="code">A2P</field>
+        <field name="carrier_type">laposte</field>
+        <field name="product_type">service</field>
+        <field name="deposit_slip" eval="True"/>
+    </record>
+    <record id="A2P_laposte_carrier_opt_tmpl_NM" model="delivery.carrier.option">
+        <field name="readonly_flag" eval="True"/>
+        <field name="mandatory" eval="False"/>
+        <field name="by_default" eval="False"/>
+        <field name="carrier_id" ref="delivery_carrier_A2P"/>
+        <field name="tmpl_option_id" ref="delivery_roulier_laposte.carrier_opt_tmpl_NM"/>
+    </record>
+    <record id="A2P_laposte_carrier_opt_tmpl_INS" model="delivery.carrier.option">
+        <field name="readonly_flag" eval="True"/>
+        <field name="mandatory" eval="False"/>
+        <field name="by_default" eval="False"/>
+        <field name="carrier_id" ref="delivery_carrier_A2P"/>
+        <field name="tmpl_option_id" ref="delivery_roulier_option.carrier_opt_tmpl_INS"/>
+    </record>
+
+    <record id="delivery_carrier_BPR" model="delivery.carrier">
+        <field name="name">Colissimo Point Retrait - Bureau de Poste France</field>
+        <field name="default_code">BPR</field>
+        <field name="code">BPR</field>
+        <field name="carrier_type">laposte</field>
+        <field name="product_type">service</field>
+        <field name="deposit_slip" eval="True"/>
+    </record>
+    <record id="BPR_laposte_carrier_opt_tmpl_NM" model="delivery.carrier.option">
+        <field name="readonly_flag" eval="True"/>
+        <field name="mandatory" eval="False"/>
+        <field name="by_default" eval="False"/>
+        <field name="carrier_id" ref="delivery_carrier_BPR"/>
+        <field name="tmpl_option_id" ref="delivery_roulier_laposte.carrier_opt_tmpl_NM"/>
+    </record>
+    <record id="BPR_laposte_carrier_opt_tmpl_INS" model="delivery.carrier.option">
+        <field name="readonly_flag" eval="True"/>
+        <field name="mandatory" eval="False"/>
+        <field name="by_default" eval="False"/>
+        <field name="carrier_id" ref="delivery_carrier_BPR"/>
+        <field name="tmpl_option_id" ref="delivery_roulier_option.carrier_opt_tmpl_INS"/>
+    </record>
+
+    <record id="delivery_carrier_CMT" model="delivery.carrier">
+        <field name="name">Colissimo Point Retrait - Relais Pickup Europe</field>
+        <field name="default_code">CMT</field>
+        <field name="code">CMT</field>
+        <field name="carrier_type">laposte</field>
+        <field name="product_type">service</field>
+        <field name="deposit_slip" eval="True"/>
+    </record>
+    <record id="CMT_laposte_carrier_opt_tmpl_NM" model="delivery.carrier.option">
+        <field name="readonly_flag" eval="True"/>
+        <field name="mandatory" eval="False"/>
+        <field name="by_default" eval="False"/>
+        <field name="carrier_id" ref="delivery_carrier_CMT"/>
+        <field name="tmpl_option_id" ref="delivery_roulier_laposte.carrier_opt_tmpl_NM"/>
+    </record>
+
+    <record id="delivery_carrier_BDP" model="delivery.carrier">
+        <field name="name">Colissimo Point Retrait - Bureau de Poste Europe</field>
+        <field name="default_code">BDP</field>
+        <field name="code">BDP</field>
+        <field name="carrier_type">laposte</field>
+        <field name="product_type">service</field>
+        <field name="deposit_slip" eval="True"/>
+    </record>
+    <record id="BDP_laposte_carrier_opt_tmpl_NM" model="delivery.carrier.option">
+        <field name="readonly_flag" eval="True"/>
+        <field name="mandatory" eval="False"/>
+        <field name="by_default" eval="False"/>
+        <field name="carrier_id" ref="delivery_carrier_BDP"/>
+        <field name="tmpl_option_id" ref="delivery_roulier_laposte.carrier_opt_tmpl_NM"/>
+    </record>
+
 </data>
 </odoo>

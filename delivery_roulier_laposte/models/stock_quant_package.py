@@ -23,6 +23,8 @@ CUSTOMS_MAP = {
     'return': 6,
 }
 
+PICKUP_CARRIER_CODES = ['A2P', 'BPR', 'ACP', 'CDI', 'CMT', 'BDP', 'PCS']
+
 
 class StockQuantPackage(models.Model):
     _inherit = 'stock.quant.package'
@@ -43,7 +45,14 @@ class StockQuantPackage(models.Model):
             calc_package_price() * 100  # totalAmount is in centimes
         )
         request['service']['returnTypeChoice'] = 3  # do not return to sender
+        if picking.carrier_code in PICKUP_CARRIER_CODES:
+            request['parcels'][0]['pickupLocationId'] = \
+                self._laposte_dropoff_site(picking)
         return request
+
+    @api.multi
+    def _laposte_dropoff_site(self, picking):
+        return picking.partner_id.dropoff_site_number
 
     @api.multi
     def _laposte_get_customs(self, picking):
