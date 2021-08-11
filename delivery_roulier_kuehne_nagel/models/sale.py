@@ -27,10 +27,30 @@ class SaleOrder(models.Model):
         """
         self.ensure_one()
         res = super(SaleOrder, self).action_button_confirm()
-        tmp = 'delivery_roulier_kuehne_nagel.missing_directional_code_template'
         if not self.directional_code_id and self.carrier_id.type == 'kuehne':
-            email_template = self.env.ref(tmp)
-            email_template.send_mail(self.id)
+            self.send_missing_directional_code_email()
+        return res
+
+    @api.multi
+    def send_missing_directional_code_email(self):
+        self.ensure_one()
+        tmp = 'delivery_roulier_kuehne_nagel.missing_directional_code_template'
+        email_template = self.env.ref(tmp)
+        email_template.send_mail(self.id)
+
+    @api.multi
+    def write(self, vals):
+        # send mail for all sale orders if new carrier is kuehne and old one was not
+        # if the directional_code_id is not set.
+        orders_to_notify = self.env["sale.order"]
+        if vals.get("carrier_id"):
+            new_carrier = self.env["delivery.carrier"].browse(vals["carrier_id"])
+            if new_carrier.type == "kuehne":
+                orders_to_notify = self.filtered(
+                    lambda so: so.carrier_id.type != 'kuehne' and not so.directional_code_id and so.state in ("progress", "manual"))
+        res = super(SaleOrder, self).write(vals)
+        for order_to_notify in orders_to_notify:
+            order_to_notify.send_missing_directional_code_email()
         return res
 
     @api.multi
