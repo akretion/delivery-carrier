@@ -68,9 +68,9 @@ class StockPicking(models.Model):
         if "RDW" in options:
             if recipient["email"]:
                 if recipient["phone"]:
-                    return "P"
-                else:
                     return "M"
+                else:
+                    return "P"
             else:
                 if recipient["phone"]:
                     return "S"
