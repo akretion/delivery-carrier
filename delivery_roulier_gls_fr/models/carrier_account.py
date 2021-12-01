@@ -1,7 +1,6 @@
-# © 2019 David BEAL @ Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models
+from odoo import fields, models
 
 
 class CarrierAccount(models.Model):
@@ -23,3 +22,13 @@ class CarrierAccount(models.Model):
             "res_model": "ir.config_parameter",
             "domain": [["id", "in", domain]],
         }
+
+    gls_fr_rest_file_format = fields.Selection(
+        selection=[
+            ("PDF", "PDF"),
+            ("ZPL", "ZPL"),
+            ("PNG", "PNG"),
+        ],
+        string="GLS File Format",
+        help="Default format of the carrier's label you want to print",
+    )

@@ -8,13 +8,16 @@
             ref="base_delivery_carrier_label.carrier_account_view_form"
         />
   <field name="arch" type="xml">
+    <field name="password" position="after">
+        <field name="gls_fr_rest_file_format" attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_rest')]}"/>
+    </field>
     <xpath expr="//field[@name='company_id']" position="after">
         <button
                     type="object"
                     name="complete_gls_settings"
                     string="Complete GLS shared settings"
                     class="oe_button fa_truck"
-                    attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_glsbox')]}"
+                    attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_rest')]}"
                 />
     </xpath>
   </field>

@@ -1,57 +1,80 @@
 interactions:
-  - request:
-      body:
-        \\\\\GLS\\\\\|T8915:2505400034|T8914:2547895478|T8700:FR0094|T820:35B rue
-        Montgolfier|T810:Akretion|T822:69100|T823:Villeurbanne|T821:FR|T859:WH/OUT/00017|T854:WH/OUT/00017|T8907:WH/OUT/00017|T540:20210309|T8905:1|T8702:1|T530:01.20|T8973:1|T8904:1|T860:Carrier
-        label test customer|T8906:Carrier label test customer|T863:27 Rue Henri
-        Rolland|T330:69100|T864:VILLEURBANNE|T100:FR|/////GLS/////
-      headers:
-        Accept:
-          - "*/*"
-        Accept-Encoding:
-          - gzip, deflate
-        Connection:
-          - keep-alive
-        Content-Length:
-          - "392"
-        User-Agent:
-          - python-requests/2.21.0
-        content-type:
-          - text/plain;charset=ISO-8859-1
-      method: POST
-      uri: http://www.gls-france.com/cgi-bin/glsboxGITest.cgi
-    response:
-      body:
-        string:
-          \\\\\GLS\\\\\T8915:2505400034|T8914:2547895478|T8700:FR0094|T820:35B rue
-          Montgolfier|T810:Akretion|T822:69100|T823:Villeurbanne|T821:FR|T859:WH/OUT/00017|T854:WH/OUT/00017|T8907:WH/OUT/00017|T8905:1|T8702:1|T8973:1|T8904:1|T860:Carrier
-          label test customer|T8906:Carrier label test customer|T863:27 Rue Henri
-          Rolland|T330:69100|T864:VILLEURBANNE|T080:V214_17_0002|T520:08032021|T510:dp|T500:FR0094|T103:FR0094|T560:FR01|T8797:IBOXCUS|T540:09.03.2021|T541:23:05|T100:FR|CTRA2:FR|T1945:Les
-          informations sur la protection des donnees personnelles de GLS sont
-          disponibles
-          sur|T1946:gls-group.eu/dataprotection|T210:|ARTNO:Standard|T530:1.20|T206:BP|ALTZIP:69100|FLOCCODE:FR0071|TOURNO:1869|T320:1869|TOURTYPE:21102|SORT1:1|T310:1|T331:69100|T890:9250|ROUTENO:7071804|ROUTE1:LYN|T110:LYN|FLOCNO:4025|T101:0071|T105:FR|T300:25007113|NDI:|T400:925399469391|T8970:A|T8971:A|T805:|T8975:|T8980:AA|T8974:|T8950:Tour|T8951:ZipCode|T8952:Your
-          GLS Track ID|T8953:Product|T8954:Service Code|T8955:Delivery
-          address|T8956:Contact|T8958:Contact|T8957:Customer
-          ID|T8959:Phone|T8960:Note|T8961:Parcel|T8962:Weight|T8965:Contact
-          ID|T8976:|T8913:ZWKMH67V|T8972:ZWKMH67V|T8902:AFR0094FR007125054000342547895478ZWKMH67VAA          1LYN186969100  00120001001                                            |T8903:A\7CCarrier
-          label test customer\7C27 Rue Henri
-          Rolland\7CVILLEURBANNE\7C\7CWH/OUT/00017\7C\7C                                  |T102:FR0071|PRINTINFO:|PRINT1:|RESULT:E000:925399469391|T565:230526|PRINT0:frGLSintermecpf4i.int01|/////GLS/////
-      headers:
-        Connection:
-          - Keep-Alive
-        Content-Type:
-          - text/html
-        Date:
-          - Tue, 09 Mar 2021 22:06:02 GMT
-        Keep-Alive:
-          - timeout=5, max=100
-        Server:
-          - Apache
-        Vary:
-          - Accept-Encoding
-        content-length:
-          - "1524"
-      status:
-        code: 200
-        message: OK
+- request:
+    body: '{"shipperId": "2505400034 250aaawbn6", "shipmentDate": "2021-12-02", "labelFormat":
+      "ZPL", "labelSize": "A6", "addresses": {"delivery": {"name1": "Carrier label
+      test customer", "street1": "27 Rue Henri Rolland", "country": "FR", "zipCode":
+      "69100", "city": "VILLEURBANNE", "phone": "0707070707", "mobile": "0707070707",
+      "email": "dummy@test.fr"}, "alternativeShipper": {"name1": "Akretion", "street1":
+      "35B rue Montgolfier", "country": "FR", "zipCode": "69100", "city": "Villeurbanne",
+      "phone": "0499999999", "email": "info@yourcompany.com"}}, "parcels": [{"weight":
+      "1.20", "references": ["PACK0000012"]}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip,deflate
+      Accept-Language:
+      - en
+      Authorization:
+      - Basic MjUwdGVzdDoyNTB0ZXN0cHdk
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '607'
+      Content-Type:
+      - application/json;charset=UTF-8
+      User-Agent:
+      - python-requests/2.21.0
+    method: POST
+    uri: https://api-qs.gls-group.eu/public/v1/shipments
+  response:
+    body:
+      string: '{"labels":["fkpPDQpeWEFeRUdeWFoNCl5YQV5QTU5eTVVEDQpeTEgyMCwwXlBSNl5KTUFeQ0kyOA0KXkZPMTAsNDQ0XkdCNjE2LDI2MCwyXkZTDQpeRk8xMCw3MDJeR0I2MTYsMjQ0LDJeRlMNCl5GTzEwLDk0NF5HQjYxNiwxMzksMl5GUw0KXkZPNjI0LDQ0NF5HQjE2Miw2MzksMl5GUw0KXkZPNTcwLDEyXkdCMjI0LDkwLDkwXkZTDQpeRk8yNDgsMTNeR0I3MSw4OSw3MV5GUw0KXkZPOCw1XkdCNzg2LDksOV5GUw0KXkZPOCwxMDJeR0I3ODYsNiw2XkZTDQpeRk84LDE4NF5HQjc4Niw2LDZeRlMNCl5GTzgsMzk4XkdCNzg2LDYsNl5GUw0KXkZPOCwxOTBeR0IyNDQsMjA4LDheRlMNCl5GTzgsMjEyXkdCMjQ0LDE2NCw4LFdeRlMNCl5GTzMwLDE5MF5HQjIwMCwyMDgsOCxXXkZTDQoNCl5GTzU4MCwyOF5BME4sODBeRlJeRkQwMDcxXkZTDQpeRk8yNywxMjBeQTBOLDYyXkZEOTYyOV5GUw0KXkZPMjA2LDExMl5BME4sMTheRkheRkRaaXAgY29kZV5GUw0KXkZPMTgzLDEzOV5BME4sNDNeRkQ2OTEwMF5GUw0KXkZPMjUsMjheQTBOLDc0XkZETFlOXkZTDQpeRk80NTAsMzBeQTBOLDc0XkZERlJeRlMNCl5GTzI2MywyNV5BME4sODBeRlJeRkQyXkZTDQpeRk80MDAsMTEyXkEwTiwxOF5GSF5GRFlvdXIgR0xTIFRyYWNrIElEXkZTDQpeRk8zOTAsMTQ3XkEwTiwzNF5GRDAxQUpTODhFXkZTDQpeRk81NzAsMTM1XkEwTiw0M15GRF5GUw0KXkZPNjUwLDEzNV5BME4sNDNeRkQgIFNeRlMNCl5GTzUwLDIxNV5CWE4sNCwyMDBeRkRBRlIwMDMxRlIwMDcxMjUwNTQwMDAzNDI1MDEzNjkyMzIwMUFKUzg4RUJCICAgICAgICAgIDJMWU45NjI5NjkxMDAgIDAwMTIwMDAxMDAxMDIwMDk2MDAzOTA4MDAwMEZSICAgIDAyMDA5NjAwMzkwODAwMDBGUiAgICBeRlMNCl5GTzU5NSwyMTVeQlhOLDQsMjAwXkZEQXxDYXJyaWVyIGxhYmVsIHRlc3QgY3wyNyBSdWUgSGVucmkgUm9sbGFuZHxWSUxMRVVSQkFOTkV8ICAgICB8UEFDSzAwMDAwMTJ8fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeRlMNCl5GTzMwNSwzNTBeQTBOLDM3XkZEXkZTDQpeRk81NzIsNDE2XkEwTiwxOF5GRFJUR15GUw0KXkZPNjE2LDQxNl5BME4sMTheRkQwMTEyMjAyMV5GUw0KXkZPMjIwLDQxNl5BME4sMTheRkQyMDIxLTEyLTAyXkZTDQpeRk8zMiw0MDheQTBOLDMxXkZERlIwMDMxXkZTDQpeRk8xMzEsNDA3XkEwTiwzMV5GRHd3d15GUw0KXkZPMzQyLDQwOF5BME4sMzdeRkQxLjIwIGtnXkZTDQpeRk80ODEsNDE2XkEwTiwxOF5GRDAwMSAvIDAwMV5GUw0KXkZPNzIwLDQxNl5BME4sMTheRkRXMi4wMC4wXkZTDQpeRk80MDAsNzEyXkEwTiwxOF5GSF5GRF5GUw0KXkZPMzAsNzMwXkEwTiwzMF5GSF5GRENhcnJpZXIgbGFiZWwgdGVzdCBjdXN0b21lcl5GUw0KXkZPMzAsNzY1XkFGTiwzMF5GSF5GRF5GUw0KXkZPMzAsODAwXkFGTiwzMF5GSF5GRF5GUw0KXkZPMzAsODYwXkEwTiwzMF5GSF5GRDI3IFJ1ZSBIZW5yaSBSb2xsYW5kXkZTDQpeRk8zMCw5MTBeQUZOLDMwXkZIXkZERlIgLSA2OTEwMCBWSUxMRVVSQkFOTkVeRlMNCl5GTzc1NSw0NjBeQVFSLDheRkheRkRTaGlwcGVyICAgIEN1c3QuSUQ6IDI1MDU0MDAwMzQgLSBDb24uSUQ6IDI1MDEzNjkyMzJeRlMNCl5GTzczMCw0NjBeQURSLDExXkZIXkZEQWtyZXRpb25eRlMNCl5GTzcxMCw0NjBeQURSLDExXkZIXkZEXkZTDQpeRk82OTAsNDYwXkFEUiwxMV5GSF5GRF5GUw0KXkZPNjYwLDQ2MF5BRFIsMTFeRkheRkQzNUIgcnVlIE1vbnRnb2xmaWVyXkZTDQpeRk82MzAsNDYwXkFEUiwxMV5GSF5GREZSIC0gNjkxMDAgVmlsbGV1cmJhbm5lXkZTDQpeRk8zMCw5NTBeQVFOLDEwXkZIXkZEQ29udGFjdF5GUw0KXkZPMTI1LDk1MF5BUU4sMTBeRkheRkQ6IF5GUw0KXkZPMzAsOTc1XkFRTiwxMF5GSF5GRFBob25lXkZTDQpeRk8xMjUsOTc1XkFRTiwxMF5GSF5GRDogMDcwNzA3MDcwN15GUw0KXkZPMzAsMTAwMF5BUU4sMTBeRkheRkROb3RlMV5GUw0KXkZPMTI1LDEwMDBeQVFOLDEwXkZIXkZEOiBeRlMNCl5GTzMwLDEwMjVeQVFOLDEwXkZIXkZETm90ZTJeRlMNCl5GTzEyNSwxMDI1XkFRTiwxMF5GSF5GRDogXkZTDQpeRk8zMCwxMDUwXkFRTiwxMF5GSF5GRFJlZi4gTm9eRlMNCl5GTzEyNSwxMDUwXkFRTiwxMF5GSF5GRDogUEFDSzAwMDAwMTJeRlMNCl5GTzE4LDEwOTUsXkEwTiwyMF5GUl5GRExlcyBpbmZvcm1hdGlvbnMgc3VyIGxhIHByb3RlY3Rpb24gZGVzIGRvbm5lZXMgcGVyc29ubmVsbGVzIGRlIEdMUyBzb250IGRpc3BvbmlibGVzIHN1cl5GUw0KXkZPMTgsMTEyMCxeQTBOLDIwXkZSXkZEZ2xzLWdyb3VwLmV1L2RhdGFwcm90ZWN0aW9uXkZTDQpeRk8xOCwxMTQ1LF5BME4sMjBeRlJeRkReRlMNCl5GTzE4LDExNzAsXkEwTiwyMF5GUl5GRF5GUw0KXlBRMV5YWg0K"],"parcels":[{"parcelNumber":"01AJS88E","trackId":"01AJS88E","location":"https://qs.gls-group.eu/track/01AJS88E"}],"returns":[],"consignmentId":"01AJS88E","location":"https://qs.gls-group.eu/track/01AJS88E"}'
+    headers:
+      Access-Control-Allow-Methods:
+      - GET, PUT, POST, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=0, no-cache, must-revalidate, proxy-revalidate, private, no-store
+      Connection:
+      - Keep-Alive
+      Content-Language:
+      - en-US
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 01 Dec 2021 18:47:27 GMT
+      Expires:
+      - Wed, 01 Dec 2021 12:47:27 GMT
+      GLS-Request-ID:
+      - f5fa0ed3-2240-40cc-94b1-c9efd3ba2bcb
+      Keep-Alive:
+      - timeout=10, max=250
+      Last-Modified:
+      - Wed, 01 Dec 2021 18:47:27 GMT
+      Location:
+      - https://qs.gls-group.eu/track/01AJS88E
+      Pragma:
+      - no-cache
+      Public-Key-Pins:
+      - pin-sha256="gAquuqUkYzxw3t2ED9gc4JcP+SsTolv4I0ILuZRV7lI="; max-age=15552000;
+        includeSubDomains
+      Server:
+      - Apache
+      - Apache
+      Set-Cookie:
+      - cookiesec163=!g1S74Go5job8CChY4nJRWtytZ8iTru7Z6nIUdGEohhg1ItD4rKQL9t+LvDerHMBMzKy8iBdd7CPFOsw=;
+        path=/; Httponly; Secure
+      Strict-Transport-Security:
+      - max-age=10886400; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+    status:
+      code: 201
+      message: Created
 version: 1

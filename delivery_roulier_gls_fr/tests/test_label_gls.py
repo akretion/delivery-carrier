@@ -13,7 +13,7 @@ class GlsLabelCase(VCRMixin, carrier_label_case.CarrierLabelCase):
             {"country_id": self.env.ref("base.fr").id}
         )
         account = self.env.ref("delivery_roulier_gls_fr.carrier_account_gls")
-        account.write({"account": "2547895478"})
+        account.write({"account": "250test", "password": "250testpwd"})
 
     def _get_vcr_kwargs(self, **kwargs):
         return {
@@ -40,6 +40,8 @@ class GlsLabelCase(VCRMixin, carrier_label_case.CarrierLabelCase):
                 "street": "27 Rue Henri Rolland",
                 "zip": "69100",
                 "city": "VILLEURBANNE",
+                "email": "dummy@test.fr",
+                "mobile": "0707070707",
                 "country_id": self.env.ref("base.fr").id,
             }
         )

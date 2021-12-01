@@ -10,9 +10,9 @@ class DeliveryCarrier(models.Model):
     _inherit = "delivery.carrier"
 
     delivery_type = fields.Selection(
-        selection_add=[("gls_fr_glsbox", "GLS France")],
-        ondelete={"gls_fr_glsbox": "set default"},
+        selection_add=[("gls_fr_rest", "GLS France")],
+        ondelete={"gls_fr_rest": "set default"},
     )
 
-    def gls_fr_glsbox_get_tracking_link(self, picking):
+    def gls_fr_rest_get_tracking_link(self, picking):
         return URL_TRACKING % picking.carrier_tracking_ref
