@@ -1,10 +1,8 @@
-This module allows to get delivery zpl label for GLS carrier
+This module allows to get delivery label for GLS carrier
 
-Unibox service implementation:
+Rest Webservice implementation:
 
-- send delivery order informations and parcel info to the GLS unibox server
-- webservice routing info in background
-- label GLS Unibox generation
-
+- send delivery order informations and parcel info to the French GLS rest webservice
+- get back a label in zpl, pdf or png format
 
 GLS carrier https://gls-group.eu/

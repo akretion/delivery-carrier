@@ -17,8 +17,8 @@
     <!-- DELIVERY CARRIER -->
     <record id="delivery_carrier_gls" model="delivery.carrier">
         <field name="name">GLS group</field>
-        <field name="delivery_type">gls_fr_glsbox</field>
-        <field name="code">gls</field>
+        <field name="delivery_type">gls_fr_rest</field>
+        <field name="code">Standard</field>
         <field name="prod_environment" eval="False" />
         <field name="debug_logging" eval="True" />
         <field name="integration_level">rate_and_ship</field>
@@ -28,7 +28,7 @@
     <!-- CARRIER ACCOUNT -->
     <record id="carrier_account_gls" model="carrier.account">
         <field name="name">gls</field>
-        <field name="delivery_type">gls_fr_glsbox</field>
+        <field name="delivery_type">gls_fr_rest</field>
         <field name="account">your account number here</field>
         <field name="password">password</field>
     </record>
@@ -40,7 +40,7 @@
     </record>
     <record id="delivery_carrier_gls_agency_id" model="ir.config_parameter">
         <field name="key">carrier_gls_agency_id</field>
-        <field name="value">FR0094</field>
+        <field name="value">250aaawbn6</field>
     </record>
 
 </odoo>
