@@ -42,8 +42,8 @@ class StockPicking(models.Model):
                 "customerId": account.gls_fr_rest_customer_id,
                 "intructions": self.note or "",
                 "consignee_ref": self.name[:20],
-                "reference_1": self.origin[:20],
-                "reference_2": self.name[:20],
+                "reference_1": self.origin and self.origin[:20] or self.name[:20],
+                "reference_2": self.origin and self.name[:20] or "",
             }
         )
         incoterm_code = self._get_gls_incoterm()
