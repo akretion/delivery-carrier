@@ -26,7 +26,7 @@ class StockQuantPackage(models.Model):
         if picking.carrier_code == "DPD_Relais":
             request['service']['dropOffLocation'] = \
                 self._dpd_dropoff_site(picking)
-            request['service']['notifications'] = 'No'
+            request['service']['notifications'] = 'AutomaticSMS'
         return request
 
     @api.multi
