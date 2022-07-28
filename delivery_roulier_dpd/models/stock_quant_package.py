@@ -21,7 +21,7 @@ class StockQuantPackage(models.Model):
         request['service']['labelFormat'] = service['labelFormat']
         request['service']['product'] = picking.carrier_code
         request['service']['reference1'] = (
-            picking.sale_id.name or picking.origin)
+            picking.sale_id.name or picking.origin or picking.name)
 
         if picking.carrier_code == "DPD_Relais":
             request['service']['dropOffLocation'] = \
