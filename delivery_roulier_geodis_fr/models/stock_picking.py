@@ -223,3 +223,8 @@ class StockPicking(models.Model):
             limit=1,
         )
         return account
+
+    def _get_carrier_account_domain(self):
+        domain = super()._get_carrier_account_domain()
+        domain.append(("geodis_fr_tracking_account", "!=", True))
+        return domain
