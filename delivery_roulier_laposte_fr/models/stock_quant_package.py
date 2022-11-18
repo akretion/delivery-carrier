@@ -25,16 +25,14 @@ class StockQuantPackage(models.Model):
     def _laposte_fr_get_parcel(self, picking):
         vals = self._roulier_get_parcel(picking)
 
-        def calc_package_price():
-            return sum(
-                [
-                    op.product_id.lst_price * op.qty_done or op.product_qty
-                    for op in self.get_operations()
-                ]
-            )
-
+        # name is missleading, it is actually the cost of the transport which
+        # is expected here.
+        carrier_sale_line = picking.sale_id.order_line.filtered(lambda line: line.is_delivery)
+        # put 1 in no shipping fee in so because it is mandatory to have some value.
+        # and we have no other way to the real cost
+        shipping_cost = carrier_sale_line.price_subtotal or 1.0
         vals["totalAmount"] = "%.f" % (  # truncate to string
-            calc_package_price() * 100  # totalAmount is in centimes
+            shipping_cost * 100  # totalAmount is in centimes
         )
         vals.update(picking._laposte_fr_get_options(self))
         if vals.get("COD"):
