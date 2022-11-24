@@ -116,7 +116,7 @@ class DepositSlip(models.Model):
         try:
             edi = roulier.get(self.delivery_type, "get_edi", payload)
         except InvalidApiInput as e:
-            raise UserError(_(u"Bad input: %s\n" % str(e)))
+            raise UserError(_("Bad input: %s\n" % str(e)))
         return edi
 
     def _get_geodis_attachment_name(self, idx, payload_agency):
