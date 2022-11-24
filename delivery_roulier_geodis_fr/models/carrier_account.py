@@ -8,7 +8,7 @@ class CarrierAccount(models.Model):
 
     geodis_fr_customer_id = fields.Char(string="Customer Id")
     geodis_fr_file_format = fields.Selection(
-        [("ZPL", "ZPL")], default="ZPL", string="File Format"
+        [("ZPL", "ZPL")], default="ZPL", string="Geodis File Format"
     )
     geodis_fr_tracking_account = fields.Boolean(
         string="Is a Tracking Account",

@@ -2,7 +2,7 @@
 
 {
     "name": "Delivery Carrier Geodis (fr)",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "Akretion, Odoo Community Association (OCA)",
     "summary": "Generate Label for Geodis logistic",
     "maintainer": "Akretion, Odoo Community Association (OCA)",
@@ -12,6 +12,7 @@
         "delivery_carrier_agency",
         "delivery_carrier_deposit",
         "delivery_roulier_option",
+        "partner_helper",
         "l10n_fr_siret",
     ],
     "website": "https://github.com/OCA/delivery-carrier",

@@ -131,7 +131,7 @@ class StockPicking(models.Model):
         except InvalidApiInput as e:
             raise UserError(
                 self.env["stock.quant.package"]._invalid_api_input_handling(payload, e)
-            )
+            ) from e
         except CarrierError as e:
             errors = e.args and e.args[0]
             if (
@@ -144,7 +144,7 @@ class StockPicking(models.Model):
             else:
                 package = self.env["stock.quant.package"].new({})
                 package.carrier_id = self.carrier_id
-                raise UserError(package._carrier_error_handling(payload, e))
+                raise UserError(package._carrier_error_handling(payload, e)) from e
         return addresses
 
     def _geodis_fr_check_address(self):

@@ -5,7 +5,7 @@ from vcr_unittest import VCRMixin
 from odoo.addons.base_delivery_carrier_label.tests import carrier_label_case
 
 
-class GeodisFrLabelCase(VCRMixin, carrier_label_case.CarrierLabelCase):
+class GeodisFrLabelCase(VCRMixin, carrier_label_case.TestCarrierLabel):
     def setUp(self, *args, **kwargs):
         # need it to be defined before super to avoid failure in _hide_sensitive_data
         self.account = False
@@ -71,7 +71,7 @@ class GeodisFrLabelCase(VCRMixin, carrier_label_case.CarrierLabelCase):
         return data
 
     def _create_order_picking(self):
-        super()._create_order_picking()
+        return super()._create_order_picking()
 
     def _get_carrier(self):
         return self.env.ref("delivery_roulier_geodis_fr.delivery_carrier_mes")
@@ -89,8 +89,9 @@ class GeodisFrLabelCase(VCRMixin, carrier_label_case.CarrierLabelCase):
         return data
 
     def test_labels(self):
-        super().test_labels()
+        res = super().test_labels()
         self.assertTrue(self.picking.geodis_shippingid)
+        return res
 
     def test_edi(self):
         deposit = self.env["deposit.slip"].create(
