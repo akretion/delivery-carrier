@@ -23,6 +23,14 @@ class StockQuantPackage(models.Model):
                 }
             )
             i += 1
+        # add geodis_shipping_id in res so it is written on picking.
+        # it is not really a tracking number, it will actually be used to get
+        # the tracking once the edi file is sent.
+        # we prefer filling because the parcel tracking ref is used to display the
+        # label generation button, cancel label button, etc
+        res["tracking_number"] = (
+            not res.get("tracking_number") and picking.geodis_shippingid or ""
+        )
         return res
 
     def _geodis_fr_should_include_customs(self, picking):

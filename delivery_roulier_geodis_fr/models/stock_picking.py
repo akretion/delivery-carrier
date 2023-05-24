@@ -187,6 +187,7 @@ class StockPicking(models.Model):
                 continue
             # multipack not implemented yet
             data = ret[0]
+            rec.write({"carrier_tracking_ref": data["tracking"]["trackingCode"]})
             packages.write(
                 {
                     "parcel_tracking_uri": data["tracking"]["publicUrl"],
