@@ -1,18 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-  <data>
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
 
 <record id="view_kuehne_config_settings" model="ir.ui.view">
   <field name="model">kuehne.nagel.config.settings</field>
   <field name="arch" type="xml">
-    <form string="Configure Kuehne Nagel EDI" version="7.0"
-          class="oe_form_configuration">
+    <form
+                string="Configure Kuehne Nagel EDI"
+                version="7.0"
+                class="oe_form_configuration"
+            >
       <header>
-        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+        <button string="Apply" type="object" name="execute" class="oe_highlight" />
         or
-        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+        <button string="Cancel" type="object" name="cancel" class="oe_link" />
         <a href="https://www.coliposte.net" target="_blank">
-            <img src="delivery_roulier_kuehne_nagel/static/src/img/Logo_KN.jpg"/>
+            <img src="delivery_roulier_kuehne_nagel/static/src/img/Logo_KN.jpg" />
         </a>
         <h1 style="display: inline-block">Kuehne Nagel</h1>
       </header>
@@ -20,29 +22,27 @@
       <group groups="stock.group_locations">
         <div>
           <div>
-            <label for="warehouse_id" string="Select Warehouse"/>
-            <field name="warehouse_id"
-                widget="selection"
-                class="oe_inline"/>
+            <label for="warehouse_id" string="Select Warehouse" />
+            <field name="warehouse_id" widget="selection" class="oe_inline" />
           </div>
         </div>
       </group>
 
-      <separator string="Compte"/>
+      <separator string="Compte" />
       <group name="account" col="4">
-        <field name="kuehne_siret" class="oe_inline"/>
-        <field name="kuehne_office_name" class="oe_inline"/>
-        <field name="kuehne_office_code" class="oe_inline"/>
-        <field name="kuehne_office_country_id" class="oe_inline"/>
-        <field name="kuehne_goods_name" class="oe_inline"/>
-        <field name="kuehne_delivery_contract" class="oe_inline"/>
-        <field name="kuehne_service_system" class="oe_inline"/>
-        <field name="kuehne_shipping_config" class="oe_inline"/>
-        <field name="kuehne_vat_config" class="oe_inline"/>
-        <field name="kuehne_invoicing_contract" class="oe_inline"/>
-        <field name="kuehne_sender_id" class="oe_inline"/>
-        <field name="kuehne_tracking_url" class="oe_inline"/>
-        <field name="kuehne_label_logo" class="oe_inline"/>
+        <field name="kuehne_siret" class="oe_inline" />
+        <field name="kuehne_office_name" class="oe_inline" />
+        <field name="kuehne_office_code" class="oe_inline" />
+        <field name="kuehne_office_country_id" class="oe_inline" />
+        <field name="kuehne_goods_name" class="oe_inline" />
+        <field name="kuehne_delivery_contract" class="oe_inline" />
+        <field name="kuehne_service_system" class="oe_inline" />
+        <field name="kuehne_shipping_config" class="oe_inline" />
+        <field name="kuehne_vat_config" class="oe_inline" />
+        <field name="kuehne_invoicing_contract" class="oe_inline" />
+        <field name="kuehne_sender_id" class="oe_inline" />
+        <field name="kuehne_tracking_url" class="oe_inline" />
+        <field name="kuehne_label_logo" class="oe_inline" />
             <!--<button name="button_send_image_to_printer" type="object"-->
         <!--        string="Envoyer les images a l'imprimante"-->
         <!--        class="oe_link" colspan="2"-->
@@ -61,27 +61,32 @@
   <field name="target">inline</field>
 </record>
 
-<menuitem id="menu_kuehne_config" name="Kuehne + Nagel"
-          parent="base_delivery_carrier_label.menu_carriers_config"
-          action="action_kuehne_config"/>
+<menuitem
+        id="menu_kuehne_config"
+        name="Kuehne + Nagel"
+        parent="base_delivery_carrier_label.menu_carriers_config"
+        action="action_kuehne_config"
+    />
 
  <!--After installation of the module, open the adhoc menu -->
 <record id="action_kuehne_first" model="ir.actions.client">
     <field name="name">Open Carrier Menu</field>
     <field name="tag">reload</field>
-    <field name="params" eval="{'menu_id': ref('menu_kuehne_config')}"/>
+    <field name="params" eval="{'menu_id': ref('menu_kuehne_config')}" />
 </record>
 
 <record id="base.open_menu" model="ir.actions.todo">
-  <field name="action_id" ref="action_kuehne_first"/>
+  <field name="action_id" ref="action_kuehne_first" />
   <field name="state">open</field>
 </record>
 
 <!-- After installation of the module, open the adhoc menu -->
 <record id="base.open_menu" model="ir.actions.todo">
-  <field name="action_id" ref="base_delivery_carrier_label.action_delivery_method_from_carrier_module_install"/>
+  <field
+            name="action_id"
+            ref="base_delivery_carrier_label.action_delivery_method_from_carrier_module_install"
+        />
   <field name="state">open</field>
 </record>
 
-  </data>
-</openerp>
+</odoo>

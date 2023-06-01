@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data noupdate="1">
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp noupdate="1">
 
         <record id="kuehne_external_file_location" model="external.file.location">
             <field name="name">Kuehne Nagel</field>
@@ -14,7 +13,7 @@
             <field name="method_type">import</field>
             <field name="filepath">/pub/outbound</field>
             <field name="filename">*.csv</field>
-            <field name="location_id" ref="kuehne_external_file_location"/>
+            <field name="location_id" ref="kuehne_external_file_location" />
             <field name="move_path">/pub/outbound/archives</field>
             <field name="after_import">move</field>
             <field name="file_type">import_directional_code</field>
@@ -24,7 +23,6 @@
             <field name="name">Kuehne Nagel export deposit slip</field>
             <field name="method_type">export</field>
             <field name="filepath">/pub/inbound</field>
-            <field name="location_id" ref="kuehne_external_file_location"/>
+            <field name="location_id" ref="kuehne_external_file_location" />
         </record>
-    </data>
-</openerp>
+</odoo>

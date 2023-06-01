@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #  licence AGPL version 3 or later
@@ -9,17 +8,16 @@
 #          Sébastien BEAU
 ##############################################################################
 
-from openerp import models, fields, api
+from odoo import fields, models
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     directional_code_id = fields.Many2one(
-        comodel_name="kuehne.directional.code",
-        string="Directional code")
+        comodel_name="kuehne.directional.code", string="Directional code"
+    )
 
-    @api.multi
     def action_button_confirm(self):
         """
         Set the route montage in case of assembled products
@@ -27,18 +25,16 @@ class SaleOrder(models.Model):
         """
         self.ensure_one()
         res = super(SaleOrder, self).action_button_confirm()
-        if not self.directional_code_id and self.carrier_id.type == 'kuehne':
+        if not self.directional_code_id and self.carrier_id.type == "kuehne":
             self.send_missing_directional_code_email()
         return res
 
-    @api.multi
     def send_missing_directional_code_email(self):
         self.ensure_one()
-        tmp = 'delivery_roulier_kuehne_nagel.missing_directional_code_template'
+        tmp = "delivery_roulier_kuehne_nagel.missing_directional_code_template"
         email_template = self.env.ref(tmp)
         email_template.send_mail(self.id)
 
-    @api.multi
     def write(self, vals):
         # send mail for all sale orders if new carrier is kuehne and old one was not
         # if the directional_code_id is not set.
@@ -47,28 +43,32 @@ class SaleOrder(models.Model):
             new_carrier = self.env["delivery.carrier"].browse(vals["carrier_id"])
             if new_carrier.type == "kuehne":
                 orders_to_notify = self.filtered(
-                    lambda so: so.carrier_id.type != 'kuehne' and not so.directional_code_id and so.state in ("progress", "manual"))
+                    lambda so: so.carrier_id.type != "kuehne"
+                    and not so.directional_code_id
+                    and so.state in ("progress", "manual")
+                )
         res = super(SaleOrder, self).write(vals)
         for order_to_notify in orders_to_notify:
             order_to_notify.send_missing_directional_code_email()
         return res
 
-    @api.multi
     def onchange_delivery_id(
-            self, company_id, partner_id, delivery_id, fiscal_position):
+        self, company_id, partner_id, delivery_id, fiscal_position
+    ):
         res = super(SaleOrder, self).onchange_delivery_id(
-            company_id, partner_id, delivery_id, fiscal_position)
-        directional_code_obj = self.env['kuehne.directional.code']
+            company_id, partner_id, delivery_id, fiscal_position
+        )
+        directional_code_obj = self.env["kuehne.directional.code"]
         if delivery_id:
-            partner = self.env['res.partner'].browse(delivery_id)
+            partner = self.env["res.partner"].browse(delivery_id)
             if not partner.zip:
                 return res
             code = directional_code_obj._search_directional_code(
                 self.company_id.country_id.id,
                 partner.country_id.id,
                 partner.zip,
-                partner.city
+                partner.city,
             )
             if code and len(code) == 1:
-                res['value']['directional_code_id'] = code.id
+                res["value"]["directional_code_id"] = code.id
         return res

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #  licence AGPL version 3 or later
@@ -9,13 +8,13 @@
 #          Sébastien BEAU
 ##############################################################################
 
-from openerp import models, fields, api
-from openerp.exceptions import Warning as UserError
-from openerp.tools.translate import _
+from odoo import api, fields, models
+from odoo.exceptions import Warning as UserError
+from odoo.tools.translate import _
 
 
 class StockQuantPackage(models.Model):
-    _inherit = 'stock.quant.package'
+    _inherit = "stock.quant.package"
 
     kuehne_meta = fields.Text(
         "meta",
@@ -25,20 +24,20 @@ class StockQuantPackage(models.Model):
     @api.model
     def _get_tracking_url(self, picking):
         res = super(StockQuantPackage, self)._get_tracking_url(picking)
-        if picking.carrier_id.type == 'kuehne':
+        if picking.carrier_id.type == "kuehne":
             if not picking.carrier_tracking_ref:
-                raise UserError(_(
-                    'No tracking reference for the delivery %s' % picking.name
-                ))
+                raise UserError(
+                    _("No tracking reference for the delivery %s" % picking.name)
+                )
             warehouse = picking.picking_type_id.warehouse_id
             res = warehouse.kuehne_tracking_url % (
                 warehouse.kuehne_sender_id,
-                picking.carrier_tracking_ref)
+                picking.carrier_tracking_ref,
+            )
         return res
 
-    @api.multi
     def kuehne_get_meta(self):
-        return '\n'.join([pack.kuehne_meta for pack in self])
+        return "\n".join([pack.kuehne_meta for pack in self])
 
     def _kuehne_before_call(self, picking, request):
         directional_code = picking._kuehne_get_directional_code()
@@ -46,50 +45,54 @@ class StockQuantPackage(models.Model):
         office_name = "KUEHNE NAGEL ROAD / AG : %s %s %s" % (
             warehouse.kuehne_office_country_id.code.upper(),
             warehouse.kuehne_office_code,
-            warehouse.kuehne_office_name)
+            warehouse.kuehne_office_name,
+        )
         sender_name = "%s/%s/%s/%s" % (
             picking.company_id.name,
             picking.company_id.country_id.code.upper(),
             picking.company_id.zip,
-            picking.company_id.city)
+            picking.company_id.city,
+        )
         contract = warehouse.kuehne_delivery_contract
         map_delivery_contract = {
-            'gsp': 'F',
-            'gfx': 'D',
+            "gsp": "F",
+            "gfx": "D",
         }
-        label_delivery_contract = map_delivery_contract.get(contract, 'C')
+        label_delivery_contract = map_delivery_contract.get(contract, "C")
         if picking.date_done:
             shipping_date = fields.Date.from_string(picking.date_done)
         else:
             shipping_date = fields.Date.from_string(fields.Date.today())
-        request.update({
-            'service': {
-                'shippingDate': shipping_date.strftime('%y%m%d'),
-                'labelShippingDate': shipping_date.strftime('%d/%m/%y'),
-                'goodsName': warehouse.kuehne_goods_name,
-                'epalQuantity': 0,
-                'shippingOffice': directional_code['office'],
-                'shippingRound': directional_code['round'],
-                'shippingName': picking.name.replace('/', ''),
-                'mhuQuantity': len(picking._get_packages_from_picking()),
-                'weight': picking.weight,
-                'volume': picking.volume,
-                'deliveryContract': contract and contract.upper() or '',
-                'labelDeliveryContract': label_delivery_contract,
-                'exportHub': directional_code['export_hub'],
-                'orderName': picking.sale_id.name,
-                'shippingConfig': warehouse.kuehne_shipping_config.upper(),
-                'vatConfig': warehouse.kuehne_vat_config.upper(),
-                'invoicingContract': warehouse.kuehne_invoicing_contract,
-                'deliveryType': picking.kuehne_delivery_type.upper(),
-                'serviceSystem': warehouse.kuehne_service_system,
-                'note': picking.note and picking.note or '',
-                'kuehneOfficeName': office_name,
-                'labelLogo': warehouse.kuehne_label_logo,
+        request.update(
+            {
+                "service": {
+                    "shippingDate": shipping_date.strftime("%y%m%d"),
+                    "labelShippingDate": shipping_date.strftime("%d/%m/%y"),
+                    "goodsName": warehouse.kuehne_goods_name,
+                    "epalQuantity": 0,
+                    "shippingOffice": directional_code["office"],
+                    "shippingRound": directional_code["round"],
+                    "shippingName": picking.name.replace("/", ""),
+                    "mhuQuantity": len(picking._get_packages_from_picking()),
+                    "weight": picking.weight,
+                    "volume": picking.volume,
+                    "deliveryContract": contract and contract.upper() or "",
+                    "labelDeliveryContract": label_delivery_contract,
+                    "exportHub": directional_code["export_hub"],
+                    "orderName": picking.sale_id.name,
+                    "shippingConfig": warehouse.kuehne_shipping_config.upper(),
+                    "vatConfig": warehouse.kuehne_vat_config.upper(),
+                    "invoicingContract": warehouse.kuehne_invoicing_contract,
+                    "deliveryType": picking.kuehne_delivery_type.upper(),
+                    "serviceSystem": warehouse.kuehne_service_system,
+                    "note": picking.note and picking.note or "",
+                    "kuehneOfficeName": office_name,
+                    "labelLogo": warehouse.kuehne_label_logo,
+                }
             }
-        })
-        request['to_address']['contact'] = picking.partner_id.name
-        request['from_address']['company'] = sender_name
+        )
+        request["to_address"]["contact"] = picking.partner_id.name
+        request["from_address"]["company"] = sender_name
         package_ids = picking._get_packages_from_picking().ids
         package_ids.sort()
         count = 1
@@ -97,33 +100,35 @@ class StockQuantPackage(models.Model):
             if pack_id == self.id:
                 break
             count += 1
-        request['parcel'].update({
-            'barcode': self.name,
-            'number': count
-        })
+        request["parcel"].update({"barcode": self.name, "number": count})
         return request
 
     def _kuehne_after_call(self, picking, response):
-        self.kuehne_meta = response['deposit']['parcel']
-        self.parcel_tracking = response['tracking']['parcel']
-        picking.kuehne_meta = response['deposit']['line']
-        picking.kuehne_meta_footer = response['deposit']['footer']
-        picking.carrier_tracking_ref = response['tracking']['number']
+        self.kuehne_meta = response["deposit"]["parcel"]
+        self.parcel_tracking = response["tracking"]["parcel"]
+        picking.kuehne_meta = response["deposit"]["line"]
+        picking.kuehne_meta_footer = response["deposit"]["footer"]
+        picking.carrier_tracking_ref = response["tracking"]["number"]
         return {
-            "data": response['label']['data'],
+            "data": response["label"]["data"],
             "name": self.name,
         }
 
     @api.model
     def _kuehne_error_handling(self, payload, response):
-        ret_mess = 'Erreur!'
-        if response.get('api_call_exception'):
+        ret_mess = "Erreur!"
+        if response.get("api_call_exception"):
             # InvalidInputException
             # on met des clés plus explicites vis à vis des objets odoo
-            suffix = (u"\nSignification des clés dans le contexte Odoo:\n"
-                      u"- 'to_address' correspond à 'adresse client'\n"
-                      u"- 'from_address' correspond à 'adresse de la société'")
-            message = u'Données transmises:\n%s\n\nExceptions levées%s\n%s' % (
-                payload, response, suffix)
+            suffix = (
+                "\nSignification des clés dans le contexte Odoo:\n"
+                "- 'to_address' correspond à 'adresse client'\n"
+                "- 'from_address' correspond à 'adresse de la société'"
+            )
+            message = "Données transmises:\n%s\n\nExceptions levées%s\n%s" % (
+                payload,
+                response,
+                suffix,
+            )
             return message
         return ret_mess

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #  licence AGPL version 3 or later
@@ -9,15 +8,17 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from odoo import api, models
 
 
 class DeliveryCarrier(models.Model):
-    _inherit = 'delivery.carrier'
+    _inherit = "delivery.carrier"
 
     @api.model
     def _get_carrier_type_selection(self):
         """Add Kuehne Nagel carrier type."""
         res = super(DeliveryCarrier, self)._get_carrier_type_selection()
-        res.append(('kuehne', 'Kuehne'),)
+        res.append(
+            ("kuehne", "Kuehne"),
+        )
         return res

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #  licence AGPL version 3 or later
@@ -9,50 +8,50 @@
 #          Sébastien BEAU
 ##############################################################################
 
-from openerp import models, api
 from base64 import b64encode
-from roulier import roulier
 from datetime import datetime
+
+from roulier import roulier
+
+from odoo import models
 
 
 class DepositSlip(models.Model):
     _inherit = "deposit.slip"
 
-    @api.multi
     def _kuehne_create_edi_data(self):
         now = datetime.now()
-        date = now.date().strftime('%y%m%d')
-        hour = now.time().strftime('%H%M')
+        date = now.date().strftime("%y%m%d")
+        hour = now.time().strftime("%H%M")
         warehouse = self.picking_type_id.warehouse_id
         contract = warehouse.kuehne_delivery_contract
         data = {
-            'service': {
-                'date': date,
-                'hour': hour,
-                'depositNumber': self.name,
-                'deliveryContract': contract and contract.upper() or '',
-                'shippingConfig': warehouse.kuehne_shipping_config.upper(),
-                'vatConfig': warehouse.kuehne_vat_config.upper(),
-                'invoicingContract': warehouse.kuehne_invoicing_contract,
-                'serviceSystem': warehouse.kuehne_service_system,
-                'goodsName': warehouse.kuehne_goods_name,
-                'lines': self._kuehne_create_edi_lines(),
-                'lineNumber': self._kuehne_get_line_number(),
+            "service": {
+                "date": date,
+                "hour": hour,
+                "depositNumber": self.name,
+                "deliveryContract": contract and contract.upper() or "",
+                "shippingConfig": warehouse.kuehne_shipping_config.upper(),
+                "vatConfig": warehouse.kuehne_vat_config.upper(),
+                "invoicingContract": warehouse.kuehne_invoicing_contract,
+                "serviceSystem": warehouse.kuehne_service_system,
+                "goodsName": warehouse.kuehne_goods_name,
+                "lines": self._kuehne_create_edi_lines(),
+                "lineNumber": self._kuehne_get_line_number(),
             },
-            'sender_info': {
+            "sender_info": {
                 "number": self.company_id.siren,
                 "siret": self.company_id.siret,
                 "name": self.company_id.name,
             },
-            'recipient_info': {
+            "recipient_info": {
                 "number": warehouse.kuehne_siret[:9],
                 "siret": warehouse.kuehne_siret,
                 "name": warehouse.kuehne_office_name,
-            }
+            },
         }
         return data
 
-    @api.multi
     def _kuehne_get_line_number(self):
         """Get the number of lines of the deposit slip.
         @returns int
@@ -60,12 +59,11 @@ class DepositSlip(models.Model):
         self.ensure_one()
         lines = 13
         for picking in self.picking_ids:
-            lines += len(picking.kuehne_meta.split('\n'))
-            lines += len(picking.kuehne_meta_footer.split('\n'))
+            lines += len(picking.kuehne_meta.split("\n"))
+            lines += len(picking.kuehne_meta_footer.split("\n"))
             lines += len(picking._get_packages_from_picking())
         return lines
 
-    @api.multi
     def _kuehne_create_edi_lines(self):
         """Create lines for each picking.
         The carrier is expecting a line per shipping.
@@ -77,7 +75,6 @@ class DepositSlip(models.Model):
             lines.append(picking.kuehne_get_meta())
         return lines
 
-    @api.multi
     def _kuehne_create_edi_file(self):
         """Create a .txt file with headers and data.
         params:
@@ -85,31 +82,30 @@ class DepositSlip(models.Model):
         return: io.ByteIO
         """
         data = self._kuehne_create_edi_data()
-        kuehne = roulier.get('kuehne')
+        kuehne = roulier.get("kuehne")
         txt = kuehne.get_deposit_slip(data)  # io.ByteIO
         return txt
 
-    @api.multi
     def _kuehne_create_attachment(self):
         """Create a slip and add it in attachment."""
         edi_file = self._kuehne_create_edi_file()
         vals = {
-            'name': self.name,
-            'res_id': self.id,
-            'res_model': 'deposit.slip',
-            'datas': b64encode(edi_file.encode('utf-8')),
-            'datas_fname': '%s.txt' % self.name,
-            'type': 'binary',
-            'task_id': self.env.ref(
-                'delivery_roulier_kuehne_nagel.kuehne_export_deposit_task').id,
-            'file_type': 'export_external_location'
+            "name": self.name,
+            "res_id": self.id,
+            "res_model": "deposit.slip",
+            "datas": b64encode(edi_file.encode("utf-8")),
+            "datas_fname": "%s.txt" % self.name,
+            "type": "binary",
+            "task_id": self.env.ref(
+                "delivery_roulier_kuehne_nagel.kuehne_export_deposit_task"
+            ).id,
+            "file_type": "export_external_location",
         }
-        return self.env['ir.attachment.metadata'].create(vals)
+        return self.env["ir.attachment.metadata"].create(vals)
 
-    @api.multi
     def create_edi_file(self):
         self.ensure_one()
-        if self.carrier_type == 'kuehne':
+        if self.carrier_type == "kuehne":
             return self._kuehne_create_attachment()
         else:
             return super(DepositSlip, self).create_edi_file()
