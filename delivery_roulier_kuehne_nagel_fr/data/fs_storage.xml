@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+        <record id="kuehne_external_storage" model="fs.storage">
+            <field name="name">Kuehne Nagel</field>
+            <field name="code">KN</field>
+            <field name="protocol">ftp</field>
+            <field name="options">{"host": "ftp.kuehne-nagel.com"}</field>
+            <field name="directory_path">/pub</field>
+        </record>
+
+</odoo>

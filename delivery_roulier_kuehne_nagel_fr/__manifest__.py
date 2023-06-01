@@ -1,0 +1,40 @@
+{
+    "name": "Kuehne Nagel",
+    "version": "16.0.1.0.0",
+    "author": "Akretion,Odoo Community Association (OCA)",
+    "summary": "Ship with Kuehne & Nagel carrier",
+    "maintainer": "Akretion",
+    "category": "Warehouse",
+    "development_status": "Beta",
+    "depends": [
+        "delivery_roulier",
+        "delivery_carrier_deposit",
+        "attachment_synchronize",
+        "stock_picking_volume",
+        "l10n_fr_siret",
+    ],
+    "website": "https://github.com/OCA/delivery-carrier",
+    "data": [
+        "data/fs_storage.xml",
+        "data/attachment_synchronize_task.xml",
+        "data/mail_template.xml",
+        "views/carrier_account.xml",
+        "views/delivery_carrier.xml",
+        "views/sale_order_view.xml",
+        "views/directional_code_view.xml",
+        "security/ir.model.access.csv",
+    ],
+    "demo": [
+        "demo/product_product.xml",
+        "demo/carrier_account.xml",
+        "demo/delivery_carrier.xml",
+    ],
+    "external_dependencies": {
+        "python": [
+            "roulier",
+            "unicodecsv",
+        ],
+    },
+    "installable": True,
+    "license": "AGPL-3",
+}

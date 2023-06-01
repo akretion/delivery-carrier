@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="demo_account_kuehne_nagel" model="carrier.account">
+        <field name="name">Kuehne+Nagel Account</field>
+        <field name="account">Demo Account</field>
+        <field name="password">Demo password</field>
+        <field name="delivery_type">kuehne_nagel_fr</field>
+        <field name="kuehne_goods_name">Furniture</field>
+        <field name="kuehne_sender_id">1234</field>
+        <field name="kuehne_shipping_config">P</field>
+        <field name="kuehne_vat_config">V</field>
+        <field name="kuehne_office_name">HARNES</field>
+        <field name="kuehne_siret">49319140700458</field>
+        <field name="kuehne_office_country_id" ref="base.fr" />
+        <field name="kuehne_office_code">62</field>
+    </record>
+</odoo>

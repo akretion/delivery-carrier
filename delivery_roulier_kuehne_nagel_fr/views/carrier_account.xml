@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_kuehne_carrier_account_form" model="ir.ui.view">
+        <field name="model">carrier.account</field>
+        <field
+            name="inherit_id"
+            ref="delivery_carrier_account.carrier_account_view_form"
+        />
+        <field name="arch" type="xml">
+            <!-- password is a mandatory field and is used for most of carriers but
+                kuehne, it is not ideal but we leave it mandatory and ask for user to
+            set it even if it won't be used -->
+            <field name="account" position="before">
+                <p
+                    attrs="{'invisible': [('delivery_type', '!=', 'kuehne_nagel_fr')]}"
+                    colspan="2"
+                >
+                    Put the invoice contract number in the login and the password
+                </p>
+            </field>
+            <field name="password" position="after">
+                <field
+                    name="kuehne_shipping_config"
+                    attrs="{'invisible': [('delivery_type', '!=', 'kuehne_nagel_fr')], 'required': [('delivery_type', '=', 'kuehne_nagel_fr')]}"
+                />
+                <field
+                    name="kuehne_vat_config"
+                    attrs="{'invisible': [('delivery_type', '!=', 'kuehne_nagel_fr')], 'required': [('delivery_type', '=', 'kuehne_nagel_fr')]}"
+                />
+                <field
+                    name="kuehne_sender_id"
+                    attrs="{'invisible': [('delivery_type', '!=', 'kuehne_nagel_fr')], 'required': [('delivery_type', '=', 'kuehne_nagel_fr')]}"
+                />
+                <field
+                    name="kuehne_goods_name"
+                    attrs="{'invisible': [('delivery_type', '!=', 'kuehne_nagel_fr')], 'required': [('delivery_type', '=', 'kuehne_nagel_fr')]}"
+                />
+                <field
+                    name="kuehne_siret"
+                    attrs="{'invisible': [('delivery_type', '!=', 'kuehne_nagel_fr')], 'required': [('delivery_type', '=', 'kuehne_nagel_fr')]}"
+                />
+                <field
+                    name="kuehne_office_name"
+                    attrs="{'invisible': [('delivery_type', '!=', 'kuehne_nagel_fr')], 'required': [('delivery_type', '=', 'kuehne_nagel_fr')]}"
+                />
+                <field
+                    name="kuehne_office_country_id"
+                    attrs="{'invisible': [('delivery_type', '!=', 'kuehne_nagel_fr')], 'required': [('delivery_type', '=', 'kuehne_nagel_fr')]}"
+                />
+                <field
+                    name="kuehne_office_code"
+                    attrs="{'invisible': [('delivery_type', '!=', 'kuehne_nagel_fr')], 'required': [('delivery_type', '=', 'kuehne_nagel_fr')]}"
+                />
+                <field
+                    name="kuehne_label_logo"
+                    attrs="{'invisible': [('delivery_type', '!=', 'kuehne_nagel_fr')]}"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>
