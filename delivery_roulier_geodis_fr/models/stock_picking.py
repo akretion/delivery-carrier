@@ -66,13 +66,13 @@ class StockPicking(models.Model):
         options = self._get_options(package)
         recipient = self._convert_address(self._get_receiver(package))
         if "RDW" in options:
-            if recipient["email"]:
+            if recipient.get("email"):
                 if recipient["phone"]:
                     return "M"
                 else:
                     return "P"
             else:
-                if recipient["phone"]:
+                if recipient.get("phone"):
                     return "S"
                 else:
                     raise UserError(_("Can't set up a rendez-vous wihout mail or tel"))
