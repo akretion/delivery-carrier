@@ -12,7 +12,7 @@
         "delivery_carrier_agency",
         "delivery_carrier_deposit",
         "delivery_roulier_option",
-        "partner_helper",
+        "partner_address_split",
         "l10n_fr_siret",
     ],
     "website": "https://github.com/OCA/delivery-carrier",

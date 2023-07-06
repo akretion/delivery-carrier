@@ -39,7 +39,7 @@ class StockPicking(models.Model):
     def _geodis_fr_convert_address(self, partner):
         """Truncate address and name to 35 chars."""
         address = self._roulier_convert_address(partner) or {}
-        # get_split_adress from partner_helper module
+        # get_split_adress from partner_address_split module
         streets = partner._get_split_address(3, 35)
         address["street1"], address["street2"], address["street3"] = streets
         for field in ("name", "city"):
@@ -183,7 +183,7 @@ class StockPicking(models.Model):
             ret = roulier.get(rec.delivery_type, "get_tracking_list", payload)
 
             if len(ret) != 1:
-                _logger.warning("Geodis tracking not found. Picking %s" % rec.id)
+                _logger.info("Geodis tracking not found. Picking %s" % rec.id)
                 continue
             # multipack not implemented yet
             data = ret[0]
