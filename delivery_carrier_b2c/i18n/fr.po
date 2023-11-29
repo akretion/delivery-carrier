@@ -5,10 +5,10 @@
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: carrier-delivery (8.0)\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-15 18:37+0000\n"
-"PO-Revision-Date: 2015-06-16 16:32+0000\n"
+"POT-Creation-Date: 2023-11-28 13:33+0000\n"
+"PO-Revision-Date: 2023-11-28 13:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: French (http://www.transifex.com/oca/OCA-carrier-delivery-8-0/"
 "language/fr/)\n"
@@ -19,36 +19,94 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: delivery_carrier_b2c
+#: model:ir.model.fields,field_description:delivery_carrier_b2c.field_res_partner_use_b2c_info
 #: field:res.partner,use_b2c_info:0
 msgid "Advanced address"
-msgstr ""
+msgstr "Adresse détaillée"
+
+#. module: delivery_carrier_b2c
+#: selection:res.partner,housing_type:0
+msgid "Appartment"
+msgstr "Appartement"
+
+#. module: delivery_carrier_b2c
+#: selection:res.partner,housing_type:0
+msgid "Business premises"
+msgstr "Locaux professionnels"
 
 #. module: delivery_carrier_b2c
 #: help:res.partner,use_b2c_info:0
 msgid "Display additional information for home delivery (b2c)"
-msgstr ""
+msgstr "Afficher les informations supplémentaires pour la livraison à domicile"
 
 #. module: delivery_carrier_b2c
+#: model:ir.model.fields,field_description:delivery_carrier_b2c.field_res_partner_door_code
 #: field:res.partner,door_code:0
 msgid "Door Code"
-msgstr ""
+msgstr "Code porte"
 
 #. module: delivery_carrier_b2c
+#: model:ir.model.fields,field_description:delivery_carrier_b2c.field_res_partner_door_code2
 #: field:res.partner,door_code2:0
 msgid "Door Code 2"
-msgstr ""
+msgstr "Code porte 2"
+
+#. module: delivery_carrier_b2c
+#: selection:res.partner,housing_access:0
+msgid "Elevator"
+msgstr "Ascenceur"
+
+#. module: delivery_carrier_b2c
+#: selection:res.partner,housing_access:0
+msgid "Elevator and stairs"
+msgstr "Ascenceur et escalier"
+
+#. module: delivery_carrier_b2c
+#: model:ir.model.fields,field_description:delivery_carrier_b2c.field_res_partner_floor
+#: field:res.partner,floor:0
+msgid "Floor"
+msgstr "Étage"
+
+#. module: delivery_carrier_b2c
+#: selection:res.partner,housing_type:0
+msgid "House"
+msgstr "Maison"
+
+#. module: delivery_carrier_b2c
+#: model:ir.model.fields,field_description:delivery_carrier_b2c.field_res_partner_housing_access
+#: field:res.partner,housing_access:0
+msgid "Housing access"
+msgstr "Accès logement"
+
+#. module: delivery_carrier_b2c
+#: model:ir.model.fields,field_description:delivery_carrier_b2c.field_res_partner_housing_type
+#: field:res.partner,housing_type:0
+msgid "Housing type"
+msgstr "Type de logement"
 
 #. module: delivery_carrier_b2c
 #: help:res.partner,intercom:0
 msgid "Informations for Intercom such as name or number on the intercom"
-msgstr ""
+msgstr "Informations pour l'interphone comme le nom ou le numéro sur l'interphone."
 
 #. module: delivery_carrier_b2c
+#: model:ir.model.fields,field_description:delivery_carrier_b2c.field_res_partner_intercom
 #: field:res.partner,intercom:0
 msgid "Intercom"
-msgstr ""
+msgstr "Interphone"
+
+#. module: delivery_carrier_b2c
+#: selection:res.partner,housing_type:0
+msgid "Other"
+msgstr "Autre"
 
 #. module: delivery_carrier_b2c
 #: model:ir.model,name:delivery_carrier_b2c.model_res_partner
 msgid "Partner"
 msgstr "Partenaire"
+
+#. module: delivery_carrier_b2c
+#: selection:res.partner,housing_access:0
+msgid "Stairs"
+msgstr "Escalier"
+

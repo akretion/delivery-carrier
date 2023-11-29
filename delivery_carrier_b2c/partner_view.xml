@@ -22,6 +22,9 @@
                                     <field name="door_code"/>
                                     <field name="door_code2"/>
                                     <field name="intercom"/>
+                                    <field name="housing_type"/>
+                                    <field name="housing_access"/>
+                                    <field name="floor"/>
                                 </group>
                         </group>
                     </group>

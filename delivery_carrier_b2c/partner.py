@@ -19,28 +19,36 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class ResPartner(orm.Model):
+class res_partner(models.Model):
     _inherit = "res.partner"
 
-    # pylint: disable=attribute-deprecated
-    _columns = {
-        'use_b2c_info': fields.boolean(
-            'Advanced address',
-            help="Display additional information for home delivery (b2c)"),
-        'door_code': fields.char(
-            'Door Code'),
-        'door_code2': fields.char(
-            'Door Code 2',),
-        'intercom': fields.char(
-            'Intercom',
-            help="Informations for Intercom such as name "
-                 "or number on the intercom"),
-    }
-
-    # pylint: disable=attribute-deprecated
-    _defaults = {
-        'use_b2c_info': False,
-    }
+    use_b2c_info = fields.Boolean(
+       'Advanced address',
+       help="Display additional information for home delivery (b2c)")
+    door_code = fields.Char(
+       'Door Code')
+    door_code2 = fields.Char(
+       'Door Code 2',)
+    intercom = fields.Char(
+       'Intercom',
+       help="Informations for Intercom such as name "
+            "or number on the intercom")
+    housing_type = fields.Selection(
+        selection=[
+            ('house', 'House'),
+            ('appartment', 'Appartment'),
+            ('business_premises', 'Business premises'),
+            ('other', 'Other'),
+        ],
+    )
+    housing_access = fields.Selection(
+        selection=[
+            ('elevator', 'Elevator'),
+            ('stairs', 'Stairs'),
+            ('both', 'Elevator and stairs'),
+        ],
+    )
+    floor = fields.Char()
