@@ -57,7 +57,7 @@ class StockQuantPackage(models.Model):
             'gsp': 'F',
             'gfx': 'D',
         }
-        label_delivery_contract = map_delivery_contract.get(contract, 'C')
+        label_delivery_contract = map_delivery_contract.get(contract, 'S')
         if picking.date_done:
             shipping_date = fields.Date.from_string(picking.date_done)
         else:
