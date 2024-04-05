@@ -15,8 +15,8 @@
     </record>
 
     <!-- DELIVERY CARRIER -->
-    <record id="delivery_carrier_gls" model="delivery.carrier">
-        <field name="name">GLS group</field>
+    <record id="delivery_carrier_gls_std" model="delivery.carrier">
+        <field name="name">GLS Standard</field>
         <field name="delivery_type">gls_fr_rest</field>
         <field name="code">Standard</field>
         <field name="prod_environment" eval="False" />
@@ -24,6 +24,17 @@
         <field name="integration_level">rate_and_ship</field>
         <field name="product_id" ref="product_product_gls" />
     </record>
+
+    <record id="delivery_carrier_gls_flx" model="delivery.carrier">
+        <field name="name">GLS Flex</field>
+        <field name="delivery_type">gls_fr_rest</field>
+        <field name="code">flexDeliveryService</field>
+        <field name="prod_environment" eval="False" />
+        <field name="debug_logging" eval="True" />
+        <field name="integration_level">rate_and_ship</field>
+        <field name="product_id" ref="product_product_gls" />
+    </record>
+
 
     <!-- CARRIER ACCOUNT -->
     <record id="carrier_account_gls" model="carrier.account">

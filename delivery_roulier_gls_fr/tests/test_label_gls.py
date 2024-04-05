@@ -31,7 +31,7 @@ class GlsLabelCase(VCRMixin, carrier_label_case.CarrierLabelCase):
         super()._create_order_picking()
 
     def _get_carrier(self):
-        return self.env.ref("delivery_roulier_gls_fr.delivery_carrier_gls")
+        return self.env.ref("delivery_roulier_gls_fr.delivery_carrier_gls_std")
 
     def _partner_data(self):
         data = super()._partner_data()
