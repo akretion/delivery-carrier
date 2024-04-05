@@ -9,9 +9,18 @@
         />
   <field name="arch" type="xml">
     <field name="password" position="after">
-        <field name="gls_fr_rest_customer_id" attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_rest')], 'required': [('delivery_type', '=', 'gls_fr_rest')]}"/>
-        <field name="gls_fr_rest_contact_id" attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_rest')], 'required': [('delivery_type', '=', 'gls_fr_rest')]}"/>
-        <field name="gls_fr_rest_file_format" attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_rest')], 'required': [('delivery_type', '=', 'gls_fr_rest')]}"/>
+        <field
+                    name="gls_fr_rest_customer_id"
+                    attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_rest')], 'required': [('delivery_type', '=', 'gls_fr_rest')]}"
+                />
+        <field
+                    name="gls_fr_rest_contact_id"
+                    attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_rest')], 'required': [('delivery_type', '=', 'gls_fr_rest')]}"
+                />
+        <field
+                    name="gls_fr_rest_file_format"
+                    attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_rest')], 'required': [('delivery_type', '=', 'gls_fr_rest')]}"
+                />
     </field>
   </field>
 </record>
