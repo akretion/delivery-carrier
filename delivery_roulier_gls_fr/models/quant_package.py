@@ -19,3 +19,13 @@ class StockQuantPackage(models.Model):
     def _gls_fr_rest_get_tracking_link(self):
         self.ensure_one()
         return URL_TRACKING % self.parcel_tracking
+
+    def _gls_fr_rest_get_parcel(self, picking):
+        vals = self._roulier_get_parcel(picking)
+        # at the time, roulier do not set the product
+        # if there is no services in the parcel
+        # https://github.com/akretion/roulier/blob/master
+        # /roulier/carriers/gls_fr/rest/encoder.py#L149
+        if "services" not in vals.keys():
+            vals["services"] = []
+        return vals
