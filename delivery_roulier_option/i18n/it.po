@@ -4,22 +4,22 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-12-20 19:35+0000\n"
-"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
+"PO-Revision-Date: 2024-08-21 16:06+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
-"Language: es\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: delivery_roulier_option
 #: model:delivery.carrier.template.option,name:delivery_roulier_option.carrier_opt_tmpl_ACK
 msgid "Acknowledgment"
-msgstr "Acuse de recibo"
+msgstr "Riconoscimento"
 
 #. module: delivery_roulier_option
 #. odoo-python
@@ -27,17 +27,17 @@ msgstr "Acuse de recibo"
 #: model:ir.model.fields.selection,name:delivery_roulier_option.selection__stock_picking__customs_category__commercial
 #, python-format
 msgid "Commercial Goods"
-msgstr "Productos Comerciales"
+msgstr "Beni commerciali"
 
 #. module: delivery_roulier_option
 #: model:ir.model.fields,field_description:delivery_roulier_option.field_stock_picking__customs_category
 msgid "Customs Category"
-msgstr "Categoría Aduanera"
+msgstr "Categoria personalizzata"
 
 #. module: delivery_roulier_option
 #: model:ir.model,name:delivery_roulier_option.model_delivery_carrier_template_option
 msgid "Delivery carrier template option"
-msgstr "Opción de plantilla de transportista de entrega"
+msgstr "Opzione modello vettore consegna"
 
 #. module: delivery_roulier_option
 #. odoo-python
@@ -45,12 +45,12 @@ msgstr "Opción de plantilla de transportista de entrega"
 #: model:ir.model.fields.selection,name:delivery_roulier_option.selection__stock_picking__customs_category__document
 #, python-format
 msgid "Documents"
-msgstr "Documentos"
+msgstr "Documenti"
 
 #. module: delivery_roulier_option
 #: model:delivery.carrier.template.option,name:delivery_roulier_option.carrier_opt_tmpl_FCR
 msgid "Free of charges and rights"
-msgstr "Libre de cargas y derechos"
+msgstr "Gratuito e senza diritti"
 
 #. module: delivery_roulier_option
 #. odoo-python
@@ -58,7 +58,7 @@ msgstr "Libre de cargas y derechos"
 #: model:ir.model.fields.selection,name:delivery_roulier_option.selection__stock_picking__customs_category__gift
 #, python-format
 msgid "Gift"
-msgstr "Regalo"
+msgstr "Omaggio"
 
 #. module: delivery_roulier_option
 #. odoo-python
@@ -66,18 +66,18 @@ msgstr "Regalo"
 #: model:ir.model.fields.selection,name:delivery_roulier_option.selection__stock_picking__customs_category__return
 #, python-format
 msgid "Goods return"
-msgstr "Devolución de mercancías"
+msgstr "Reso merce"
 
 #. module: delivery_roulier_option
 #: model:delivery.carrier.template.option,name:delivery_roulier_option.carrier_opt_tmpl_INS
 msgid "Insurance"
-msgstr "Seguro"
+msgstr "Assicurazione"
 
 #. module: delivery_roulier_option
 #: model:ir.model.fields,field_description:delivery_roulier_option.field_delivery_carrier_option__name
 #: model:ir.model.fields,field_description:delivery_roulier_option.field_delivery_carrier_template_option__name
 msgid "Name"
-msgstr "Nombre"
+msgstr "Nome"
 
 #. module: delivery_roulier_option
 #. odoo-python
@@ -87,6 +87,8 @@ msgid ""
 "No H.S. Code on product '%(prod_displ_name)s' nor on it's product category "
 "'%(categ_displ_name)s'."
 msgstr ""
+"Nessun codice HS nel prodotto '%(prod_displ_name)s' o nella sua catagoria "
+"prodotto '%(categ_displ_name)s'."
 
 #. module: delivery_roulier_option
 #. odoo-python
@@ -94,12 +96,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:delivery_roulier_option.selection__stock_picking__customs_category__other
 #, python-format
 msgid "Other"
-msgstr "Otro"
+msgstr "Altro"
 
 #. module: delivery_roulier_option
 #: model:ir.model,name:delivery_roulier_option.model_stock_quant_package
 msgid "Packages"
-msgstr "Paquetes"
+msgstr "Colli"
 
 #. module: delivery_roulier_option
 #. odoo-python
@@ -107,34 +109,19 @@ msgstr "Paquetes"
 #: model:ir.model.fields.selection,name:delivery_roulier_option.selection__stock_picking__customs_category__sample
 #, python-format
 msgid "Samples"
-msgstr "Ejemplos"
+msgstr "Campioni"
 
 #. module: delivery_roulier_option
 #: model:delivery.carrier.template.option,name:delivery_roulier_option.carrier_opt_tmpl_COD
 msgid "Shipping Cash On Delivery"
-msgstr "Envío Contra Reembolso"
+msgstr "Invio denaro alla consegna"
 
 #. module: delivery_roulier_option
 #: model:ir.model,name:delivery_roulier_option.model_stock_picking
 msgid "Transfer"
-msgstr "Transferencia"
+msgstr "Trasferimento"
 
 #. module: delivery_roulier_option
 #: model:ir.model.fields,help:delivery_roulier_option.field_stock_picking__customs_category
 msgid "Type of sending for the customs"
-msgstr "Tipo de envío para la aduana"
-
-#~ msgid "Display Name"
-#~ msgstr "Mostrar Nombre"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Last Modified on"
-#~ msgstr "Última Modificación el"
-
-#, python-format
-#~ msgid "No H.S. Code on product '%s' nor on it's product category '%s'."
-#~ msgstr ""
-#~ "No hay código H.S. en el producto '%s' ni en su categoría de producto "
-#~ "'%s'."
+msgstr "Tipo spedizione per la personalizzata"
