@@ -39,3 +39,10 @@ class StockQuantPackage(models.Model):
 
     def _geodis_fr_get_tracking_link(self):
         return self.parcel_tracking_uri
+
+    def _get_edi_pack_vals(self):
+        self.ensure_one()
+        return {
+            "barcode": self.geodis_cab,
+            "weight": self.shipping_weight or self.weight,
+        }

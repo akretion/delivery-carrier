@@ -34,7 +34,9 @@ ADDRESS_ERROR_CODES = ["C0041", "C0042", "C0044", "C0045", "C0047", "T0023"]
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    geodis_shippingid = fields.Char(help="Shipping Id in Geodis terminology", copy=False)
+    geodis_shippingid = fields.Char(
+        help="Shipping Id in Geodis terminology", copy=False
+    )
 
     def _geodis_fr_convert_address(self, partner):
         """Truncate address and name to 35 chars."""
@@ -96,10 +98,7 @@ class StockPicking(models.Model):
         picking = self
 
         packages = picking.package_ids
-        parcels = [
-            {"barcode": pack.geodis_cab, "weight": pack.shipping_weight or pack.weight}
-            for pack in packages
-        ]
+        parcels = [pack._get_edi_pack_vals() for pack in packages]
 
         return {
             "product": picking.carrier_id.code,
