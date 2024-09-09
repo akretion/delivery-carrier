@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2024 Akretion (http://www.akretion.com).
+    @author Florian Mounier <florian.mounier@akretion.com>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+    <record id="delivery_carrier_ciblex_h09" model="delivery.carrier">
+        <field name="name">Ciblex 00109 H09</field>
+        <field name="product_id" ref="ciblex_product" />
+        <field name="code">01002</field>
+        <field name="delivery_type">ciblex</field>
+    </record>
+
+     <record id="delivery_carrier_ciblex_h12" model="delivery.carrier">
+        <field name="name">Ciblex 00001 H12</field>
+        <field name="product_id" ref="ciblex_product" />
+        <field name="code">02001</field>
+        <field name="delivery_type">ciblex</field>
+    </record>
+
+     <record id="delivery_carrier_ciblex_hexp" model="delivery.carrier">
+        <field name="name">Ciblex 04001 H EXPORT HORS UE</field>
+        <field name="product_id" ref="ciblex_product" />
+        <field name="code">05002</field>
+        <field name="delivery_type">ciblex</field>
+    </record>
+</odoo>

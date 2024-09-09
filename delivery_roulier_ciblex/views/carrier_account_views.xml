@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2024 Akretion (http://www.akretion.com).
+    @author Florian Mounier <florian.mounier@akretion.com>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_ciblex_carrier_account_form" model="ir.ui.view">
+        <field name="model">carrier.account</field>
+        <field
+            name="inherit_id"
+            ref="base_delivery_carrier_label.carrier_account_view_form"
+        />
+        <field name="arch" type="xml">
+            <field name="password" position="after">
+                <field
+                    name="ciblex_shipper_number"
+                    attrs="{'invisible': [('delivery_type', '!=', 'ciblex')], 'required': [('delivery_type', '=', 'ciblex')]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
