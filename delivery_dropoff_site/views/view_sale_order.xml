@@ -14,12 +14,12 @@
                     'invisible': [('dropoff_site_required', '=', False)],
                     }"
                 />
-                <field name="allowed_partner_shipping_ids" invisible="1" />
+                <field name="dropoff_carrier_id" invisible="1" />
             </field>
             <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
                 <attribute
                     name="domain"
-                >[('id', 'in', allowed_partner_shipping_ids)]</attribute>
+                >[('dropoff_site_carrier_id', '=', dropoff_carrier_id)]</attribute>
             </xpath>
         </field>
     </record>
