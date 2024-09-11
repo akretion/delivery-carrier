@@ -24,8 +24,8 @@ class SaleOrder(models.Model):
         readonly=False,
         help="It is the partner that will pick up the parcel in the dropoff site.",
     )
-    allowed_partner_shipping_ids = fields.Many2many(
-        "res.partner", compute="_compute_allowed_partner_shipping_ids"
+    dropoff_carrier_id = fields.Many2one(
+        "delivery.carrier", compute="_compute_dropoff_carrier_id"
     )
 
     @api.onchange("carrier_id")
@@ -56,17 +56,12 @@ class SaleOrder(models.Model):
             self.final_shipping_partner_id = self.partner_id
 
     @api.depends("carrier_id", "carrier_id.with_dropoff_site")
-    def _compute_allowed_partner_shipping_ids(self):
+    def _compute_dropoff_carrier_id(self):
         for sale in self:
+            dropoff_carrier_id = False
             if sale.carrier_id and sale.carrier_id.with_dropoff_site:
-                allowed_partner_shipping_ids = self.env["res.partner"].search(
-                    [("dropoff_site_carrier_id", "=", sale.carrier_id.id)]
-                )
-            else:
-                allowed_partner_shipping_ids = self.env["res.partner"].search(
-                    [("is_dropoff_site", "=", False)]
-                )
-            sale.allowed_partner_shipping_ids = allowed_partner_shipping_ids
+                dropoff_carrier_id = sale.carrier_id.id
+            sale.dropoff_carrier_id = dropoff_carrier_id
 
 
 class SaleOrderLine(models.Model):
