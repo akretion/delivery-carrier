@@ -8,12 +8,10 @@ from odoo import models
 class DeliveryCarrier(models.Model):
     _inherit = "delivery.carrier"
 
-    def alternative_send_shipping(self, pickings):
-        self.ensure_one()
+    def send_shipping(self, pickings):
         if self._is_roulier():
             return pickings._roulier_generate_labels()
-        else:
-            return super().alternative_send_shipping(pickings)
+        return super().send_shipping(pickings)
 
     def _is_roulier(self):
         self.ensure_one()

@@ -21,6 +21,10 @@ class StockQuantPackage(models.Model):
     _inherit = "stock.quant.package"
 
     carrier_id = fields.Many2one("delivery.carrier", string="Carrier")
+    parcel_tracking = fields.Char()
+    parcel_tracking_uri = fields.Char(
+        help="Link to the carrier's tracking page for this package."
+    )
 
     # helper : move it to base ?
     def get_operations(self):
@@ -102,39 +106,44 @@ class StockQuantPackage(models.Model):
             # price is not managed in roulier...not yet at least
             "exact_price": 0.0,
         }
-        parcels_data = []
         parcels = response.get("parcels")
         tracking_refs = []
+        label_vals_list = []
         for parcel in parcels:
             tracking_number = parcel.get("tracking", {}).get("number")
             if tracking_number and tracking_number not in tracking_refs:
                 tracking_refs.append(tracking_number)
-            # expected format by base_delivery_carrier_label module
-            label = parcel.get("label")
-            # find for which package the label is. tracking number will be updated on
-            # this pack later on (in base_delivery_carrier_label)
-            package_id = False
+
+            # update tracking references on package
+            package = self.env["stock.quant.package"]
             ref = parcel.get("reference")
             if len(self) == 1:
-                package_id = self.id
+                package = self
             else:
                 pack = self.filtered(lambda p, ref=ref: p.name == ref)
                 if len(pack) == 1:
-                    package_id = pack.id
+                    package = pack
+
+            if package:
+                if tracking_number:
+                    package.tracking_number = tracking_number
+                tracking_uri = parcel.get("tracking", {}).get("url", False)
+                if tracking_uri:
+                    package.parcel_tracking_uri = tracking_uri
+            # get label attachment values
+            label = parcel.get("label")
             name_prefix = ref or tracking_number or label.get("name")
             name_suffix = label.get("type", "").lower()
-            parcels_data.append(
+            label_vals_list.append(
                 {
-                    "tracking_number": tracking_number,
-                    "parcel_tracking_uri": parcel.get("tracking", {}).get("url", False),
-                    "package_id": package_id,
-                    "file": label.get("data"),
                     "name": f"{name_prefix}.{name_suffix}",
-                    "file_type": label.get("type"),
+                    "res_id": picking.id,
+                    "res_model": "stock.picking",
+                    "datas": label.get("data"),
                 }
             )
+        self.env["ir.attachment"].create(label_vals_list)
         res["tracking_number"] = ";".join(tracking_refs)
-        res["labels"] = parcels_data
         return res
 
     def _roulier_get_parcels(self, picking):
