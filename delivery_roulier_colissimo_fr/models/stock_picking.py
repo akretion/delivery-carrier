@@ -146,6 +146,6 @@ class StockPicking(models.Model):
 
     def _colissimo_fr_get_service(self, account, package=None):
         vals = self._roulier_get_service(account, package=package)
-
+        vals["customerId"] = account.colissimo_shipper_number
         vals["returnTypeChoice"] = 3  # do not return to sender
         return vals
