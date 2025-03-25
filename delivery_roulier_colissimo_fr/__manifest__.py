@@ -15,6 +15,7 @@
         "intrastat_base",  # for customs declaration
     ],
     "data": [
+        "views/carrier_account_views.xml",
         "data/delivery.xml",
         "views/stock_picking.xml",
     ],

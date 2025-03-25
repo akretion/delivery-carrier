@@ -8,23 +8,23 @@
         />
         <field name="arch" type="xml">
             <xpath expr="//page//field[@name='carrier_code']" position="after">
-                    <field name="display_insurance" invisible="1" />
-                    <field
+                <field name="display_insurance" invisible="1" />
+                <field
                     name="colissimo_recommande"
                     attrs="{
                         'invisible': ['|',
                                       ('display_insurance', '=', False),
-                                      ('delivery_type', '!=', 'colissimo')]}"
+                                      ('delivery_type', '!=', 'colissimo_fr')]}"
                 />
-                    <field
+                <field
                     name="colissimo_insurance"
                     attrs="{
                         'invisible': ['|',
                                       ('display_insurance', '=', False),
-                                      ('delivery_type', '!=', 'colissimo')]}"
+                                      ('delivery_type', '!=', 'colissimo_fr')]}"
                 />
             </xpath>
-                        <!-- 'readonly': [('state','=','done')], -->
+            <!-- 'readonly': [('state','=','done')], -->
         </field>
     </record>
 </odoo>
