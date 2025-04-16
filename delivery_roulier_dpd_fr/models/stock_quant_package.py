@@ -6,5 +6,5 @@ from odoo import models
 class StockQuantPackage(models.Model):
     _inherit = "stock.quant.package"
 
-    def _dpd_fr_soap_get_tracking_link(self):
-        return "http://www.dpd.fr/traces_%s" % self.parcel_tracking
+    def _dpd_fr_get_tracking_link(self):
+        return f"http://www.dpd.fr/traces_{self.parcel_tracking}"

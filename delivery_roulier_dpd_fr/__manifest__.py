@@ -2,7 +2,7 @@
 
 {
     "name": "Delivery Carrier DPD FR",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "author": "Akretion, Odoo Community Association (OCA)",
     "summary": "Generate Labels for DPD",
     "category": "Warehouse",
@@ -21,7 +21,7 @@
     ],
     "external_dependencies": {
         "python": [
-            "cerberus",
+            "roulier",
         ],
     },
     "installable": True,
