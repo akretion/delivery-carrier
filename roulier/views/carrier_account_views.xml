@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2025 Akretion (http://www.akretion.com).
+    @author Florian Mounier <florian.mounier@akretion.com>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="carrier_account_view_form" model="ir.ui.view">
+        <field name="model">carrier.account</field>
+        <field
+            name="inherit_id"
+            ref="delivery_carrier_account.carrier_account_view_form"
+        />
+        <field name="arch" type="xml">
+            <sheet position="before">
+                <header>
+                    <field name="is_roulier" invisible="True" />
+                    <button
+                        name="sync_roulier_carriers"
+                        invisible="not is_roulier or not id"
+                        class="oe_highlight"
+                        string="Sync Roulier Carriers"
+                        type="object"
+                    />
+                </header>
+            </sheet>
+        </field>
+    </record>
+</odoo>

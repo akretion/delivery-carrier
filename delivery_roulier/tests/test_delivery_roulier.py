@@ -2,11 +2,12 @@
 from unittest.mock import MagicMock, patch
 
 from odoo_test_helper import FakeModelLoader
-from roulier import roulier
 
 from odoo.exceptions import UserError
 
 from odoo.addons.base.tests.common import BaseCommon
+
+from roulier import roulier
 
 roulier_ret = {
     "parcels": [

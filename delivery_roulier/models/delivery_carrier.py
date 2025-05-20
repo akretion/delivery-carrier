@@ -2,9 +2,9 @@
 
 import json
 
-from roulier import roulier
-
 from odoo import models
+
+from roulier import roulier
 
 
 class DeliveryCarrier(models.Model):

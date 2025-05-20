@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2025 Akretion (http://www.akretion.com).
+    @author Florian Mounier <florian.mounier@akretion.com>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_delivery_carrier_form_inherit_stock_delivery" model="ir.ui.view">
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form" />
+        <field name="arch" type="xml">
+            <page name="pricing" position="before">
+                <page string="Roulier" invisible="not is_roulier">
+                    <group>
+                        <field name="roulier_description" nolabel="1" />
+                    </group>
+                    <group name="roulier_properties" col="2" string="Properties">
+                        <field name="is_roulier" invisible="True" />
+                        <field
+                            name="roulier_properties"
+                            nolabel="1"
+                            columns="2"
+                            invisible="not is_roulier"
+                            class="no-properties-edit"
+                        />
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>
