@@ -22,6 +22,7 @@
                             columns="2"
                             invisible="not is_roulier"
                             class="no-properties-edit"
+                            showAddButton="True"
                         />
                     </group>
                 </page>

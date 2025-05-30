@@ -7,4 +7,7 @@ body:not(.o_debug) .no-properties-edit {
     i.oi-draggable {
         display: none !important;
     }
+    .o_field_property_add {
+        display: none !important;
+    }
 }
