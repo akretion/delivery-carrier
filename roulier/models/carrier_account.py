@@ -20,9 +20,29 @@ class CarrierAccount(models.Model):
         inverse_name="carrier_account_id",
         string="Delivery Carriers",
     )
-    roulier_properties_definition = fields.PropertiesDefinition(
-        compute="_compute_roulier_properties_definition"
+    roulier_carrier_properties_definition = fields.PropertiesDefinition(
+        compute="_compute_roulier_carrier_properties_definition"
     )
+
+    roulier_properties = fields.Properties(
+        string="Carrier Properties",
+        help="Properties for the carrier",
+        definition="self_id.roulier_carrier_properties_definition",
+    )
+    self_id = fields.Many2one(
+        comodel_name="carrier.account",
+        compute="_compute_self_id",
+        help="Hack to use properties definition on self",
+    )
+
+    def _compute_self_id(self):
+        for record in self:
+            record.self_id = record
+
+    @property
+    def metadata(self):
+        """Return the metadata for the current delivery type."""
+        return metadata.get(self.delivery_type, {})
 
     @api.depends("delivery_type")
     def _compute_is_roulier(self):
@@ -52,32 +72,26 @@ class CarrierAccount(models.Model):
 
         return prop
 
-    def _roulier_properties_from_metadata(self, metadata):
+    def _roulier_carrier_properties_from_metadata(self, metadata):
         """Convert Roulier metadata to properties"""
         return [
-            {
-                "name": "default_packaging_id",
-                "string": "Default Packaging",
-                "type": "many2one",
-                "comodel": "stock.package.type",
-            },
-        ] + [
             self._roulier_option_to_property(option)
             for option in metadata.get("options", [])
             if option["name"] not in ["product"]
+            and not option.get("product_option", False)
         ]
 
     @api.depends("delivery_type")
-    def _compute_roulier_properties_definition(self):
+    def _compute_roulier_carrier_properties_definition(self):
         for record in self:
             if record.is_roulier:
-                record.roulier_properties_definition = (
-                    record._roulier_properties_from_metadata(
+                record.roulier_carrier_properties_definition = (
+                    record._roulier_carrier_properties_from_metadata(
                         metadata.get(record.delivery_type, {})
                     )
                 )
             else:
-                record.roulier_properties_definition = []
+                record.roulier_carrier_properties_definition = []
 
     def _get_delivery_product(self, code, name):
         """Get the product for the delivery carrier"""

@@ -23,6 +23,9 @@ handled_carriers = [
 metadata = {
     carrier: roulier.get(carrier, "get_metadata", None) for carrier in handled_carriers
 }
+carrier_selection = [
+    (carrier, metadata[carrier]["name"]) for carrier in handled_carriers
+]
 
 
 class Helper(models.AbstractModel):
@@ -59,8 +62,13 @@ class RoulierHelper(Helper):
 
     @property
     def properties(self):
-        """Get the properties for the current carrier type."""
+        """Get the properties for the current delivery."""
         return self.carrier_id.roulier_properties
+
+    @property
+    def carrier_properties(self):
+        """Get the properties for the current carrier account."""
+        return self.carrier_id.roulier_carrier_properties
 
     def _get_account(self, packages=None):
         """Get the account information for the Roulier API."""
@@ -80,7 +88,7 @@ class RoulierHelper(Helper):
         return {
             "login": account.account,
             "password": account.password,
-            "isTest": self.properties.get("test_mode", False),
+            "isTest": self.carrier_properties.get("test_mode", False),
         }
 
     def _get_shipping_date(self, packages=None):
@@ -102,13 +110,17 @@ class RoulierHelper(Helper):
         if shipping_date:
             vals["shippingDate"] = shipping_date
 
-        if self.properties.get("output_format"):
-            vals["labelFormat"] = self.properties["output_format"]
+        if self.carrier_properties.get("output_format"):
+            vals["labelFormat"] = self.carrier_properties["output_format"]
 
         for option in self.metadata.get("options", []):
             key = option["name"]
-            if key != "product" and self.properties.get(key.lower()):
+            if key == "product":
+                continue
+            if self.properties.get(key.lower()):
                 vals[key] = self.properties[key.lower()]
+            elif self.carrier_properties.get(key.lower()):
+                vals[key] = self.carrier_properties[key.lower()]
 
         return vals
 
@@ -173,8 +185,8 @@ class RoulierHelper(Helper):
         return self._call_api("get_label", payload)
 
     def get_tracking_link(self, tracking_number):
-        if "get_tracking_link" in carrier_actions.get(self.type, []):
-            return self._call_api("get_tracking_link", tracking_number)
+        if "get_tracking_url" in carrier_actions.get(self.type, []):
+            return self._call_api("get_tracking_url", tracking_number)
 
     # Helper methods
     def send_packages(

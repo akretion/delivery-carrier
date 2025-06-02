@@ -24,6 +24,19 @@
                     />
                 </header>
             </sheet>
+            <group position="after">
+                <field name="is_roulier" invisible="True" />
+                <h4 class="mt-4 mb-0">Roulier Properties</h4>
+                <hr class="mt-2 mb-4" />
+                <field
+                    name="roulier_properties"
+                    nolabel="1"
+                    columns="2"
+                    invisible="not is_roulier"
+                    class="no-properties-edit"
+                    showAddButton="True"
+                />
+            </group>
         </field>
     </record>
 </odoo>

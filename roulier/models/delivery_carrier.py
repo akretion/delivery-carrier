@@ -4,14 +4,14 @@
 
 from odoo import api, fields, models
 
-from .roulier_helper import handled_carriers, metadata
+from .roulier_helper import handled_carriers, metadata, carrier_selection
 
 
 class DeliveryCarrier(models.Model):
     _inherit = "delivery.carrier"
 
     delivery_type = fields.Selection(
-        selection_add=[(carrier, f"roulier.{carrier}") for carrier in handled_carriers],
+        selection_add=carrier_selection,
         ondelete={carrier: "set default" for carrier in handled_carriers},
     )
 
@@ -24,16 +24,64 @@ class DeliveryCarrier(models.Model):
         compute="_compute_roulier_description",
     )
 
-    roulier_properties = fields.Properties(
-        string="Carrier Properties",
-        help="Properties for the carrier",
-        definition="carrier_account_id.roulier_properties_definition",
+    roulier_delivery_properties_definition = fields.PropertiesDefinition(
+        compute="_compute_roulier_delivery_properties_definition"
     )
+
+    roulier_properties = fields.Properties(
+        string="Delivery Properties",
+        help="Properties for this delivery type",
+        definition="self_id.roulier_delivery_properties_definition",
+    )
+
+    roulier_carrier_properties = fields.Properties(
+        related="carrier_account_id.roulier_properties",
+    )
+    self_id = fields.Many2one(
+        comodel_name="delivery.carrier",
+        compute="_compute_self_id",
+        help="Hack to use properties definition on self",
+    )
+
+    def _compute_self_id(self):
+        for record in self:
+            record.self_id = record
 
     @property
     def metadata(self):
         """Return the metadata for the current delivery type."""
         return metadata.get(self.delivery_type, {})
+
+    def _roulier_option_to_property(self, option):
+        return self.carrier_account_id._roulier_option_to_property(option)
+
+    def _roulier_delivery_properties_from_metadata(self, metadata):
+        """Convert Roulier metadata to properties"""
+        return [
+            {
+                "name": "default_packaging_id",
+                "string": "Default Packaging",
+                "type": "many2one",
+                "comodel": "stock.package.type",
+            },
+        ] + [
+            self._roulier_option_to_property(option)
+            for option in metadata.get("options", [])
+            if option.get("product_option") is True
+            or self.code in (option.get("product_option") or [])
+        ]
+
+    @api.depends("delivery_type")
+    def _compute_roulier_delivery_properties_definition(self):
+        for record in self:
+            if record.is_roulier:
+                record.roulier_delivery_properties_definition = (
+                    record._roulier_delivery_properties_from_metadata(
+                        metadata.get(record.delivery_type, {})
+                    )
+                )
+            else:
+                record.roulier_delivery_properties_definition = []
 
     @api.depends("delivery_type")
     def _compute_is_roulier(self):
@@ -89,7 +137,8 @@ class DeliveryCarrier(models.Model):
             )
         return res
 
-    def _roulier_get_tracking_link(self, tracking_number):
+    def _roulier_get_tracking_link(self, picking):
+        tracking_number = picking.carrier_tracking_ref
         helper = self._get_roulier_helper()
         tracking_link = helper.get_tracking_link(tracking_number)
         if tracking_link:
