@@ -119,6 +119,18 @@ class StockQuantPackage(models.Model):
                 if len(pack) == 1:
                     package_id = pack.id
 
+            if len(pack) > 1 and package_id:
+                # backport from v18 port
+                # needed if multiple packages
+                self.env["stock.quant.package"].browse(package_id).write(
+                    {
+                        "parcel_tracking": tracking_number,
+                        "parcel_tracking_uri": parcel.get("tracking", {}).get(
+                            "url", False
+                        ),
+                    }
+                )
+
             parcels_data.append(
                 {
                     "tracking_number": tracking_number,
