@@ -74,7 +74,7 @@ class StockQuantPackage(models.Model):
             else:
                 return True  # internationnal shipping
         else:
-            _logger.warning("Customs may be not needed for picking %s" % picking.id)
+            _logger.warning(f"Customs may be not needed for picking {picking.id}")
             return True
 
     @api.model
@@ -118,37 +118,29 @@ class StockQuantPackage(models.Model):
         }
 
         def format_one_exception(message, map_responses):
-            param_message = {
-                "ws_exception": "%s\n" % message["message"],
-                "resolution": "",
-            }
+            ws_exception = message["message"]
+            resolution = ""
             if message and message.get("id") in map_responses.keys():
-                param_message["resolution"] = _(
-                    "Résolution\n-------------\n%s" % map_responses[message["id"]]
-                )
-            return _(
-                "Réponse de Laposte:\n"
-                "%(ws_exception)s\n%(resolution)s" % param_message
-            )
+                message_id = map_responses[message["id"]]
+                resolution = _(f"Résolution\n-------------\n{message_id}")
+            return _("Réponse de Laposte:\n" f"{ws_exception}\n\n{resolution}")
 
         parts = []
         for messages in exception.args:
             for message in messages:
                 parts.append(format_one_exception(message, map_responses))
 
+        displ_exception_message = "\n".join(parts)
         ret_mess = _(
-            "Incident\n-----------\n%(displ_exception_message)s\n"
+            f"Incident\n-----------\n{displ_exception_message}\n"
             "Données transmises:\n"
-            "-----------------------------\n%(displ_data_transmitted)s"
-        ) % {
-            "displ_exception_message": "\n".join(parts),
-            "displ_data_transmitted": request,
-        }
+            f"-----------------------------\n{request}"
+        )
         return ret_mess
 
     def _laposte_fr_get_tracking_link(self):
         return (
             "https://www.colissimo.fr/"
             "portail_colissimo/suivreResultat.do?"
-            "parcelnumber=%s" % self.parcel_tracking
+            f"parcelnumber={self.parcel_tracking}"
         )

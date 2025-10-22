@@ -56,7 +56,7 @@ class StockPicking(models.Model):
             else:
                 rec.display_insurance = False
                 _logger.info(
-                    "Picking %s display_insurance=%s", rec.name, rec.display_insurance
+                    f"Picking {rec.name} display_insurance={rec.display_insurance}"
                 )
 
     @api.constrains("laposte_recommande", "laposte_insurance")
