@@ -86,10 +86,8 @@ class StockQuantPackage(models.Model):
             "- 'to_address' : adresse du destinataire (votre client)\n"
             "- 'from_address' : adresse de l'expéditeur (vous)"
         )
-        message = "Données transmises:\n{}\n\nExceptions levées{}\n{}".format(
-            payload,
-            response,
-            suffix,
+        message = (
+            f"Données transmises:\n{payload}\n\nExceptions levées{response}\n{suffix}"
         )
         return message
 

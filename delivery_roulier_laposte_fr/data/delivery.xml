@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- Product -->
     <record id="laposte_product" model="product.product">
         <field name="default_code">SHIP_LAPOSTE</field>
@@ -192,7 +191,6 @@
         <!-- Pas de niveau de recommandation possible: seulement assurance -->
     </record>
 
-
     <record id="delivery_carrier_CORI" model="delivery.carrier">
         <field name="name">Colissimo Retour International</field>
         <field name="delivery_type">laposte_fr</field>
@@ -268,5 +266,4 @@
         />
         <!-- Pas de niveau de recommandation possible: seulement assurance -->
     </record>
-
 </odoo>
