@@ -35,6 +35,15 @@
         <field name="product_id" ref="product_product_gls" />
     </record>
 
+    <record id="delivery_carrier_gls_shop" model="delivery.carrier">
+        <field name="name">GLS Shop</field>
+        <field name="delivery_type">gls_fr_rest</field>
+        <field name="code">shopDeliveryService</field>
+        <field name="prod_environment" eval="False" />
+        <field name="debug_logging" eval="True" />
+        <field name="integration_level">rate_and_ship</field>
+        <field name="product_id" ref="product_product_gls" />
+    </record>
 
     <!-- CARRIER ACCOUNT -->
     <record id="carrier_account_gls" model="carrier.account">
