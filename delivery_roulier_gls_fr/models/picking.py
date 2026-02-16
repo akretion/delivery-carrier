@@ -49,6 +49,11 @@ class StockPicking(models.Model):
         incoterm_code = self._get_gls_incoterm()
         if incoterm_code:
             result["incoterm"] = incoterm_code
+        # For consistency between GLS carrier codes the carrier code
+        # is camelCase, however the product must not be
+        if self.carrier_code == "shopDeliveryService":
+            result["product"] = "shopdeliveryservice"
+            result["pickupLocationId"] = self._get_gls_dropoff_site()
         return result
 
     def _get_gls_incoterm(self):
@@ -58,3 +63,7 @@ class StockPicking(models.Model):
         if incoterm:
             gls_code = INCOTERM_MAPPING.get(incoterm.code, "")
         return gls_code
+
+    def _get_gls_dropoff_site(self):
+        self.ensure_one()
+        return self.partner_id.dropoff_site or ""
