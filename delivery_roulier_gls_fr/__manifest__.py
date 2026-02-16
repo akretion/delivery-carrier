@@ -17,6 +17,7 @@
     "data": [
         "data/delivery_carrier.xml",
         "views/account_carrier_view.xml",
+        "views/res_partner_view.xml",
     ],
     "demo": [
         "demo/company.xml",
