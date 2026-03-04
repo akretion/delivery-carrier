@@ -18,21 +18,28 @@ SHOPDELIVERYSERVICE = "shopDeliveryService"
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+    def _gls_fr_rest_get_receiver(self, package=None):
+        """There is a trick here : for the shop delivery service
+        the receiver is actually the customer, who's name, mobile or phone
+        are needed and will be printed on the label as the person allowed
+        to get the parcel.
+        The actual address of the dropoff site will be put
+        by GLS based on the dropoff site id of self.partner_id, which is,
+        also the actual adress of the dropoff site."""
+
+        if self.carrier_code == SHOPDELIVERYSERVICE:
+            return self.partner_id.commercial_partner_id
+        else:
+            return self._roulier_get_receiver(package=package)
+
     def _gls_fr_rest_get_to_address(self, package=None):
         address = self._roulier_get_to_address(package=package)
+        receiver = self._get_receiver(package=package)
         (
             address["street1"],
             address["street2"],
             address["street3"],
-        ) = self.partner_id._get_split_address(3, 35)
-
-        # For the shop delivery service the contact and phone/mobile are
-        # mandatory and should be the customer's
-        if self.carrier_code == SHOPDELIVERYSERVICE:
-            address["contact"] = self.partner_id.commercial_partner_id.name
-            address["mobile"] = self.partner_id.commercial_partner_id.mobile or ""
-            address["phone"] = self.partner_id.commercial_partner_id.phone or ""
-
+        ) = receiver._get_split_address(3, 35)
         # manage min/max size for company, name, contact (2-35)
         keys = ["name", "company", "contact"]
         for key in keys:
@@ -41,7 +48,9 @@ class StockPicking(models.Model):
                 address[key] = ""
             if size and size > 35:
                 address[key] = address[key][0:35]
-
+        # For the shop delivery service the contact field is mandatory
+        if self.carrier_code == SHOPDELIVERYSERVICE:
+            address["contact"] = address["name"]
         return address
 
     def _gls_fr_rest_get_service(self, account, package=None):
