@@ -12,6 +12,8 @@ INCOTERM_MAPPING = {
     "DAP": "20",
 }
 
+SHOPDELIVERYSERVICE = "shopDeliveryService"
+
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
@@ -23,14 +25,23 @@ class StockPicking(models.Model):
             address["street2"],
             address["street3"],
         ) = self.partner_id._get_split_address(3, 35)
-        # manage min/max size for company and name (2-35)
-        keys = ["name", "company"]
+
+        # For the shop delivery service the contact and phone/mobile are
+        # mandatory and should be the customer's
+        if self.carrier_code == SHOPDELIVERYSERVICE:
+            address["contact"] = self.partner_id.commercial_partner_id.name
+            address["mobile"] = self.partner_id.commercial_partner_id.mobile or ""
+            address["phone"] = self.partner_id.commercial_partner_id.phone or ""
+
+        # manage min/max size for company, name, contact (2-35)
+        keys = ["name", "company", "contact"]
         for key in keys:
             size = len(address.get(key, ""))
             if size and size < 2:
                 address[key] = ""
             if size and size > 35:
                 address[key] = address[key][0:35]
+
         return address
 
     def _gls_fr_rest_get_service(self, account, package=None):
@@ -51,7 +62,7 @@ class StockPicking(models.Model):
             result["incoterm"] = incoterm_code
         # For consistency between GLS carrier codes the carrier code
         # is camelCase, however the product must not be
-        if self.carrier_code == "shopDeliveryService":
+        if self.carrier_code == SHOPDELIVERYSERVICE:
             result["product"] = "shopdeliveryservice"
             result["pickupLocationId"] = self._get_gls_dropoff_site()
         return result
