@@ -4,12 +4,13 @@
 
 {
     "name": "Delivery Carrier Ciblex",
-    "version": "14.0.1.0.0",
-    "author": "Akretion, Odoo Community Association (OCA)",
-    "summary": "Generate Labels for Ciblex",
+    "version": "18.0.1.0.0", # Migration vers Odoo 18
+    "author": "Akretion, Odoo Community Association (OCA)", # [cite: 15]
+    "summary": "Generate Labels for Ciblex", # 
     "category": "Warehouse",
     "depends": [
         "delivery_roulier",
+        "partner_address_split",
     ],
     "website": "https://github.com/OCA/delivery-carrier",
     "data": [

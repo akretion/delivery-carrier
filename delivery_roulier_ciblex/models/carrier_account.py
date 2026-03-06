@@ -14,6 +14,7 @@ class CarrierAccount(models.Model):
         selection=[
             ("PDF", "PDF"),
             ("EPL", "EPL"),
+            ("ZPL", "ZPL"),
         ],
         string="Ciblex File Format",
         help="Default format of the carrier's label you want to print",

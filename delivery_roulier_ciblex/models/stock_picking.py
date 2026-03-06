@@ -12,7 +12,7 @@ class StockPicking(models.Model):
         service = self._roulier_get_service(account, package=package)
         service.update(
             {
-                "product": self.carrier_code,
+                "product": self.carrier_id.code,
                 "customerId": account.ciblex_shipper_number,
                 "logo": True,
             }
@@ -32,3 +32,12 @@ class StockPicking(models.Model):
             address["street4"],
         ) = streets
         return address
+    
+    def _get_carrier_account(self):
+        # dummy carrier account injected in the context
+        # is a workaround to avoid issues while running tests
+        account = super()._get_carrier_account()
+        ctx = self.env.context
+        if not account and ctx.get("dummy_account_id"):
+            account = self.env["carrier.account"].browse(ctx["dummy_account_id"])
+        return account
