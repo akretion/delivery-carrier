@@ -24,7 +24,7 @@ class StockPicking(models.Model):
         address = self._roulier_convert_address(partner) or {}
         # Use get_split_adress from partner_helper module
         # to split the address on 4 lines
-        streets = partner._get_split_address(4, 40)
+        streets = partner._get_split_address(4, 35)
         (
             address["street1"],
             address["street2"],
