@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
-        <record id="view_partner_form" model="ir.ui.view">
-            <field name="name">res.partner.roulier.gls.form.inherit</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form" />
-            <field name="arch" type="xml">
-                <xpath
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.roulier.gls.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath
                 expr="//page[@name='sales_purchases']//field[@name='property_delivery_carrier_id']"
                 position="after"
             >
-                    <field name="dropoff_site" />
-                </xpath>
-            </field>
-        </record>
-
+                <field name="dropoff_site" />
+            </xpath>
+        </field>
+    </record>
 </odoo>

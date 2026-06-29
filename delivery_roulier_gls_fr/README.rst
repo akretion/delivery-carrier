@@ -17,13 +17,13 @@ Delivery Carrier GLS (fr)
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fdelivery--carrier-lightgray.png?logo=github
-    :target: https://github.com/OCA/delivery-carrier/tree/14.0/delivery_roulier_gls_fr
+    :target: https://github.com/OCA/delivery-carrier/tree/18.0/delivery_roulier_gls_fr
     :alt: OCA/delivery-carrier
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/delivery-carrier-14-0/delivery-carrier-14-0-delivery_roulier_gls_fr
+    :target: https://translation.odoo-community.org/projects/delivery-carrier-18-0/delivery-carrier-18-0-delivery_roulier_gls_fr
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/delivery-carrier&target_branch=14.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/delivery-carrier&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -32,7 +32,8 @@ This module allows to get delivery label for GLS carrier
 
 Rest Webservice implementation:
 
-- send delivery order informations and parcel info to the French GLS rest webservice
+- send delivery order informations and parcel info to the French GLS
+  rest webservice
 - get back a label in zpl, pdf or png format
 - implements Standard (B2B), Flex (B2C), Shop (B2C on dropoff site)
 
@@ -50,45 +51,43 @@ To configure this module, you need to:
 
 # Go to the menu Inventory > Configuration > Delivery > Carrier Account:
 
-    # Search for GLS account and complete keys
+   # Search for GLS account and complete keys
 
 # Complete company country in Settings > Companies
 
-.. image:: https://raw.githubusercontent.com/delivery_roulier_gls_fr/static/description/gls1.png
-   :alt: Account GLS settings by company Odoo ERP
+|Account GLS settings by company Odoo ERP|
+
+.. |Account GLS settings by company Odoo ERP| image:: https://raw.githubusercontent.com/delivery_roulier_gls_fr/static/description/gls1.png
 
 Usage
 =====
 
-
-To use this module, you need to create a Delivery Order with Carrier field 'GLS Group'
+To use this module, you need to create a Delivery Order with Carrier
+field 'GLS Group'
 
 Odoo Delivery Order with GLS carrier
 
-.. image:: https://raw.githubusercontent.com/OCA/delivery-carrier/14.0/delivery_roulier_gls_fr/delivery_roulier_gls_fr/static/description/gls2.png
-   :alt: Odoo Delivery Order avec GLS carrier with Odoo ERP
-   :width: 900 px
-
-|
+|Odoo Delivery Order avec GLS carrier with Odoo ERP|
 
 GLS transport label towards France generated with Odoo ERP
 
-.. image:: https://raw.githubusercontent.com/delivery_roulier_gls_fr/static/description/gls3.png
-   :alt: GLS transport label towards France generated with Odoo ERP
-
-|
+|GLS transport label towards France generated with Odoo ERP|
 
 GLS transport label towards foreign countries
 
-.. image:: https://raw.githubusercontent.com/delivery_roulier_gls_fr/static/description/gls4.png
-   :alt: GLS transport label towards foreign countries
+|GLS transport label towards foreign countries|
+
+.. |Odoo Delivery Order avec GLS carrier with Odoo ERP| image:: https://raw.githubusercontent.com/OCA/delivery-carrier/18.0/delivery_roulier_gls_fr/delivery_roulier_gls_fr/static/description/gls2.png
+.. |GLS transport label towards France generated with Odoo ERP| image:: https://raw.githubusercontent.com/delivery_roulier_gls_fr/static/description/gls3.png
+.. |GLS transport label towards foreign countries| image:: https://raw.githubusercontent.com/delivery_roulier_gls_fr/static/description/gls4.png
 
 Known issues / Roadmap
 ======================
 
-* Delivery prices for e-commerce might need an extra module for handling everything properly.
-
-* Tested only for France deliveries for now, not international. It may require some adjustments
+- Delivery prices for e-commerce might need an extra module for handling
+  everything properly.
+- Tested only for France deliveries for now, not international. It may
+  require some adjustments
 
 Bug Tracker
 ===========
@@ -96,7 +95,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/delivery-carrier/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/delivery-carrier/issues/new?body=module:%20delivery_roulier_gls_fr%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/delivery-carrier/issues/new?body=module:%20delivery_roulier_gls_fr%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -104,21 +103,22 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Akretion <https://www.akretion.com>__`:
+- \`Akretion
+  <`https://www.akretion.com\\>\\\_\\\_\\\` <https://www.akretion.com\>\_\_\`>`__:
 
-  * David Béal <david.beal@akretion.com>
-  * Florian da Costa <florian.dacosta@akretion.com>
-  * Raphaël Reverdy <raphael.reverdy@akretion.com>
+  - David Béal <david.beal@akretion.com>
+  - Florian da Costa <florian.dacosta@akretion.com>
+  - Raphaël Reverdy <raphael.reverdy@akretion.com>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -138,6 +138,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-hparfr| 
 
-This module is part of the `OCA/delivery-carrier <https://github.com/OCA/delivery-carrier/tree/14.0/delivery_roulier_gls_fr>`_ project on GitHub.
+This module is part of the `OCA/delivery-carrier <https://github.com/OCA/delivery-carrier/tree/18.0/delivery_roulier_gls_fr>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

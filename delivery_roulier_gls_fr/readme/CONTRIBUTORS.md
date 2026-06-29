@@ -1,0 +1,4 @@
+- \`Akretion \<https://www.akretion.com\>\_\_\`:
+  - David Béal \<david.beal@akretion.com\>
+  - Florian da Costa \<florian.dacosta@akretion.com\>
+  - Raphaël Reverdy \<raphael.reverdy@akretion.com\>

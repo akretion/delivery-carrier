@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
-<record id="carrier_account_view_form" model="ir.ui.view">
-  <field name="model">carrier.account</field>
-  <field
+    <record id="carrier_account_view_form" model="ir.ui.view">
+        <field name="model">carrier.account</field>
+        <field
             name="inherit_id"
             ref="base_delivery_carrier_label.carrier_account_view_form"
         />
-  <field name="arch" type="xml">
-    <field name="password" position="after">
-        <field
+        <field name="arch" type="xml">
+            <field name="password" position="after">
+                <field
                     name="gls_fr_rest_customer_id"
                     attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_rest')], 'required': [('delivery_type', '=', 'gls_fr_rest')]}"
                 />
-        <field
+                <field
                     name="gls_fr_rest_contact_id"
                     attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_rest')], 'required': [('delivery_type', '=', 'gls_fr_rest')]}"
                 />
-        <field
+                <field
                     name="gls_fr_rest_file_format"
                     attrs="{'invisible': [('delivery_type', '!=', 'gls_fr_rest')], 'required': [('delivery_type', '=', 'gls_fr_rest')]}"
                 />
-    </field>
-  </field>
-</record>
-
+            </field>
+        </field>
+    </record>
 </odoo>
