@@ -1,23 +1,16 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import TransactionCase
+from odoo.addons.base.tests.common import BaseCommon
 
 
-class TestDropOffSite(TransactionCase):
-    def setUp(self, *args, **kwargs):
-        super().setUp(*args, **kwargs)
-        ref = self.env.ref
-
-        self.partner = self.env["res.partner"].create(
+class TestDropOffSite(BaseCommon):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        ref = cls.env.ref
+        cls.picking = cls.env["stock.picking"].create(
             {
-                "name": "John Doe",
-                "email": "john@doe.com",
-                "country_id": 1,
-            }
-        )
-        self.picking = self.env["stock.picking"].create(
-            {
-                "partner_id": self.partner.id,
+                "partner_id": cls.partner.id,
                 "carrier_id": ref(
                     "delivery_roulier_gls_fr.delivery_carrier_gls_shop"
                 ).id,
@@ -26,8 +19,8 @@ class TestDropOffSite(TransactionCase):
                 "location_dest_id": ref("stock.stock_location_customers").id,
             }
         )
-        self.account = self.env.ref("delivery_roulier_gls_fr.carrier_account_gls")
-        self.account.write({"account": "250test", "password": "250testpwd"})
+        cls.account = ref("delivery_roulier_gls_fr.carrier_account_gls")
+        cls.account.write({"account": "250test", "password": "250testpwd"})
 
     def test_service_payload(self):
         service = self.picking._get_service(self.account)

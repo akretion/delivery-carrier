@@ -3,13 +3,12 @@
 
 {
     "name": "Delivery Carrier GLS (fr)",
-    "version": "14.0.1.0.1",
+    "version": "18.0.1.0.0",
     "author": "Akretion,Odoo Community Association (OCA)",
     "category": "Warehouse",
     "summary": "GLS carrier label printing",
     "depends": [
-        "base_delivery_carrier_label",
-        "partner_helper",
+        "partner_address_split",
         "delivery_roulier",
     ],
     "maintainers": ["hparfr"],

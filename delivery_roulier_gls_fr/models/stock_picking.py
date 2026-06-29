@@ -35,7 +35,7 @@ class StockPicking(models.Model):
             if size and size > 35:
                 address[key] = address[key][0:35]
         # For the shop delivery service the contact field is mandatory
-        if self.carrier_code == SHOPDELIVERYSERVICE:
+        if self.carrier_id.code == SHOPDELIVERYSERVICE:
             address["contact"] = address["name"]
         return address
 
@@ -57,7 +57,7 @@ class StockPicking(models.Model):
             result["incoterm"] = incoterm_code
         # For consistency between GLS carrier codes the carrier code
         # is camelCase, however the product must not be
-        if self.carrier_code == SHOPDELIVERYSERVICE:
+        if self.carrier_id.code == SHOPDELIVERYSERVICE:
             result["product"] = "shopdeliveryservice"
             result["pickupLocationId"] = self._get_gls_dropoff_site()
         return result

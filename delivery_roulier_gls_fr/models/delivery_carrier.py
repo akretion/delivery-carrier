@@ -3,7 +3,7 @@
 
 from odoo import fields, models
 
-from .quant_package import URL_TRACKING
+from .stock_quant_package import URL_TRACKING
 
 
 class DeliveryCarrier(models.Model):
