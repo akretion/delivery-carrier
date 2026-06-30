@@ -8,6 +8,10 @@ from odoo import fields, models
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+    dropoff_site_required = fields.Boolean(
+        string="Drop-off Site Required",
+        related="carrier_id.with_dropoff_site",
+    )
     final_shipping_partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Final Recipient",
