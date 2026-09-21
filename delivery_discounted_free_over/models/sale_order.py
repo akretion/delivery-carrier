@@ -7,8 +7,8 @@ from odoo import models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    def _prepare_delivery_line_vals(self, carrier, price_unit):
-        vals = super()._prepare_delivery_line_vals(carrier, price_unit)
+    def _create_delivery_line(self, carrier, price_unit):
+        vals = super()._create_delivery_line(carrier, price_unit)
         if self.company_id.free_over_as_discount and not price_unit:
             res = carrier.rate_shipment(self)
 
