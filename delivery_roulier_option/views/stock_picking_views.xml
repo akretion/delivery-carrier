@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 Akretion (http://www.akretion.com).
+    @author Florian Mounier <florian.mounier@akretion.com>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_picking_withcarrier_out_form" model="ir.ui.view">
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page//field[@name='option_ids']" position="after">
+                <field name="should_have_customs" invisible="True" />
+                <field
+                    name="customs_category"
+                    attrs="{'invisible': [('should_have_customs', '=', False)], 'required': [('should_have_customs', '=', True)]}"
+                />
+                <field
+                    name="incoterm_id"
+                    widget="selection"
+                    groups="sale_stock.group_display_incoterm"
+                    attrs="{'invisible': [('should_have_customs', '=', False)], 'required': [('should_have_customs', '=', True)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
