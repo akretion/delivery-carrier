@@ -82,6 +82,8 @@ class StockQuantPackage(models.Model):
             article["description"] = hs.description or product.name[:60]
             article["hsCode"] = hs.hs_code
             article["value"] = operation.get_unit_price_for_customs()
+            if operation.product_uom_id.unece_code:
+                article["uom"] = operation.product_uom_id.unece_code
 
         category = picking.customs_category
         return {

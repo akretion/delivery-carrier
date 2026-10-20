@@ -10,6 +10,7 @@
     "depends": [
         "delivery_roulier",
         "product_harmonized_system",  # from OCA/intrastat-extrastat
+        "uom_unece",  # from OCA/community-data-files
     ],
     "website": "https://github.com/OCA/delivery-carrier",
     "data": [
